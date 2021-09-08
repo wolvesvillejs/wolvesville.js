@@ -1,0 +1,114 @@
+const BaseManager = require('./BaseManager');
+const ClanSearcher = require('../structures/ClanSearcher');
+const ClanLeaderboard = require('../structures/ClanLeaderboard');
+const Clan = require('../structures/Clan');
+const ClientClan = require('../structures/ClientClan');
+const { getAuthenticationHeaders, getAuthenticationHeadersContainsBody } = require('../util/Headers');
+const fetch = require('node-fetch');
+
+class ClanManager extends BaseManager {
+  constructor(client) {
+    super(client);
+  }
+
+  async join(id, { message } = {}) {
+    const request = await fetch('https://api-core.wolvesville.com/clans/join', {
+      method: 'POST',
+      headers: getAuthenticationHeadersContainsBody(this.client.token),
+      body: JSON.stringify({
+        clanId: id,
+        message
+      })
+    });
+    const response = await request.json();
+    if(response.message === 'clan is private') throw new Error('CLAN_IS_PRIVATE');
+    if(response.message === 'Player already in a clan') throw new Error('ALREADY_IN_A_CLAN');
+    return new ClientClan(this.client, response);
+  }
+
+  async create(data) {
+    const request = await fetch('https://api-core.wolvesville.com/clans', {
+      method: 'POST',
+      headers: getAuthenticationHeadersContainsBody(this.client.token),
+      body: JSON.stringify({
+        name: data.name,
+        description: data.description,
+        coLeaderDescription: '',
+        memberDescription: '',
+        language: data.locale || 'GB',
+        icon: data.clanIcon?.name || 'font-awesome-5:kiwi-bird:solid',
+        iconColor: data.clanIcon?.color || '#1976D2',
+        tag: data.tag || '',
+        joinType: data.joinType || 'PUBLIC',
+        minLevel: data.requiredLevel || 0
+      })
+    });
+
+    const response = await request.json();
+    return response;
+  }
+
+  async fetchByMemberId(id) {
+    if(!id || typeof id !== 'string' || !Number.isInteger(id)) throw new Error('INVALID_CLAN_MEMBER_ID_FORMAT');
+    const request = await fetch(`https://api-core.wolvesville.com/clans/byPlayer?playerId=${id}`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return new Clan(this.client, response);
+  }
+
+  async #fetchMinimalByName(name) {
+    if(!name || typeof name !== 'string') throw new Error('INVALID_CLAN_NAME_FORMAT');
+    const request = await fetch(`https://api-core.wolvesville.com/clans/v2/search?name=${name}`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    return await request.json();
+  }
+
+  async fetchByName(name) {
+    const response = await this.#fetchMinimalByName(name);
+    if(!response.find(c => c.name === name)) throw new Error('CLAN_NOT_FOUND');
+    return await this.fetchById(response.find(clan => clan.name === name).id);
+  }
+
+  async fetchSeveralByName(name) {
+    const response = await this.#fetchMinimalByName(name);
+    return new ClanSearcher(this.client, response);
+  }
+
+  async fetchById(id) {
+    if(!id || typeof id !== 'string') throw new Error('INVALID_CLAN_ID_FORMAT');
+    const request = await fetch(`https://api-core.wolvesville.com/clans/${id}`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    if(request.status === 204) throw new Error('CLAN_NOT_FOUND');
+    const response = await request.json();
+    return new Clan(this.client, response);
+  }
+
+  async fetchOwn() {
+    const request = await fetch('https://api-core.wolvesville.com/clans/myClan', {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    if(request.status === 204) throw new Error('NOT_IN_A_CLAN');
+    const response = await request.json();
+    return new ClientClan(this.client, response);
+  }
+
+  async fetchLeaderboard({ onlyOpen } = { onlyOpen: false }) {
+    if(typeof onlyOpen !== 'boolean') throw new Error('OPTION_MUST_BE_A_BOOLEAN');
+    const request = await fetch(`https://api-core.wolvesville.com/clans/v2/ranking?onlyOpen=${onlyOpen}`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return new ClanLeaderboard(this.client, response);
+  }
+
+}
+
+module.exports = ClanManager;

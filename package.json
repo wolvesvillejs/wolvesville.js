@@ -1,0 +1,24 @@
+{
+  "name": "wolvesville.js",
+  "version": "1.0.0",
+  "description": "Javascript library for the Wolvesville API.",
+  "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mainleau/wolvesville.js.git"
+  },
+  "keywords": [
+    "wolvesville",
+    "node",
+    "api"
+  ],
+  "author": "MainLeau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mainleau/wolvesville.js/issues"
+  },
+  "homepage": "https://github.com/mainleau/wolvesville.js#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}
