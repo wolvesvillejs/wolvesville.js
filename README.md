@@ -1,8 +1,6 @@
 ## About
 wolvesville.js is a [Node.js](https://nodejs.org) module to interact with the [Wolvesville](https://app.wolvesville.com) API.
 
-Its use is under your responsability and ONLY your responsability, it's against the game ToS.
-
 ## Installation
 
 **Latest version of Node.js required**
