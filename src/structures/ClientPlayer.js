@@ -103,30 +103,6 @@ class ClientPlayer extends Player {
     return response;
   }
 
-  async updatePersonalMessage(text) {
-    if(typeof text !== 'string') throw new Error('INVALID_PERSONAL_MESSAGE_FORMAT');
-    const request = await fetch('https://api-core.wolvesville.com/vouchers/redeem', {
-      method: 'GET',
-      headers: getAuthenticationHeadersContainsBody(this.client.token),
-      body: JSON.stringify({
-        msg: text
-      })
-    });
-    const response = await request.json();
-    return response;
-  }
-
-  async redeemVoucher(code) {
-    if(typeof code !== 'string' || !username.match(/^[a-z0-9]+$/i)) throw new Error('INVALID_VOUCHER_CODE_FORMAT');
-    const request = await fetch('https://api-core.wolvesville.com/vouchers/redeem', {
-      method: 'GET',
-      headers: getAuthenticationHeadersContainsBody(this.client.token),
-      body: JSON.stringify({ code })
-    });
-    const response = await request.json();
-    return response;
-  }
-
   async fetchDailyRewards() {
     const request = await fetch('https://api-core.wolvesville.com/dailyRewards', {
       method: 'GET',
