@@ -11,43 +11,6 @@ class ClanManager extends BaseManager {
     super(client);
   }
 
-  async join(id, { message } = {}) {
-    const request = await fetch('https://api-core.wolvesville.com/clans/join', {
-      method: 'POST',
-      headers: getAuthenticationHeadersContainsBody(this.client.token),
-      body: JSON.stringify({
-        clanId: id,
-        message
-      })
-    });
-    const response = await request.json();
-    if(response.message === 'clan is private') throw new Error('CLAN_IS_PRIVATE');
-    if(response.message === 'Player already in a clan') throw new Error('ALREADY_IN_A_CLAN');
-    return new ClientClan(this.client, response);
-  }
-
-  async create(data) {
-    const request = await fetch('https://api-core.wolvesville.com/clans', {
-      method: 'POST',
-      headers: getAuthenticationHeadersContainsBody(this.client.token),
-      body: JSON.stringify({
-        name: data.name,
-        description: data.description,
-        coLeaderDescription: '',
-        memberDescription: '',
-        language: data.locale || 'GB',
-        icon: data.clanIcon?.name || 'font-awesome-5:kiwi-bird:solid',
-        iconColor: data.clanIcon?.color || '#1976D2',
-        tag: data.tag || '',
-        joinType: data.joinType || 'PUBLIC',
-        minLevel: data.requiredLevel || 0
-      })
-    });
-
-    const response = await request.json();
-    return response;
-  }
-
   async fetchByMemberId(id) {
     if(!id || typeof id !== 'string' || !Number.isInteger(id)) throw new Error('INVALID_CLAN_MEMBER_ID_FORMAT');
     const request = await fetch(`https://api-core.wolvesville.com/clans/byPlayer?playerId=${id}`, {

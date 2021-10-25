@@ -30,12 +30,6 @@ class Clan extends Base {
         : new ClientClanMember(client, member);
     });
   }
-
-  async join({ message } = {}) {
-    if(this.constructor.name === 'ClientClan') throw new Error('ALREADY_IN_THIS_CLAN');
-    return await this.client.clans.join(this.id, { message });
-  }
-
 }
 
 module.exports = Clan;

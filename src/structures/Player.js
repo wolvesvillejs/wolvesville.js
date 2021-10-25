@@ -97,21 +97,6 @@ class Player extends BasePlayer {
     return this.wonGameCount + this.lostGameCount + this.stats.fledGameCount;
   }
 
-  async inviteInClan({ message } = {}) {
-    if(this.clanTag) throw new Error('ALREADY_IN_A_CLAN');
-    const request = await fetch('https://api-core.wolvesville.com/clans/invite', {
-      method: 'POST',
-      headers: getAuthenticationHeadersContainsBody(this.client.token),
-      body: JSON.stringify({
-        playerId: this.id,
-        message
-      })
-    });
-    const response = await request.json();
-    if(response.message === 'Player already in a clan ') throw new Error('ALREADY_IN_A_CLAN');
-    if(response.message === 'No clan with this id / no permission ') throw new Error('MISSING_PERMISSIONS');
-  }
-
 }
 
 module.exports = Player;
