@@ -3,7 +3,8 @@ const Inventory = require('./Inventory');
 const EquippedItems = require('./EquippedItems');
 const AvatarSlots = require('./AvatarSlots');
 const ClientClan = require('./ClientClan');
-const { getAuthenticationHeaders, getAuthenticationHeadersContainsBody } = require('../util/Headers');
+const Challenge = require('./Challenge');
+const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
 class ClientPlayer extends Player {
@@ -119,6 +120,18 @@ class ClientPlayer extends Player {
     });
     const response = await request.json();
     return response;
+  }
+
+  async fetchChallenges() {
+    const request = await fetch('https://api-core.wolvesville.com/challenges/v2', {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return {
+      daily: response.dailyChallengeProgresses.map(challenge => new Challenge(this.client, challenge)),
+      weekly: response.weeklyChallengeProgresses.map(challenge => new Challenge(this.client, challenge))
+    }
   }
 
 }
