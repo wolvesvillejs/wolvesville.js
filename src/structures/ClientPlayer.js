@@ -4,40 +4,35 @@ const EquippedItems = require('./EquippedItems');
 const AvatarSlots = require('./AvatarSlots');
 const ClientClan = require('./ClientClan');
 const Challenge = require('./Challenge');
+const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
 class ClientPlayer extends Player {
   constructor(client, data) {
     super(client, data);
-
     this.xp = data.xpTotal;
     this.xpUntilNextLevel = data.xpUntilNextLevel;
     this.gender = data.gender || null;
-
     this.equippedItems.background = {
       id: data.equippedBackgroundId
     }
     this.equippedItems.loadingScreen = {
       id: data.equippedLoadingScreenId
     }
-
     this.banishmentsCount = data.bannedCount;
     this.lastBanishment = {
       expirationTimestamp: data.bannedUntilTime,
       reason: data.banReason,
       message: data.banReasonMsg
     }
-
     this.ads = {
       lastWatchedTimestamp: data.lastVideoAdWatched,
       watchedAdsCount: data.watchedVideoAdsCount,
       watchedTodayCount: data.adRewardCount
     }
-
     this.options.clanInvitationsDisabled = data.noClanInvite;
     this.options.badgesHidden = data.hideBadges;
-
     if(data.deletionTime) {
       this.deletionTimestamp = data.deletionTime;
     }
@@ -51,7 +46,7 @@ class ClientPlayer extends Player {
   }
 
   async readAnnouncements() {
-    const request = await fetch('https://api-core.wolvesville.com/announcements', {
+    const request = await fetch(`${CORE_API_URL}/announcements`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -60,7 +55,7 @@ class ClientPlayer extends Player {
   }
 
   async fetchEquippedItems() {
-    const request = await fetch('https://api-core.wolvesville.com/equippedItems', {
+    const request = await fetch(`${CORE_API_URL}/equippedItems`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -69,7 +64,7 @@ class ClientPlayer extends Player {
   }
 
   async fetchInventory() {
-    const request = await fetch('https://api-core.wolvesville.com/inventory', {
+    const request = await fetch(`${CORE_API_URL}/inventory`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -78,7 +73,7 @@ class ClientPlayer extends Player {
   }
 
   async fetchClanInvitations() {
-    const request = await fetch('https://api-core.wolvesville.com/clans/openRequests', {
+    const request = await fetch(`${CORE_API_URL}/clans/openRequests`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -87,7 +82,7 @@ class ClientPlayer extends Player {
   }
 
   async fetchOwnAvatarSlots() {
-    const request = await fetch('https://api-core.wolvesville.com/inventory/slots', {
+    const request = await fetch(`${CORE_API_URL}/inventory/slots`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -96,7 +91,7 @@ class ClientPlayer extends Player {
   }
 
   async fetchFriendInvitationRewards() {
-    const request = await fetch('https://api-core.wolvesville.com/players/friendInvitationRewards', {
+    const request = await fetch(`${CORE_API_URL}/players/friendInvitationRewards`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -105,7 +100,7 @@ class ClientPlayer extends Player {
   }
 
   async fetchDailyRewards() {
-    const request = await fetch('https://api-core.wolvesville.com/dailyRewards', {
+    const request = await fetch(`${CORE_API_URL}/dailyRewards`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -114,7 +109,7 @@ class ClientPlayer extends Player {
   }
 
   async fetchGoldenSpinRewards() {
-    const request = await fetch('https://api-core.wolvesville.com/rewards/goldenWheelItems', {
+    const request = await fetch(`${CORE_API_URL}/rewards/goldenWheelItems`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -123,7 +118,7 @@ class ClientPlayer extends Player {
   }
 
   async fetchChallenges() {
-    const request = await fetch('https://api-core.wolvesville.com/challenges/v2', {
+    const request = await fetch(`${CORE_API_URL}/challenges/v2`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });

@@ -23,7 +23,6 @@ class Clan extends Base {
     this.memberCount = data.clan.memberCount
     this.requiredLevel = data.clan.minLevel;
     this.startedQuestCount = data.clan.questHistoryCount;
-
     if(data.members) this.members = data.members.map(member => {
       return this.constructor.name === 'Clan'
         ? new ClanMember(client, member)

@@ -4,7 +4,6 @@ const FriendPlayer = require('./FriendPlayer');
 class FriendList extends Base {
   constructor(client, data) {
     super(client);
-
     this.entries = data.map(friend => new FriendPlayer(this.client, friend));
     this.friendCount = data.length;
   }

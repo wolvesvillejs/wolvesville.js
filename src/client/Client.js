@@ -3,7 +3,7 @@ const ClanManager = require('../managers/ClanManager');
 const FriendManager = require('../managers/FriendManager');
 const RoleManager = require('../managers/RoleManager');
 const ClientPlayer = require('../structures/ClientPlayer');
-const Constants = require('../util/Constants');
+const { FIREBASE_APP_API_KEY, CORE_API_URL } = require('../util/Constants');
 const { getFirebaseHeaders, getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -11,13 +11,9 @@ class Client {
   constructor(options) {
     Object.defineProperty(this, 'refreshToken', { writable: true });
     this.upper = setInterval(this.tokenRefresh, 55 * 60 * 1000);
-
     this.players = new PlayerManager(this);
-
     this.friends = new FriendManager(this);
-
     this.clans = new ClanManager(this);
-
     this.roles = new RoleManager(this);
   }
 
@@ -32,7 +28,7 @@ class Client {
   async login(credentials) {
     if(!credentials || typeof credentials !== 'object') throw new Error('INVALID_CREDENTIALS_FORMAT');
 
-    const request = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${Constants.FIREBASE_APP_API_KEY}`, {
+    const request = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_APP_API_KEY}`, {
       method: 'POST',
       headers: getFirebaseHeaders(),
       body: JSON.stringify({
@@ -53,7 +49,7 @@ class Client {
   async tokenRefresh() {
     if(!this.refreshToken || typeof this.refreshToken !== 'string') throw new Error('REFRESH_TOKEN_NOT_FOUND');
 
-    const request = await fetch(`https://securetoken.googleapis.com/v1/token?key=${Constants.FIREBASE_APP_API_KEY}`, {
+    const request = await fetch(`https://securetoken.googleapis.com/v1/token?key=${FIREBASE_APP_API_KEY}`, {
       method: 'POST',
       headers: getFirebaseHeaders(),
       body: JSON.stringify({
@@ -74,7 +70,7 @@ class Client {
   }
 
   async fetchPlayer() {
-    const request = await fetch('https://api-core.wolvesville.com/players/me', {
+    const request = await fetch(`${CORE_API_URL}/players/me`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.token)
     });

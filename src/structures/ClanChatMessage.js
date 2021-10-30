@@ -3,7 +3,6 @@ const Base = require('./Base');
 class ClanChatMessage extends Base {
   constructor(client, data) {
     super(client);
-
     this.author = {
       id: data.playerId
     }

@@ -1,6 +1,6 @@
 const BaseManager = require('./BaseManager');
 const ClanChatMessage = require('../structures/ClanChatMessage')
-const { getAuthenticationHeaders, getAuthenticationHeadersContainsBody } = require('../util/Headers');
+const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
 class ClanChatManager extends BaseManager {

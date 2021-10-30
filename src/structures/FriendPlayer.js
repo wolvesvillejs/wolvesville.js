@@ -1,11 +1,9 @@
 const BasePlayer = require('./BasePlayer')
-const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
 class FriendPlayer extends BasePlayer {
   constructor(client, data) {
     super(client);
-
     this.id = data.id;
     this.username = data.username;
     this.level = data.level;
