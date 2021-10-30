@@ -77,10 +77,6 @@ class Player extends BasePlayer {
     return new AvatarSlots(this.client, response);
   }
 
-  async sendFriendRequest() {
-    return await client.friends.add(this.id);
-  }
-
   get clanTagAndUsername() {
     return this.clanTag ? this.clanTag + '|' + this.username : this.username;
   }
