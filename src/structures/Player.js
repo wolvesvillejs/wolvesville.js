@@ -77,6 +77,15 @@ class Player extends BasePlayer {
     return new AvatarSlots(this.client, response);
   }
 
+  async fetchBadges() {
+    const request = await fetch(`https://api-core.wolvesville.com/players/${this.id}/badgeIdsV2`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return response.ids.length > 0 ? response.ids : null;
+  }
+
   get clanTagAndUsername() {
     return this.clanTag ? this.clanTag + '|' + this.username : this.username;
   }
