@@ -21,6 +21,11 @@ class ClanMember extends Base {
     this.questParticipant = data.participateInClanQuests;
     this.coLeader = data.coLeader;
   }
+
+  async fetch() {
+    return await this.client.players.fetchById(this.id);
+  }
+
 }
 
 module.exports = ClanMember;
