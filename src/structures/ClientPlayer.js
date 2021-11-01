@@ -4,6 +4,7 @@ const EquippedItems = require('./EquippedItems');
 const AvatarSlots = require('./AvatarSlots');
 const ClientClan = require('./ClientClan');
 const Challenge = require('./Challenge');
+const BattlePass = require('./BattlePass');
 const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
@@ -127,6 +128,15 @@ class ClientPlayer extends Player {
       daily: response.dailyChallengeProgresses.map(challenge => new Challenge(this.client, challenge)),
       weekly: response.weeklyChallengeProgresses.map(challenge => new Challenge(this.client, challenge))
     }
+  }
+
+  async fetchBattlePass() {
+    const request = await fetch(`${CORE_API_URL}/battlePass/seasonAndBattlePass`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return new BattlePass(this.client, response);
   }
 
 }
