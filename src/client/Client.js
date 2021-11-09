@@ -2,6 +2,7 @@ const PlayerManager = require('../managers/PlayerManager');
 const ClanManager = require('../managers/ClanManager');
 const FriendManager = require('../managers/FriendManager');
 const RoleManager = require('../managers/RoleManager');
+const LeaderboardManager = require('../managers/LeaderboardManager');
 const ClientPlayer = require('../structures/ClientPlayer');
 const { FIREBASE_APP_API_KEY, CORE_API_URL } = require('../util/Constants');
 const { getFirebaseHeaders, getAuthenticationHeaders } = require('../util/Headers');
@@ -15,6 +16,7 @@ class Client {
     this.friends = new FriendManager(this);
     this.clans = new ClanManager(this);
     this.roles = new RoleManager(this);
+    this.leaderboards = new LeaderboardManager(this);
   }
 
   static get expired() {
