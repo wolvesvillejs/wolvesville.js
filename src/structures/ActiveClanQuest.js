@@ -6,7 +6,7 @@ class ActiveClanQuest extends ClanQuest {
   constructor(client, data) {
     super(client, data.quest);
     this.tierCompleted = data.tierFinished;
-    this.tier = data.tier;
+    this.tier = data.tier + 1;
     this.xp = data.xp;
     this.requiredXp = data.xpPerReward;
     this.tierStartTimestamp = new Date(data.tierStartTime);
