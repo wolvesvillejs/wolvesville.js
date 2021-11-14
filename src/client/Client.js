@@ -11,7 +11,7 @@ const fetch = require('node-fetch');
 class Client {
   constructor(options) {
     Object.defineProperty(this, 'refreshToken', { writable: true });
-    this.upper = setInterval(this.tokenRefresh, 55 * 60 * 1000);
+    this.upper = setInterval(() => this.tokenRefresh(), 55 * 60 * 1000);
     this.players = new PlayerManager(this);
     this.friends = new FriendManager(this);
     this.clans = new ClanManager(this);
