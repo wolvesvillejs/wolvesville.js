@@ -5,6 +5,8 @@ const AvatarSlots = require('./AvatarSlots');
 const ClientClan = require('./ClientClan');
 const Challenge = require('./Challenge');
 const BattlePass = require('./BattlePass');
+const SentGift = require('./SentGift');
+const ReceivedGift = require('./ReceivedGift');
 const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
@@ -137,6 +139,24 @@ class ClientPlayer extends Player {
     });
     const response = await request.json();
     return new BattlePass(this.client, response);
+  }
+
+  async fetchSentGifts() {
+    const request = await fetch(`${CORE_API_URL}/billing/gifts/sent`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return response.map(gift => new SentGift(this.client, gift));
+  }
+
+  async fetchReceivedGifts() {
+    const request = await fetch(`${CORE_API_URL}/billing/gifts/received`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return response.map(gift => new ReceivedGift(this.client, gift));
   }
 
 }
