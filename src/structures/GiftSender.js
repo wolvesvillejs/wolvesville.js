@@ -2,7 +2,7 @@ const Base = require('./Base');
 
 class GiftSender extends Base {
   constructor(client, data) {
-    super(client, data);
+    super(client);
     this.username = data.senderUsername;
   }
 
