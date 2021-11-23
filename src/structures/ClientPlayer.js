@@ -2,6 +2,7 @@ const Player = require('./Player');
 const Inventory = require('./Inventory');
 const EquippedItems = require('./EquippedItems');
 const AvatarSlots = require('./AvatarSlots');
+const DailyRewards = require('./DailyRewards');
 const ClientClan = require('./ClientClan');
 const Challenge = require('./Challenge');
 const BattlePass = require('./BattlePass');
@@ -108,7 +109,7 @@ class ClientPlayer extends Player {
       headers: getAuthenticationHeaders(this.client.token)
     });
     const response = await request.json();
-    return response;
+    return new DailyRewards(client, response);
   }
 
   async fetchGoldenSpinRewards() {
