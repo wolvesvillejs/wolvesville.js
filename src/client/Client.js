@@ -45,6 +45,7 @@ class Client {
     this.refreshToken = response.refreshToken;
     this.lastTokenRefreshTimestamp = new Date().toISOString();
     await this.tokenRefresh();
+    return this;
   }
 
   async tokenRefresh() {
