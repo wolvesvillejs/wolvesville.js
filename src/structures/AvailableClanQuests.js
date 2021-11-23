@@ -14,7 +14,7 @@ class AvailableClanQuests extends Base {
     this.memberGoldPrice = data.memberGoldPrice;
     this.memberGoldPriceShuffleQuests = data.memberGoldPriceShuffleQuests;
     this.memberGoldPriceSkipQuestWait = data.memberGoldPriceSkipQuestWait;
-    this.endTime = new Date(data.endTime);
+    this.endTime = data.endTime;
   }
 
 }

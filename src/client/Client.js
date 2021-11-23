@@ -43,7 +43,7 @@ class Client {
 
     if(response.error) throw new Error(response.error.message);
     this.refreshToken = response.refreshToken;
-    this.lastTokenRefreshTimestamp = new Date(Date.now()).toISOString();
+    this.lastTokenRefreshTimestamp = new Date().toISOString();
     await this.tokenRefresh();
   }
 

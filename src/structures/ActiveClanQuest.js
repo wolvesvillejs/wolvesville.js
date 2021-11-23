@@ -9,8 +9,8 @@ class ActiveClanQuest extends ClanQuest {
     this.tier = data.tier + 1;
     this.xp = data.xp;
     this.requiredXp = data.xpPerReward;
-    this.tierStartTimestamp = new Date(data.tierStartTime);
-    this.tierEndTimestamp = new Date(data.tierEndTime);
+    this.tierStartTimestamp = data.tierStartTime;
+    this.tierEndTimestamp = data.tierEndTime;
     this.participants = data.participants.map(participant => new ClanQuestParticipant(client, participant));
     this.moreTimeClaimed = data.claimedTime;
   }

@@ -14,7 +14,7 @@ class DailyReward extends Base {
       this.unknown = data.unknown;
     }
     if(data.canBeClaimedDate) {
-      this.claimTimestamp = new Date(data.canBeClaimedDate);
+      this.claimTimestamp = data.canBeClaimedDate;
     }
     this.claimed = data.claimed;
   }

@@ -4,7 +4,7 @@ class Gift extends Base {
   constructor(client, data) {
     super(client);
     this.type = data.description;
-    this.purchaseTimestamp = new Date(data.purchaseTime);
+    this.purchaseTimestamp = data.purchaseTime;
   }
 }
 

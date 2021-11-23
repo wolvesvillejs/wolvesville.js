@@ -17,8 +17,8 @@ class BattlePass extends Base {
       }));
     });
     this.duration = data.battlePassSeason.durationInDays;
-    this.startTimestamp = new Date(data.battlePassSeason.startTime);
-    this.endTimestamp = new Date(this.startTimestamp.getTime() + this.duration * 24 * 60 * 60 * 1000);
+    this.startTimestamp = data.battlePassSeason.startTime;
+    this.endTimestamp = new Date(this.startTimestamp.getTime() + this.duration * 24 * 60 * 60 * 1000).toISOString();
   }
 
   get tier() {
