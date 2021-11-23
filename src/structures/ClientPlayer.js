@@ -109,7 +109,7 @@ class ClientPlayer extends Player {
       headers: getAuthenticationHeaders(this.client.token)
     });
     const response = await request.json();
-    return new DailyRewards(client, response);
+    return new DailyRewards(this.client, response);
   }
 
   async fetchGoldenSpinRewards() {
