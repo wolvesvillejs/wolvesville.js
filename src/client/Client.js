@@ -11,7 +11,6 @@ const fetch = require('node-fetch');
 class Client {
   constructor(options) {
     Object.defineProperty(this, 'refreshToken', { writable: true });
-    this.upper = setInterval(() => this.tokenRefresh(), 55 * 60 * 1000);
     this.players = new PlayerManager(this);
     this.friends = new FriendManager(this);
     this.clans = new ClanManager(this);
@@ -30,21 +29,20 @@ class Client {
   async login(credentials) {
     if(!credentials || typeof credentials !== 'object') throw new Error('INVALID_CREDENTIALS_FORMAT');
 
-    const request = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_APP_API_KEY}`, {
+    const request = await fetch('https://api-auth.wolvesville.com/players/signInWithEmailAndPassword', {
       method: 'POST',
-      headers: getFirebaseHeaders(),
       body: JSON.stringify({
         email: credentials.email,
-        password: credentials.password,
-        returnSecureToken: true
+        password: credentials.password
       })
     });
     const response = await request.json();
 
-    if(response.error) throw new Error(response.error.message);
+    if(response.message) throw new Error('INVALID_CREDENTIALS');
+    this.token = response.token;
     this.refreshToken = response.refreshToken;
     this.lastTokenRefreshTimestamp = new Date().toISOString();
-    await this.tokenRefresh();
+    this.upper = setInterval(() => this.tokenRefresh(), 55 * 60 * 1000);
     return this;
   }
 
@@ -68,7 +66,7 @@ class Client {
   destroy() {
     this.refreshToken = null;
     this.token = null;
-    clearInterval(this.upper);
+    this.upper = clearInterval(this.upper);
   }
 
   async fetchPlayer() {
