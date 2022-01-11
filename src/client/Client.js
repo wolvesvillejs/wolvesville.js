@@ -31,6 +31,9 @@ class Client {
 
     const request = await fetch('https://api-auth.wolvesville.com/players/signInWithEmailAndPassword', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         email: credentials.email,
         password: credentials.password
@@ -39,7 +42,7 @@ class Client {
     const response = await request.json();
 
     if(response.message) throw new Error('INVALID_CREDENTIALS');
-    this.token = response.token;
+    this.token = response.idToken;
     this.refreshToken = response.refreshToken;
     this.lastTokenRefreshTimestamp = new Date().toISOString();
     this.upper = setInterval(() => this.tokenRefresh(), 55 * 60 * 1000);
