@@ -1,6 +1,12 @@
 const Constants = require('./Constants')
 
 class Headers {
+  
+  static getBodyHeaders(token) {
+    return {
+      'Content-Type': 'application/json'
+    }
+  }
 
   static getAuthenticationHeaders(token) {
     return {
