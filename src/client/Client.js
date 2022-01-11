@@ -4,8 +4,8 @@ const FriendManager = require('../managers/FriendManager');
 const RoleManager = require('../managers/RoleManager');
 const LeaderboardManager = require('../managers/LeaderboardManager');
 const ClientPlayer = require('../structures/ClientPlayer');
-const { FIREBASE_APP_API_KEY, CORE_API_URL } = require('../util/Constants');
-const { getFirebaseHeaders, getAuthenticationHeaders } = require('../util/Headers');
+const { FIREBASE_APP_API_KEY, CORE_API_URL, AUTH_API_URL } = require('../util/Constants');
+const { getFirebaseHeaders, getAuthenticationHeaders, getBodyHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
 class Client {
@@ -29,11 +29,9 @@ class Client {
   async login(credentials) {
     if(!credentials || typeof credentials !== 'object') throw new Error('INVALID_CREDENTIALS_FORMAT');
 
-    const request = await fetch('https://api-auth.wolvesville.com/players/signInWithEmailAndPassword', {
+    const request = await fetch(`${AUTH_API_URL}/players/signInWithEmailAndPassword`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: getBodyHeaders(),
       body: JSON.stringify({
         email: credentials.email,
         password: credentials.password
