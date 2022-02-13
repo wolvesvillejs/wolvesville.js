@@ -5,8 +5,8 @@ const RoleManager = require('../managers/RoleManager');
 const LeaderboardManager = require('../managers/LeaderboardManager');
 const GameManager = require('../managers/GameManager');
 const ClientPlayer = require('../structures/ClientPlayer');
-const { FIREBASE_APP_API_KEY, CORE_API_URL, AUTH_API_URL } = require('../util/Constants');
-const { getFirebaseHeaders, getAuthenticationHeaders, getBodyHeaders } = require('../util/Headers');
+const { CORE_API_URL, AUTH_API_URL } = require('../util/Constants');
+const { getAuthenticationHeaders, getBodyHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
 class Client {
@@ -52,18 +52,17 @@ class Client {
   async tokenRefresh() {
     if(!this.refreshToken || typeof this.refreshToken !== 'string') throw new Error('REFRESH_TOKEN_NOT_FOUND');
 
-    const request = await fetch(`https://securetoken.googleapis.com/v1/token?key=${FIREBASE_APP_API_KEY}`, {
+    const request = await fetch(`${AUTH_API_URL}/players/createIdToken`, {
       method: 'POST',
-      headers: getFirebaseHeaders(),
+      headers: getBodyHeaders(),
       body: JSON.stringify({
-        grant_type: 'refresh_token',
-        refresh_token: this.refreshToken
+        refreshToken: this.refreshToken
       })
     });
     const response = await request.json();
 
-    if(response.error) throw new Error(response.error.message);
-    this.token = response.access_token;
+    if(response.code) throw new Error('INVALID_REFRESH_TOKEN');
+    this.token = response.idToken;
   }
 
   destroy() {
