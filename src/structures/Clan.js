@@ -1,7 +1,7 @@
 const Base = require('./Base');
 const ClanMember = require('./ClanMember');
 const ClientClanMember = require('./ClientClanMember');
-const { Collection } = require('@discordjs/collection')
+const { Collection } = require('@discordjs/collection');
 
 /**
  * Represents a clan.

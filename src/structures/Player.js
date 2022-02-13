@@ -1,7 +1,8 @@
 const BasePlayer = require('./BasePlayer');
-const AvatarSlots = require('./AvatarSlots');
+const AvatarSlot = require('./AvatarSlot');
 const ClanManager = require('../managers/ClanManager');
 const Role = require('./Role');
+const { Collection } = require('@discordjs/collection');
 const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
@@ -75,7 +76,17 @@ class Player extends BasePlayer {
       headers: getAuthenticationHeaders(this.client.token)
     });
     const response = await request.json();
-    return new AvatarSlots(this.client, response);
+
+    const fetchedAvatarSlots = new Collection();
+
+    for (const avatarSlot of response.values()) {
+      fetchedAvatarSlots.set(
+        avatarSlot.slot,
+        new AvatarSlot(this.client, avatarSlot)
+      );
+    }
+
+    return fetchedAvatarSlots;
   }
 
   async fetchBadges() {
