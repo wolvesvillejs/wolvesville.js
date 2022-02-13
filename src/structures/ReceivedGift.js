@@ -1,10 +1,10 @@
 const Gift = require('./Gift');
-const GiftRecipient = require('./GiftRecipient');
+const GiftSender = require('./GiftSender');
 
 class ReceivedGift extends Gift {
   constructor(client, data) {
     super(client, data);
-    this.recipient = new GiftRecipient(client, data);
+    this.sender = new GiftSender(client, data);
   }
 }
 
