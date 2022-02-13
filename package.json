@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/mainleau/wolvesville.js#readme",
   "dependencies": {
+    "@discordjs/collection": "^0.5.0",
     "node-fetch": "^2.6.1"
   }
 }

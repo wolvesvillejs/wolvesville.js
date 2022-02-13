@@ -6,15 +6,36 @@ const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
+/**
+ * Represents a client clan.
+ */
 class ClientClan extends Clan {
   constructor(client, data) {
     super(client, data);
+
+    /**
+     * Clan gold count.
+     * @type {string}
+     */
     this.goldCount = data.clan.gold;
+
+    /**
+     * Clan gem count.
+     * @type {string}
+     */
     this.gemCount = data.clan.gems;
 
+    /**
+     * Clan chat.
+     * @type {string}
+     */
     this.chat = new ClanChatManager(client);
   }
 
+  /**
+   * Active quests.
+   * @returns {Promise<ActiveClanQuest>}
+   */
   async fetchActiveQuest() {
     const request = await fetch(`${CORE_API_URL}/clanQuests/active`, {
       method: 'GET',
@@ -26,6 +47,10 @@ class ClientClan extends Clan {
     return new ActiveClanQuest(this.client, response);
   }
 
+  /**
+   * Available quests.
+   * @returns {Promise<AvailableClanQuests>}
+   */
   async fetchAvailableQuests() {
     const request = await fetch(`${CORE_API_URL}/clanQuests/available`, {
       method: 'GET',
