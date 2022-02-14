@@ -4,6 +4,7 @@ const ClanQuestParticipant = require('./ClanQuestParticipant');
 
 /**
  * Represents a an active clan quest.
+ * @extends {ClanQuest}
  */
 class ActiveClanQuest extends ClanQuest {
   constructor(client, data) {

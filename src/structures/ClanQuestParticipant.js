@@ -2,6 +2,7 @@ const Base = require('./Base');
 
 /**
  * Represents a quest participant.
+ * @extends {Base}
  */
 class ClanQuestParticipant extends Base {
   constructor(client, data) {

@@ -13,6 +13,7 @@ const fetch = require('node-fetch');
 
 /**
  * Represents a client player.
+ * @extends {Player}
  */
 class ClientPlayer extends Player {
   constructor(client, data) {

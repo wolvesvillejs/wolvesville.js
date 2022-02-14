@@ -1,6 +1,6 @@
 {
   "name": "wolvesville.js",
-  "version": "1.1.4",
+  "version": "1.1.4-dev",
   "description": "Javascript library for the Wolvesville API.",
   "main": "./src/index.js",
   "repository": {
@@ -20,6 +20,6 @@
   "homepage": "https://github.com/mainleau/wolvesville.js#readme",
   "dependencies": {
     "@discordjs/collection": "^0.5.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.7"
   }
 }

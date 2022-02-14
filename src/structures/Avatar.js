@@ -2,6 +2,7 @@ const Base = require('./Base');
 
 /**
  * Represents an avatar.
+ * @extends {Base}
  */
 class Avatar extends Base {
   constructor(client, data) {

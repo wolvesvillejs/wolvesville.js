@@ -4,6 +4,7 @@ const { Collection } = require('@discordjs/collection');
 
 /**
  * Represents a battle pass.
+ * @extends {Base}
  */
 class BattlePass extends Base {
   constructor(client, data) {

@@ -8,6 +8,7 @@ const fetch = require('node-fetch');
 
 /**
  * Represents a client clan.
+ * @extends {Clan}
  */
 class ClientClan extends Clan {
   constructor(client, data) {

@@ -5,6 +5,7 @@ const { Collection } = require('@discordjs/collection');
 
 /**
  * Represents a clan.
+ * @extends {Base}
  */
 class Clan extends Base {
   constructor(client, data) {

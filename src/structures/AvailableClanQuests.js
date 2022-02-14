@@ -4,6 +4,7 @@ const { CDN_URL } = require('../util/Constants');
 
 /**
  * Represents available clan quests.
+ * @extends {Base}
  */
 class AvailableClanQuests extends Base {
   constructor(client, data) {

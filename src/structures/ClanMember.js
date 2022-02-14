@@ -2,6 +2,7 @@ const Base = require('./Base');
 
 /**
  * Represents a clan member.
+ * @extends {Base}
  */
 class ClanMember extends Base {
   constructor(client, data) {

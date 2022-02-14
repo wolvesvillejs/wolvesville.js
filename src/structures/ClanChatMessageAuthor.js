@@ -2,6 +2,7 @@ const Base = require('./Base');
 
 /**
  * Clan chat message author.
+ * @extends {Base}
  */
 class ClanChatMessageAuthor extends Base {
   constructor(client, data) {

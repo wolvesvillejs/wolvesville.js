@@ -2,6 +2,7 @@ const Base = require('./Base');
 
 /**
  * Represents a battle pass reward.
+ * @extends {Base}
  */
 class BattlePassReward extends Base {
   constructor(client, data) {

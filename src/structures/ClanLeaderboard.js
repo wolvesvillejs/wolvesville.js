@@ -2,6 +2,7 @@ const ClanSearcher = require('./ClanSearcher');
 
 /**
  * Clan leadeboard.
+ * @extends {ClanSearcher}
  */
 class ClanLeaderboard extends ClanSearcher {
   constructor(client, data) {

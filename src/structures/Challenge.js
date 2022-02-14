@@ -2,6 +2,7 @@ const Base = require('./Base');
 
 /**
  * Represents a challenge.
+ * @extends {Base}
  */
 class Challenge extends Base {
   constructor(client, data) {

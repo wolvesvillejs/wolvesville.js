@@ -9,6 +9,9 @@ const { CORE_API_URL, AUTH_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders, getBodyHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
+/**
+ * Wolvesville client.
+ */
 class Client {
   constructor(options) {
     Object.defineProperty(this, 'refreshToken', { writable: true });
@@ -20,6 +23,11 @@ class Client {
     this.games = new GameManager(this);
   }
 
+  /**
+   * Is client token expired.
+   * @returns {Date}
+   * @readonly
+   */
   static get expired() {
     if(!this.refreshToken || typeof this.refreshToken !== 'string') {
       throw new Error('REFRESH_TOKEN_NOT_FOUND');
@@ -28,6 +36,13 @@ class Client {
     return new Date(this.lastTokenRefreshTimestamp).getTime() + 60 * 60 * 1000 < Date.now();
   }
 
+  /**
+   * Login.
+   * @param {Object} credentials Credentials.
+   * @param {string} credentials.email Email.
+   * @param {string} credentials.password Password.
+   * @returns {Client}
+   */
   async login(credentials) {
     if(!credentials || typeof credentials !== 'object') throw new Error('INVALID_CREDENTIALS_FORMAT');
 
@@ -49,6 +64,9 @@ class Client {
     return this;
   }
 
+  /**
+   * Refresh client token.
+   */
   async tokenRefresh() {
     if(!this.refreshToken || typeof this.refreshToken !== 'string') throw new Error('REFRESH_TOKEN_NOT_FOUND');
 
@@ -65,12 +83,19 @@ class Client {
     this.token = response.idToken;
   }
 
+  /**
+   * Destroy client.
+   */
   destroy() {
     this.refreshToken = null;
     this.token = null;
     this.upper = clearInterval(this.upper);
   }
 
+  /**
+   * Fetch player associated to the client.
+   * @returns {ClientPlayer}
+   */
   async fetchPlayer() {
     const request = await fetch(`${CORE_API_URL}/players/me`, {
       method: 'GET',

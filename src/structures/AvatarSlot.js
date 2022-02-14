@@ -3,6 +3,7 @@ const Avatar = require('./Avatar')
 
 /**
  * Represents an avatar slot.
+ * @extends {Base}
  */
 class AvatarSlot extends Base {
   constructor(client, data) {
