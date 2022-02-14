@@ -1,7 +1,7 @@
 /**
  * Options for a client.
  * @typedef {Object} ClientOptions
- * @property {number} [tokenRefeshInterval=3_300_000] Token refresh interval
+ * @property {number} [tokenRefreshInterval=3_300_000] Token refresh interval
  * @property {HTTPOptions} [http] HTTP options
  */
 
@@ -31,7 +31,7 @@ class Options {
    */
   static createDefault() {
     return {
-      tokenRefeshInterval: 3_300_000,
+      tokenRefreshInterval: 3_300_000,
       http: {
         api: {
           auth: 'https://api-auth.wolvesville.com',
