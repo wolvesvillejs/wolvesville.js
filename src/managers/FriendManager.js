@@ -1,6 +1,6 @@
 const BaseManager = require('./BaseManager');
-const FriendList = require('../structures/FriendList');
-const FriendPlayer = require('../structures/FriendPlayer');
+const Friend = require('../structures/Friend');
+const { Collection } = require('@discordjs/collection');
 const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
@@ -16,7 +16,14 @@ class FriendsManager extends BaseManager {
       headers: getAuthenticationHeaders(this.client.token)
     });
     const response = await request.json();
-    return new FriendList(this.client, response);
+
+    const fetchedFriends = new Collection();
+
+    for (const friend of response) {
+      fetchedFriends.set(friend.id, new Friend(this.client, friend));
+    }
+
+    return fetchedFriends;
   }
 
   async fetchRequests() {

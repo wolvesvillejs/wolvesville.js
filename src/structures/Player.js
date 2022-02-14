@@ -7,24 +7,78 @@ const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
+/**
+ * Represents a player.
+ * @extends {BasePlayer}
+ */
 class Player extends BasePlayer {
   constructor(client, data) {
     super(client);
 
+    /**
+     * Player id.
+     * @type {string}
+     */
     this.id = data.id;
+
+    /**
+     * Player username.
+     * @type {string}
+     */
     this.username = data.username;
+
+    /**
+     * Player level.
+     * @type {number}
+     */
     this.level = data.level;
 
+    /**
+     * Player clan tag.
+     * @type {?string}
+     */
     this.clanTag = data.clanTag || null;
+
+    /**
+     * Player status.
+     * @type {string}
+     */
     this.status = data.playerStatus;
+
+    /**
+     * Player personal message.
+     * @type {string}
+     */
     this.personalMessage = data.personalMsg;
 
-    this.receivedRoses = data.receivedRoses || null;
-    this.sentRoses = data.sentRoses || null;
+    /**
+     * Number of roses the player received.
+     * @type {number}
+     */
+    this.receivedRoses = data.receivedRoses || 0;
 
+    /**
+     * Number of roses the player sent.
+     * @type {number}
+     */
+    this.sentRoses = data.sentRoses || 0;
+
+    /**
+     * Player creation timestamp.
+     * @type {string}
+     */
     this.creationTimestamp = data.creationTime;
+
+    /**
+     * Player last online timestamp.
+     * @type {string}
+     */
     this.lastOnlineTimestamp = data.lastOnline;
 
+    /**
+     * Player equipped items.
+     * @type {Object}
+     */
     this.equippedItems = {
       profileIcon: {
         id: data.equippedProfileIconId,
@@ -32,6 +86,10 @@ class Player extends BasePlayer {
       }
     }
 
+    /**
+     * Player stats.
+     * @type {Object}
+     */
     this.stats = {
       finishedGameCount: data.playerStats.finishedGamesCount,
       gamesSurvivedCount: data.playerStats.gamesSurvivedCount,
@@ -53,6 +111,10 @@ class Player extends BasePlayer {
       }
     }
 
+    /**
+     * Player options.
+     * @type {Object}
+     */
     this.options = {
       clanTagHidden: data.hideClanTag,
       clanChatNotificationsDisabled: data.notificationsDisabledClanChat,

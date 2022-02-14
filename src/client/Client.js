@@ -15,11 +15,41 @@ const fetch = require('node-fetch');
 class Client {
   constructor(options) {
     Object.defineProperty(this, 'refreshToken', { writable: true });
+
+    /**
+     * The player manager of the client.
+     * @type {PlayerManager}
+     */
     this.players = new PlayerManager(this);
+
+    /**
+     * The friend manager of the client.
+     * @type {FriendManager}
+     */
     this.friends = new FriendManager(this);
+
+    /**
+     * The clan manager of the client.
+     * @type {ClanManager}
+     */
     this.clans = new ClanManager(this);
+
+    /**
+     * The role manager of the client.
+     * @type {RoleManager}
+     */
     this.roles = new RoleManager(this);
+
+    /**
+     * The leaderboard manager of the client.
+     * @type {LeaderboardManager}
+     */
     this.leaderboards = new LeaderboardManager(this);
+
+    /**
+     * The game manager of the client.
+     * @type {GameManager}
+     */
     this.games = new GameManager(this);
   }
 

@@ -1,5 +1,3 @@
-const Constants = require('./Constants')
-
 class Headers {
 
   static getBodyHeaders(token) {
