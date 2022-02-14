@@ -1,6 +1,5 @@
 const Base = require('./Base');
 const ClanQuestReward = require('./ClanQuestReward');
-const { CDN_URL } = require('../util/Constants');
 
 /**
  * Represents a clan quest.
@@ -41,7 +40,7 @@ class ClanQuest extends Base {
    * @readonly
    */
   get imageURL() {
-    return `${CDN_URL}/promotions/${this.name}.jpg`;
+    return `${this.client.options.http.cdn}/promotions/${this.name}.jpg`;
   }
 
 }

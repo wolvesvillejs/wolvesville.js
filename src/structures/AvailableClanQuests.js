@@ -1,6 +1,5 @@
 const Base = require('./Base');
 const ClanQuest = require('./ClanQuest');
-const { CDN_URL } = require('../util/Constants');
 
 /**
  * Represents available clan quests.

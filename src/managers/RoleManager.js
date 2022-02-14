@@ -1,6 +1,5 @@
 const BaseManager = require('./BaseManager');
 const RoleRotation = require('../structures/RoleRotation.js');
-const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -10,7 +9,7 @@ class RoleManager extends BaseManager {
   }
 
   async fetchCurrentQuickGames() {
-    const request = await fetch(`${CORE_API_URL}/roleRotation/quickGames/roles`, {
+    const request = await fetch(`${this.client.options.http.api.core}/roleRotation/quickGames/roles`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -19,7 +18,7 @@ class RoleManager extends BaseManager {
   }
 
   async fetchCurrentRankedGames() {
-    const request = await fetch(`${CORE_API_URL}/roleRotation/ranked/en`, {
+    const request = await fetch(`${this.client.options.http.api.core}/roleRotation/ranked/en`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -28,7 +27,7 @@ class RoleManager extends BaseManager {
   }
 
   async fetchCustomGame() {
-    const request = await fetch(`${CORE_API_URL}/customGames/roles`, {
+    const request = await fetch(`${this.client.options.http.api.core}/customGames/roles`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -37,7 +36,7 @@ class RoleManager extends BaseManager {
   }
 
   async fetchOwnedInCustomGames() {
-    const request = await fetch(`${CORE_API_URL}/customGames/ownRoles`, {
+    const request = await fetch(`${this.client.options.http.api.core}/customGames/ownRoles`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });

@@ -3,7 +3,6 @@ const AvatarSlot = require('./AvatarSlot');
 const ClanManager = require('../managers/ClanManager');
 const Role = require('./Role');
 const { Collection } = require('@discordjs/collection');
-const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -133,7 +132,7 @@ class Player extends BasePlayer {
   }
 
   async fetchAvatarSlots() {
-    const request = await fetch(`${CORE_API_URL}/inventory/slots/${this.id}`, {
+    const request = await fetch(`${this.client.options.http.api.core}/inventory/slots/${this.id}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -152,7 +151,7 @@ class Player extends BasePlayer {
   }
 
   async fetchBadges() {
-    const request = await fetch(`${CORE_API_URL}/players/${this.id}/badgeIdsV2`, {
+    const request = await fetch(`${this.client.options.http.api.core}/players/${this.id}/badgeIdsV2`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });

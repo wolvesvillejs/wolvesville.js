@@ -5,7 +5,6 @@ const WeeklyXPLeaderboard = require('../structures/WeeklyXPLeaderboard');
 const DailyXPLeaderboard = require('../structures/DailyXPLeaderboard');
 const FriendsXPLeaderboard = require('../structures/FriendsXPLeaderboard');
 const RankedLeaderboard = require('../structures/RankedLeaderboard');
-const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -26,7 +25,7 @@ class LeaderboardManager extends BaseManager {
     } else if(frequency === 4) {
       var [suffix, leaderboard] = ['Friends', FriendsXPLeaderboard];
     } else throw new Error('LEADERBOARD_FREQUENCY_OUT_OF_RANGE');
-    const request = await fetch(`${CORE_API_URL}/highScores/top100${suffix || ''}`, {
+    const request = await fetch(`${this.client.options.http.api.core}/highScores/top100${suffix || ''}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -35,7 +34,7 @@ class LeaderboardManager extends BaseManager {
   }
 
   async fetchRanked({ offset } = {}) {
-    const request = await fetch(`${CORE_API_URL}/ranked/highScore${!offset ? '/top100' : ''}`, {
+    const request = await fetch(`${this.client.options.http.api.core}/ranked/highScore${!offset ? '/top100' : ''}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });

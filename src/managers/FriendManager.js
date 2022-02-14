@@ -1,7 +1,6 @@
 const BaseManager = require('./BaseManager');
 const Friend = require('../structures/Friend');
 const { Collection } = require('@discordjs/collection');
-const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -11,7 +10,7 @@ class FriendsManager extends BaseManager {
   }
 
   async fetch() {
-    const request = await fetch(`${CORE_API_URL}/friends`, {
+    const request = await fetch(`${this.client.options.http.api.core}/friends`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -27,7 +26,7 @@ class FriendsManager extends BaseManager {
   }
 
   async fetchRequests() {
-    const request = await fetch(`${CORE_API_URL}/friendRequests/pending`, {
+    const request = await fetch(`${this.client.options.http.api.core}/friendRequests/pending`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
