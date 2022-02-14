@@ -46,14 +46,6 @@ class DailyReward extends Base {
       this.unknown = data.unknown;
     }
 
-    if(data.canBeClaimedDate) {
-      /**
-       * Reward claim timestamp.
-       * @type {string}
-       */
-      this.claimTimestamp = data.canBeClaimedDate;
-    }
-
     /**
      * Is the reward claimed.
      * @type {boolean}

@@ -1,3 +1,4 @@
+const BaseClient = require('./BaseClient');
 const PlayerManager = require('../managers/PlayerManager');
 const ClanManager = require('../managers/ClanManager');
 const FriendManager = require('../managers/FriendManager');
@@ -5,21 +6,55 @@ const RoleManager = require('../managers/RoleManager');
 const LeaderboardManager = require('../managers/LeaderboardManager');
 const GameManager = require('../managers/GameManager');
 const ClientPlayer = require('../structures/ClientPlayer');
-const { CORE_API_URL, AUTH_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders, getBodyHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
 /**
  * Wolvesville client.
  */
-class Client {
+class Client extends BaseClient {
+  /**
+   * @param {ClientOptions} options Options for the client
+   */
   constructor(options) {
+    super(options);
+
     Object.defineProperty(this, 'refreshToken', { writable: true });
+
+    /**
+     * The player manager of the client.
+     * @type {PlayerManager}
+     */
     this.players = new PlayerManager(this);
+
+    /**
+     * The friend manager of the client.
+     * @type {FriendManager}
+     */
     this.friends = new FriendManager(this);
+
+    /**
+     * The clan manager of the client.
+     * @type {ClanManager}
+     */
     this.clans = new ClanManager(this);
+
+    /**
+     * The role manager of the client.
+     * @type {RoleManager}
+     */
     this.roles = new RoleManager(this);
+
+    /**
+     * The leaderboard manager of the client.
+     * @type {LeaderboardManager}
+     */
     this.leaderboards = new LeaderboardManager(this);
+
+    /**
+     * The game manager of the client.
+     * @type {GameManager}
+     */
     this.games = new GameManager(this);
   }
 
@@ -46,7 +81,7 @@ class Client {
   async login(credentials) {
     if(!credentials || typeof credentials !== 'object') throw new Error('INVALID_CREDENTIALS_FORMAT');
 
-    const request = await fetch(`${AUTH_API_URL}/players/signInWithEmailAndPassword`, {
+    const request = await fetch(`${this.options.http.api.auth}/players/signInWithEmailAndPassword`, {
       method: 'POST',
       headers: getBodyHeaders(),
       body: JSON.stringify({
@@ -70,7 +105,7 @@ class Client {
   async tokenRefresh() {
     if(!this.refreshToken || typeof this.refreshToken !== 'string') throw new Error('REFRESH_TOKEN_NOT_FOUND');
 
-    const request = await fetch(`${AUTH_API_URL}/players/createIdToken`, {
+    const request = await fetch(`${this.options.http.api.auth}/players/createIdToken`, {
       method: 'POST',
       headers: getBodyHeaders(),
       body: JSON.stringify({
@@ -97,7 +132,7 @@ class Client {
    * @returns {ClientPlayer}
    */
   async fetchPlayer() {
-    const request = await fetch(`${CORE_API_URL}/players/me`, {
+    const request = await fetch(`${this.options.http.api.core}/players/me`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.token)
     });

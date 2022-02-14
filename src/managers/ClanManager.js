@@ -3,7 +3,6 @@ const ClanSearcher = require('../structures/ClanSearcher');
 const ClanLeaderboard = require('../structures/ClanLeaderboard');
 const Clan = require('../structures/Clan');
 const ClientClan = require('../structures/ClientClan');
-const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -14,7 +13,7 @@ class ClanManager extends BaseManager {
 
   async fetchByMemberId(id) {
     if(!id || typeof id !== 'string' || !Number.isInteger(id)) throw new Error('INVALID_CLAN_MEMBER_ID_FORMAT');
-    const request = await fetch(`${CORE_API_URL}/clans/byPlayer?playerId=${id}`, {
+    const request = await fetch(`${this.client.options.http.api.core}/clans/byPlayer?playerId=${id}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -24,7 +23,7 @@ class ClanManager extends BaseManager {
 
   async #fetchMinimalByName(name) {
     if(!name || typeof name !== 'string') throw new Error('INVALID_CLAN_NAME_FORMAT');
-    const request = await fetch(`${CORE_API_URL}/clans/v2/search?name=${name}`, {
+    const request = await fetch(`${this.client.options.http.api.core}/clans/v2/search?name=${name}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -44,7 +43,7 @@ class ClanManager extends BaseManager {
 
   async fetchById(id) {
     if(!id || typeof id !== 'string') throw new Error('INVALID_CLAN_ID_FORMAT');
-    const request = await fetch(`${CORE_API_URL}/clans/${id}`, {
+    const request = await fetch(`${this.client.options.http.api.core}/clans/${id}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -54,7 +53,7 @@ class ClanManager extends BaseManager {
   }
 
   async fetchOwn() {
-    const request = await fetch(`${CORE_API_URL}/clans/myClan`, {
+    const request = await fetch(`${this.client.options.http.api.core}/clans/myClan`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -65,7 +64,7 @@ class ClanManager extends BaseManager {
 
   async fetchLeaderboard({ onlyOpen } = { onlyOpen: false }) {
     if(typeof onlyOpen !== 'boolean') throw new Error('OPTION_MUST_BE_A_BOOLEAN');
-    const request = await fetch(`${CORE_API_URL}/clans/v2/ranking?onlyOpen=${onlyOpen}`, {
+    const request = await fetch(`${this.client.options.http.api.core}/clans/v2/ranking?onlyOpen=${onlyOpen}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });

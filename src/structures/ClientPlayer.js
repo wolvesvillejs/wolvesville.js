@@ -7,7 +7,6 @@ const Challenge = require('./Challenge');
 const BattlePass = require('./BattlePass');
 const SentGift = require('./SentGift');
 const ReceivedGift = require('./ReceivedGift');
-const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -110,7 +109,7 @@ class ClientPlayer extends Player {
    * @returns {Array}
    */
   async fetchAnnouncements() {
-    const request = await fetch(`${CORE_API_URL}/announcements`, {
+    const request = await fetch(`${this.client.options.http.api.core}/announcements`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -123,7 +122,7 @@ class ClientPlayer extends Player {
    * @returns {EquippedItems}
    */
   async fetchEquippedItems() {
-    const request = await fetch(`${CORE_API_URL}/equippedItems`, {
+    const request = await fetch(`${this.client.options.http.api.core}/equippedItems`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -136,7 +135,7 @@ class ClientPlayer extends Player {
    * @returns {Inventory}
    */
   async fetchInventory() {
-    const request = await fetch(`${CORE_API_URL}/inventory`, {
+    const request = await fetch(`${this.client.options.http.api.core}/inventory`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -149,7 +148,7 @@ class ClientPlayer extends Player {
    * @returns {Array}
    */
   async fetchClanInvitations() {
-    const request = await fetch(`${CORE_API_URL}/clans/openRequests`, {
+    const request = await fetch(`${this.client.options.http.api.core}/clans/openRequests`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -162,7 +161,7 @@ class ClientPlayer extends Player {
    * @returns {Array}
    */
   async fetchFriendInvitationRewards() {
-    const request = await fetch(`${CORE_API_URL}/players/friendInvitationRewards`, {
+    const request = await fetch(`${this.client.options.http.api.core}/players/friendInvitationRewards`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -175,7 +174,7 @@ class ClientPlayer extends Player {
    * @returns {DailyRewards}
    */
   async fetchDailyRewards() {
-    const request = await fetch(`${CORE_API_URL}/dailyRewards`, {
+    const request = await fetch(`${this.client.options.http.api.core}/dailyRewards`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -188,7 +187,7 @@ class ClientPlayer extends Player {
    * @returns {Array<Object>}
    */
   async fetchGoldenSpinRewards() {
-    const request = await fetch(`${CORE_API_URL}/rewards/goldenWheelItems`, {
+    const request = await fetch(`${this.client.options.http.api.core}/rewards/goldenWheelItems`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -201,7 +200,7 @@ class ClientPlayer extends Player {
    * @returns {Object<Array>}
    */
   async fetchChallenges() {
-    const request = await fetch(`${CORE_API_URL}/challenges/v2`, {
+    const request = await fetch(`${this.client.options.http.api.core}/challenges/v2`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });

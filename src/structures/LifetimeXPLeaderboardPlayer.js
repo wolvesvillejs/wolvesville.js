@@ -1,9 +1,18 @@
 const XPLeaderboardPlayer = require('./XPLeaderboardPlayer');
 
+/**
+ * Lifetime xp leaderboard player.
+ * @extends {XPLeaderboardPlayer}
+ */
 class LifetimeXPLeaderboardPlayer extends XPLeaderboardPlayer {
   constructor(client, data) {
     super(client, data);
-    this.oldRank = data.oldRank + 1;
+
+    /**
+     * Old player rank in leaderboard.
+     * @type {number}
+     */
+    this.oldRank = data.oldRank;
   }
 }
 

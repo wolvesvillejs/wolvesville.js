@@ -2,7 +2,6 @@ const Clan = require('./Clan');
 const ClanChatManager = require('../managers/ClanChatManager');
 const AvailableClanQuests = require('./AvailableClanQuests');
 const ActiveClanQuest = require('./ActiveClanQuest');
-const { CORE_API_URL } = require('../util/Constants');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -38,7 +37,7 @@ class ClientClan extends Clan {
    * @returns {Promise<ActiveClanQuest>}
    */
   async fetchActiveQuest() {
-    const request = await fetch(`${CORE_API_URL}/clanQuests/active`, {
+    const request = await fetch(`${this.client.options.http.api.core}/clanQuests/active`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -53,7 +52,7 @@ class ClientClan extends Clan {
    * @returns {Promise<AvailableClanQuests>}
    */
   async fetchAvailableQuests() {
-    const request = await fetch(`${CORE_API_URL}/clanQuests/available`, {
+    const request = await fetch(`${this.client.options.http.api.core}/clanQuests/available`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
