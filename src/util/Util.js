@@ -19,6 +19,8 @@ class Util {
         given[key] = Util.mergeDefault(def[key], given[key]);
       }
     }
+
+    return given;
   }
 
 }
