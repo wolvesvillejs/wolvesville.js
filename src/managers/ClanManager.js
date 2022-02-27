@@ -62,7 +62,7 @@ class ClanManager extends BaseManager {
     return new ClientClan(this.client, response);
   }
 
-  async fetchLeaderboard({ onlyOpen } = { onlyOpen: false }) {
+  async query({ onlyOpen } = { onlyOpen: false }) {
     if(typeof onlyOpen !== 'boolean') throw new Error('OPTION_MUST_BE_A_BOOLEAN');
     const request = await fetch(`${this.client.options.http.api.core}/clans/v2/ranking?onlyOpen=${onlyOpen}`, {
       method: 'GET',

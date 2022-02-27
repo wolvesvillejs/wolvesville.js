@@ -1,11 +1,23 @@
 const Base = require('./Base');
-const Clan = require('./Clan');
+const QueriedClan = require('./QueriedClan');
+const { Collection } = require('@discordjs/collection');
 
 class ClanSearcher extends Base {
   constructor(client, data) {
     super(client);
-    this.entries = data.map(clan => new Clan(client, { clan }));
-    this.foundCount = data.length;
+
+    /**
+     * Clans.
+     * @type {Collection<string, Clan>}
+     */
+    this.clans = new Collection();
+
+    for (const clan of data) {
+      this.clans.set(
+        clan.id,
+        new QueriedClan(client, { clan })
+      );
+    }
   }
 }
 
