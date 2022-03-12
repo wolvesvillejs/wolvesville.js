@@ -5,17 +5,20 @@ const ClientClan = require('../structures/ClientClan');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
+/**
+ * Manages API methods for Clans.
+ */
 class ClanManager extends BaseManager {
   constructor(client) {
     super(client);
   }
 
   /**
-   * Fetch clan by member id.
+   * Fetch clan by player id.
    * @returns {Clan}
    */
-  async fetchByMemberId(id) {
-    if(!id || typeof id !== 'string' || !Number.isInteger(id)) throw new Error('INVALID_CLAN_MEMBER_ID_FORMAT');
+  async fetchByPlayerId(id) {
+    if(!id || typeof id !== 'string' || !Number.isInteger(id)) throw new Error('INVALID_CLAN_PLAYER_ID_FORMAT');
     const request = await fetch(`${this.client.options.http.api.core}/clans/byPlayer?playerId=${id}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
@@ -24,30 +27,10 @@ class ClanManager extends BaseManager {
     return new Clan(this.client, response);
   }
 
-  async #fetchMinimalByName(name) {
-    if(!name || typeof name !== 'string') throw new Error('INVALID_CLAN_NAME_FORMAT');
-    const request = await fetch(`${this.client.options.http.api.core}/clans/v2/search?name=${name}`, {
-      method: 'GET',
-      headers: getAuthenticationHeaders(this.client.token)
-    });
-    return await request.json();
-  }
-
   /**
-   * Fetch clan by name.
+   * Fetch clan by id.
    * @returns {Clan}
    */
-  async fetchByName(name) {
-    const response = await this.#fetchMinimalByName(name);
-    if(!response.find(c => c.name === name)) throw new Error('CLAN_NOT_FOUND');
-    return await this.fetchById(response.find(clan => clan.name === name).id);
-  }
-
-  async fetchSeveralByName(name) {
-    const response = await this.#fetchMinimalByName(name);
-    return new ClanQuerier(this.client, response);
-  }
-
   async fetchById(id) {
     if(!id || typeof id !== 'string') throw new Error('INVALID_CLAN_ID_FORMAT');
     const request = await fetch(`${this.client.options.http.api.core}/clans/${id}`, {
@@ -61,7 +44,7 @@ class ClanManager extends BaseManager {
 
   /**
    * Fetch client player clan.
-   * @returns {Clan}
+   * @returns {ClientClan}
    */
   async fetchOwn() {
     const request = await fetch(`${this.client.options.http.api.core}/clans/myClan`, {
@@ -74,28 +57,48 @@ class ClanManager extends BaseManager {
   }
 
   /**
+   * Options for {@link Client#query}.
+   * @typedef {Object} ClanQueryingOptions
+   * @property {string} searchType What to query
+   * @property {number} levelMin Minimum required level of clans
+   * @property {number} levelMax Maximum required level of clans
+   * @property {string} language Clans language
+   * @property {string} joinType Clans join type
+   * @property {boolean} notFull Whether to query only non-full clans
+   */
+
+  /**
    * Query clans.
+   * @param {string} name Clan name to query
+   * @param {ClanQueryingOptions} options Query options
+   * @param {string} sorting Query order
    * @returns {ClanQuerier}
    */
-  async query(options) {
+  async query(name, options = {}, sorting) {
 
     var params = '';
 
-    if(options.name) {
-      if(typeof options.name !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
-      params += `?name=${options.name || ''}`;
-    }
+    if(name && typeof name !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
+    params += `?name=${name || ''}`;
 
-    if(options.levelMax) {
-      if(options.levelMax < 1 || options.levelMax > 100) throw new Error('OPTION_VALUE_OUT_OF_RANGE');
-      if(options.levelMin && options.levelMin > options.levelMax) throw new Error('INVALID_OPTION_VALUES');
-      params += `&minLevelMax=${options.levelMax}`;
+    if(options.searchType) {
+      if(typeof options.searchType !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
+      if(['exactName', 'tag'].includes(options.searchType)) throw new Error('INVALID_OPTION_VALUE');
+      params += `&searchType=${options.searchType}`;
     }
 
     if(options.levelMin) {
+      if(typeof options.levelMin !== 'number') throw new Error('OPTION_VALUE_MUST_BE_A_NUMBER');
       if(options.levelMin < 1 || options.levelMin > 100) throw new Error('OPTION_VALUE_OUT_OF_RANGE');
       if(options.levelMax && options.levelMin > options.levelMax) throw new Error('INVALID_OPTION_VALUES');
-      params += `&minLevelMax=${options.levelMin}`;
+      params += `&minLevelMin=${options.levelMin}`;
+    }
+
+    if(options.levelMax) {
+      if(typeof options.levelMax !== 'number') throw new Error('OPTION_VALUE_MUST_BE_A_NUMBER');
+      if(options.levelMax < 1 || options.levelMax > 100) throw new Error('OPTION_VALUE_OUT_OF_RANGE');
+      if(options.levelMin && options.levelMin > options.levelMax) throw new Error('INVALID_OPTION_VALUES');
+      params += `&minLevelMax=${options.levelMax}`;
     }
 
     if(options.language) {
@@ -109,7 +112,7 @@ class ClanManager extends BaseManager {
         'sg', 'si', 'sk', 'so', 'sr', 'sy', 'th', 'tr', 'tw', 'ua', 'ug', 'us',
         'uy', 'va', 'vi', 'vn', 'ye', 'za', 'olympics', 'united-nations',
         'wales', 'en', 'ms', 'cs'].includes(options.language)) throw new Error('INVALID_OPTION_VALUE');
-      params += `&language=${options.language}`;
+      params += `&language=${options.language.toUpperCase()}`;
     }
 
     if(options.joinType) {
@@ -117,14 +120,14 @@ class ClanManager extends BaseManager {
       params += `&joinType=${options.joinType}`;
     }
 
-    if(options.sortBy) {
-      if(!['XP', 'CREATION_TIME', 'QUEST_HISTORY_COUNT', 'NAME', 'MIN_LEVEL'].includes(options.sortBy)) throw new Error('INVALID_OPTION_VALUE');
-      params += `&sortBy=${options.sortBy}`;
-    }
-
     if(options.notFull) {
       if(typeof options.notFull !== 'boolean') throw new Error('OPTION_VALUE_MUST_BE_A_BOOLEAN');
       params += `&notFull=${options.notFull}`;
+    }
+
+    if(sorting) {
+      if(!['XP', 'CREATION_TIME', 'QUEST_HISTORY_COUNT', 'NAME', 'MIN_LEVEL'].includes(sorting)) throw new Error('INVALID_OPTION_VALUE');
+      params += `&sortBy=${sorting}`;
     }
 
     const request = await fetch(`${this.client.options.http.api.core}/clans/v2/searchAdvanced${params}`, {
