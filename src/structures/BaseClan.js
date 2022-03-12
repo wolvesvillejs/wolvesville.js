@@ -48,7 +48,7 @@ class BaseClan extends Base {
      * Clan language.
      * @type {string}
      */
-    this.locale = data.clan.language;
+    this.language = data.clan.language.toLowerCase();
 
     /**
      * Clan icon.

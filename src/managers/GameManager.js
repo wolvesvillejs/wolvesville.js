@@ -8,10 +8,10 @@ class GameManager extends BaseManager {
     super(client);
   }
 
-  async fetchCustom(locale) {
-    if(!locale || typeof locale !== 'string') throw new Error('INVALID_LOCALE_FORMAT');
-    if(!['en', 'de', 'fr', 'tr', 'pt', 'th', 'nl', 'es', 'ru', 'vi', 'it', 'ms' ,'ro', 'cs'].includes(locale)) throw new Error('INCORRECT_LOCALE');
-    const request = await fetch(`${this.client.options.http.api.game}/api/public/game/custom?language=${locale}`, {
+  async fetchCustom(language) {
+    if(!language || typeof language !== 'string') throw new Error('INVALID_LANGUAGE_FORMAT');
+    if(!['en', 'de', 'fr', 'tr', 'pt', 'th', 'nl', 'es', 'ru', 'vi', 'it', 'ms' ,'ro', 'cs'].includes(language)) throw new Error('INCORRECT_LANGUAGE');
+    const request = await fetch(`${this.client.options.http.api.game}/api/public/game/custom?language=${language}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });

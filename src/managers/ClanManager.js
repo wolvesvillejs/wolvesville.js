@@ -1,6 +1,5 @@
 const BaseManager = require('./BaseManager');
 const ClanQuerier = require('../structures/ClanQuerier');
-const ClanLeaderboard = require('../structures/ClanLeaderboard');
 const Clan = require('../structures/Clan');
 const ClientClan = require('../structures/ClientClan');
 const { getAuthenticationHeaders } = require('../util/Headers');
@@ -80,54 +79,55 @@ class ClanManager extends BaseManager {
    */
   async query(options) {
 
-    const params = '';
+    var params = '';
 
-    if(onlyOpen && typeof onlyOpen !== 'boolean' || notFull && typeof notFull !== 'boolean') throw new Error('AN_OPTION_MUST_BE_A_BOOLEAN');
-    if(typeof onlyOpen !== 'boolean' || typeof notFull !== 'boolean') throw new Error('AN_OPTION_MUST_BE_A_BOOLEAN');
+    if(options.name) {
+      if(typeof options.name !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
+      params += `?name=${options.name || ''}`;
+    }
 
-    if(options.levelMax && options.levelMax >= 1 && options.levelMax <= 100) {
+    if(options.levelMax) {
+      if(options.levelMax < 1 || options.levelMax > 100) throw new Error('OPTION_VALUE_OUT_OF_RANGE');
+      if(options.levelMin && options.levelMin > options.levelMax) throw new Error('INVALID_OPTION_VALUES');
       params += `&minLevelMax=${options.levelMax}`;
-    } else if(options.levelMax) {
-      throw new Error('INVALID_OPTION_VALUE');
     }
 
-    if(options.levelMin && options.levelMin >= 1 && options.levelMin <= 100) {
-      params += `&minLevelMin=${options.levelMin}`;
-    } else if(options.levelMin) {
-      throw new Error('INVALID_OPTION_VALUE');
+    if(options.levelMin) {
+      if(options.levelMin < 1 || options.levelMin > 100) throw new Error('OPTION_VALUE_OUT_OF_RANGE');
+      if(options.levelMax && options.levelMin > options.levelMax) throw new Error('INVALID_OPTION_VALUES');
+      params += `&minLevelMax=${options.levelMin}`;
     }
 
-    if(options.language && ['aq', 'ar', 'at', 'au', 'ax', 'az', 'be', 'bg', 'bh', 'bm', 'bn', 'br', 'bs', 'bw', 'by', 'ca', 'cd', 'cf', 'ch', 'ck', 'cl', 'cn', 'co', 'cr', 'cy', 'cz', 'de', 'dk', 'do', 'dz', 'ee', 'es', 'eu', 'fi', 'fj', 'fr', 'gb', 'gn', 'gr', 'gt', 'hk', 'hr', 'hu', 'id', 'ie', 'il', 'im', 'in', 'is', 'it', 'jm', 'jp', 'kh', 'kp', 'kr', 'kw', 'kz', 'la', 'lr', 'lt', 'lu', 'ma', 'md', 'mn', 'mx', 'my', 'nc', 'nl', 'no', 'np', 'nz', 'pa', 'pe', 'ph', 'pk', 'pl', 'ps', 'pt', 'py', 'ro', 'rs', 'ru', 'se', 'sg', 'si', 'sk', 'so', 'sr', 'sy', 'th', 'tr', 'tw', 'ua', 'ug', 'us', 'uy', 'va', 'vi', 'vn', 'ye', 'za', 'olympics', 'united-nations', 'wales', 'en', 'ms', 'cs'].includes(options.language)) {
+    if(options.language) {
+      if(!['aq', 'ar', 'at', 'au', 'ax', 'az', 'be', 'bg', 'bh', 'bm', 'bn',
+        'br', 'bs', 'bw', 'by', 'ca', 'cd', 'cf', 'ch', 'ck', 'cl', 'cn', 'co',
+        'cr', 'cy', 'cz', 'de', 'dk', 'do', 'dz', 'ee', 'es', 'eu', 'fi', 'fj',
+        'fr', 'gb', 'gn', 'gr', 'gt', 'hk', 'hr', 'hu', 'id', 'ie', 'il', 'im',
+        'in', 'is', 'it', 'jm', 'jp', 'kh', 'kp', 'kr', 'kw', 'kz', 'la', 'lr',
+        'lt', 'lu', 'ma', 'md', 'mn', 'mx', 'my', 'nc', 'nl', 'no', 'np', 'nz',
+        'pa', 'pe', 'ph', 'pk', 'pl', 'ps', 'pt', 'py', 'ro', 'rs', 'ru', 'se',
+        'sg', 'si', 'sk', 'so', 'sr', 'sy', 'th', 'tr', 'tw', 'ua', 'ug', 'us',
+        'uy', 'va', 'vi', 'vn', 'ye', 'za', 'olympics', 'united-nations',
+        'wales', 'en', 'ms', 'cs'].includes(options.language)) throw new Error('INVALID_OPTION_VALUE');
       params += `&language=${options.language}`;
-    } else if(options.language) {
-      throw new Error('INVALID_OPTION_VALUE');
     }
 
-    if(options.joinType && ['PUBLIC', 'JOIN_BY_REQUEST', 'PRIVATE'].includes(options.joinType)) {
+    if(options.joinType) {
+      if(!['PUBLIC', 'JOIN_BY_REQUEST', 'PRIVATE'].includes(options.joinType)) throw new Error('INVALID_OPTION_VALUE');
       params += `&joinType=${options.joinType}`;
-    } else if(options.joinType) {
-      throw new Error('INVALID_OPTION_VALUE');
     }
 
-    if(options.searchType) {
-      params += `&searchType=${options.searchType}`;
-    } else if(options.searchType) {
-      throw new Error('INVALID_OPTION_VALUE');
-    }
-
-    if(options.sortBy && ['XP', 'CREATION_TIME', 'QUEST_HISTORY_COUNT', 'NAME', 'MIN_LEVEL'].includes(options.sortBy)) {
+    if(options.sortBy) {
+      if(!['XP', 'CREATION_TIME', 'QUEST_HISTORY_COUNT', 'NAME', 'MIN_LEVEL'].includes(options.sortBy)) throw new Error('INVALID_OPTION_VALUE');
       params += `&sortBy=${options.sortBy}`;
-    } else if(options.sortBy) {
-      throw new Error('INVALID_OPTION_VALUE');
     }
 
-    if(options.notFull && typeof options.notFull !== 'boolean') {
-      params += `&notFull=true`;
-    } else if(options.notFull) {
-      throw new Error('OPTION_VALUE_MUST_BE_A_BOOLEAN');
+    if(options.notFull) {
+      if(typeof options.notFull !== 'boolean') throw new Error('OPTION_VALUE_MUST_BE_A_BOOLEAN');
+      params += `&notFull=${options.notFull}`;
     }
 
-    const request = await fetch(`${this.client.options.http.api.core}/clans/v2/ranking?onlyOpen=${options.onlyOpen || false}`), {
+    const request = await fetch(`${this.client.options.http.api.core}/clans/v2/searchAdvanced${params}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
