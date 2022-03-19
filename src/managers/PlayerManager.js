@@ -33,7 +33,6 @@ class PlayerManager extends BaseManager {
    * Fetch a player by its username.
    * @param {string} username Player username
    * @returns {Player|ClientPlayer}
-   * @private
    */
   async fetchByUsername(username) {
     const response = await this.#fetchMinimalByUsername(username);
@@ -44,7 +43,6 @@ class PlayerManager extends BaseManager {
    * Fetch a player by its username.
    * @param {string} id Player id
    * @returns {Player|ClientPlayer}
-   * @private
    */
   async fetchById(id) {
     const request = await fetch(`${this.client.options.http.api.core}/players/${id}`, {
