@@ -4,7 +4,7 @@ const { Collection } = require('@discordjs/collection');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
-class FriendsManager extends BaseManager {
+class FriendManager extends BaseManager {
   constructor(client) {
     super(client);
   }
@@ -36,4 +36,4 @@ class FriendsManager extends BaseManager {
 
 }
 
-module.exports = FriendsManager;
+module.exports = FriendManager;
