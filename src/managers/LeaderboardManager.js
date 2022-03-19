@@ -8,6 +8,10 @@ const RankedLeaderboard = require('../structures/RankedLeaderboard');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
+/**
+ * Manages API methods for Leaderboards.
+ * @extends {BaseManager}
+ */
 class LeaderboardManager extends BaseManager {
   constructor(client) {
     super(client);

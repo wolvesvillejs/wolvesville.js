@@ -3,11 +3,19 @@ const CustomGame = require('../structures/CustomGame');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
+/**
+ * Manages API methods for games.
+ * @extends {BaseManager}
+ */
 class GameManager extends BaseManager {
   constructor(client) {
     super(client);
   }
 
+  /**
+   * Fetch custom game lobbies.
+   * @returns {Array<CustomGame>}
+   */
   async fetchCustom(language) {
     if(!language || typeof language !== 'string') throw new Error('INVALID_LANGUAGE_FORMAT');
     if(!['en', 'de', 'fr', 'tr', 'pt', 'th', 'nl', 'es', 'ru', 'vi', 'it', 'ms' ,'ro', 'cs'].includes(language)) throw new Error('INCORRECT_LANGUAGE');

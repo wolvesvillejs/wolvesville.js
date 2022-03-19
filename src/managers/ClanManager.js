@@ -7,6 +7,7 @@ const fetch = require('node-fetch');
 
 /**
  * Manages API methods for Clans.
+ * @extends {BaseManager}
  */
 class ClanManager extends BaseManager {
   constructor(client) {

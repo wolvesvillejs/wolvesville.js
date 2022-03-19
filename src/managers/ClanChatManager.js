@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 
 /**
  * Manages API methods for ClanChatMessages.
+ * @extends {BaseManager}
  */
 class ClanChatManager extends BaseManager {
   constructor(client) {
