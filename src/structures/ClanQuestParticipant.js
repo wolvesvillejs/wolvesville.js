@@ -1,10 +1,10 @@
-const Base = require('./Base');
+const BasePlayer = require('./BasePlayer');
 
 /**
  * Represents a quest participant.
- * @extends {Base}
+ * @extends {BasePlayer}
  */
-class ClanQuestParticipant extends Base {
+class ClanQuestParticipant extends BasePlayer {
   constructor(client, data) {
     super(client);
 
@@ -26,16 +26,6 @@ class ClanQuestParticipant extends Base {
      */
     this.xp = data.xp;
   }
-
-
-  /**
-   * Fetch the participant.
-   * @returns {Promise<Player|ClientPlayer>}
-   */
-  async fetch() {
-    return await this.client.players.fetchById(this.id);
-  }
-
 }
 
 module.exports = ClanQuestParticipant;
