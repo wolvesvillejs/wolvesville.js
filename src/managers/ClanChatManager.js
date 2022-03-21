@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 
 /**
  * Manages API methods for ClanChatMessages.
+ * @extends {BaseManager}
  */
 class ClanChatManager extends BaseManager {
   constructor(client) {
@@ -13,10 +14,17 @@ class ClanChatManager extends BaseManager {
 
   /**
    * Obtains one or multiple messages.
+   * @param {string} timestamp Date of messages around
    * @returns {Array<ClanChatMessage>}
    */
-  async fetchMessages() {
-    const request = await fetch(`${this.client.options.http.api.core}/clans/chat/v2`, {
+  async fetchMessages(timestamp) {
+
+    if(timestamp) {
+      const date = new Date(timestamp);
+      if(isNaN(date) || timestamp !== date.toISOString()) throw new Error('INVALID_TIMESTAMP');
+    }
+
+    const request = await fetch(`${this.client.options.http.api.core}/clans/chat/v2${timestamp ? `?oldest=${timestamp}` : ''}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });

@@ -61,13 +61,10 @@ class Friend extends BasePlayer {
     this.favourite = data.favourite;
   }
 
-  /**
-   * Fetch the friend.
-   * @returns {Player}
-   */
-  async fetch() {
-    return await this.client.players.fetchById(this.id);
+  get online() {
+    return new Date(this.lastOnlineTimestamp).getTime() + 10 * 60 * 1000 > Date.now();
   }
+
 }
 
 module.exports = Friend;

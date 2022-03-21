@@ -46,9 +46,9 @@ class Player extends BasePlayer {
 
     /**
      * Player personal message.
-     * @type {string}
+     * @type {?string}
      */
-    this.personalMessage = data.personalMsg;
+    this.personalMessage = data.personalMsg || null;
 
     /**
      * Number of roses the player received.
@@ -103,9 +103,9 @@ class Player extends BasePlayer {
         return role;
       }),
       ranked: {
-        seasonSkill: data.seasonSkill,
-        seasonSkillRecord: data.seasonMaxSkill,
-        seasonFinalRankRecord: data.seasonBestRank,
+        seasonSkill: data.seasonSkill !== -1 ? data.seasonSkill : null,
+        seasonSkillRecord: data.seasonMaxSkill !== -1 ? data.seasonMaxSkill : null,
+        seasonFinalRankRecord: data.seasonBestRank !== -1 ? data.seasonBestRank : null,
         seasonPlayedCount: data.seasonPlayedCount
       }
     }
@@ -119,10 +119,6 @@ class Player extends BasePlayer {
       clanChatNotificationsDisabled: data.notificationsDisabledClanChat,
       clanActionNotificationsDisabled: data.notificationsDisabledClanActions
     }
-  }
-
-  async fetch() {
-    return await this.client.players.fetchById(this.id);
   }
 
   async fetchClan() {
@@ -161,6 +157,10 @@ class Player extends BasePlayer {
 
   get clanTagAndUsername() {
     return this.clanTag ? this.clanTag + '|' + this.username : this.username;
+  }
+
+  get online() {
+    return new Date(this.lastOnlineTimestamp).getTime() + 10 * 60 * 1000 > Date.now();
   }
 
   get wonGameCount() {

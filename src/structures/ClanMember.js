@@ -1,10 +1,10 @@
-const Base = require('./Base');
+const BasePlayer = require('./BasePlayer');
 
 /**
  * Represents a clan member.
- * @extends {Base}
+ * @extends {BasePlayer}
  */
-class ClanMember extends Base {
+class ClanMember extends BasePlayer {
   constructor(client, data) {
     super(client);
 
@@ -65,15 +65,6 @@ class ClanMember extends Base {
      */
     this.rank = this.id === data.clan.leaderId ? 2 : data.coLeader ? 1 : 0;
   }
-
-  /**
-   * Fetch the member.
-   * @returns {Promise<Player|ClientPlayer>}
-   */
-  async fetch() {
-    return await this.client.players.fetchById(this.id);
-  }
-
 }
 
 module.exports = ClanMember;

@@ -1,10 +1,10 @@
-const Base = require('./Base');
+const BasePlayer = require('./BasePlayer');
 
 /**
- * Clan chat message author.
+ * Represents a clan chat message author.
  * @extends {Base}
  */
-class ClanChatMessageAuthor extends Base {
+class ClanChatMessageAuthor extends BasePlayer {
   constructor(client, data) {
     super(client);
 
@@ -14,11 +14,6 @@ class ClanChatMessageAuthor extends Base {
      */
     this.id = data.id;
   }
-
-  async fetch() {
-    return await this.client.players.fetchById(this.id);
-  }
-
 }
 
 module.exports = ClanChatMessageAuthor;

@@ -1,10 +1,10 @@
-const Base = require('./Base');
+const BasePlayer = require('./BasePlayer');
 
 /**
  * Represents a gift recipient.
- * @extends {Base}
+ * @extends {BasePlayer}
  */
-class GiftRecipient extends Base {
+class GiftRecipient extends BasePlayer {
   constructor(client, data) {
     super(client);
 
@@ -14,15 +14,6 @@ class GiftRecipient extends Base {
      */
     this.username = data.recipientUsername;
   }
-
-  /**
-   * Fetch the recipient.
-   * @returns {Player}
-   */
-  async fetch() {
-    return this.client.players.fetchByUsername(this.username);
-  }
-
 }
 
 module.exports = GiftRecipient;

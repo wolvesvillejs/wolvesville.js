@@ -1,3 +1,6 @@
+/**
+ * Manages the API methods of a data model.
+ */
 class BaseManager {
   constructor(client) {
     /**

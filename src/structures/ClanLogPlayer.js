@@ -1,19 +1,20 @@
 const BasePlayer = require('./BasePlayer');
 
 /**
- * Represents a gift sender.
+ * Represents a player of a clan log.
  * @extends {BasePlayer}
  */
-class GiftSender extends BasePlayer {
+class ClanLogPlayer extends BasePlayer {
   constructor(client, data) {
     super(client);
 
     /**
-     * Sender username.
+     * Field player.
      * @type {string}
      */
-    this.username = data.senderUsername;
+    this.username = data.username;
   }
+
 }
 
-module.exports = GiftSender;
+module.exports = ClanLogPlayer;

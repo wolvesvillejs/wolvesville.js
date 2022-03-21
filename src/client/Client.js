@@ -95,7 +95,7 @@ class Client extends BaseClient {
     this.token = response.idToken;
     this.refreshToken = response.refreshToken;
     this.lastTokenRefreshTimestamp = new Date().toISOString();
-    this.upper = setInterval(() => this.tokenRefresh(), 55 * 60 * 1000);
+    this.upper = setInterval(() => this.tokenRefresh(), this.options.tokenRefreshInterval);
     return this;
   }
 

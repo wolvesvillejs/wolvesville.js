@@ -1,7 +1,7 @@
 const Base = require('./Base');
 
 /**
- * Leaderboard player.
+ * Represents a player in leaderboard.
  * @extends {Base}
  */
 class LeaderboardPlayer extends Base {
