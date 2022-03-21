@@ -1,4 +1,4 @@
-const BaseManager = require('./BaseManager');
+const CacheManager = require('./CacheManager');
 const Player = require('../structures/Player');
 const ClientPlayer = require('../structures/ClientPlayer');
 const { getAuthenticationHeaders } = require('../util/Headers');
@@ -8,7 +8,7 @@ const fetch = require('node-fetch');
  * Manages API methods for Players.
  * @extends {BaseManager}
  */
-class PlayerManager extends BaseManager {
+class PlayerManager extends CacheManager {
   constructor(client) {
     super(client);
   }
@@ -42,16 +42,23 @@ class PlayerManager extends BaseManager {
   /**
    * Fetch a player by its username.
    * @param {string} id Player id
+   * @param {Object} [options={}] Options
    * @returns {Player|ClientPlayer}
    */
-  async fetchById(id) {
+  async fetchById(id, options = {}) {
+
+    if(!options.force) {
+      const existing = this.cache.get(id);
+      if(existing) return existing;
+    }
+
     const request = await fetch(`${this.client.options.http.api.core}/players/${id}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
     if(request.status === 204) throw new Error('PLAYER_NOT_FOUND');
     const response = await request.json();
-    return response.xpTotal ? new ClientPlayer(this.client, response) : new Player(this.client, response);
+    return this._add(response.xpTotal ? new ClientPlayer(this.client, response) : new Player(this.client, response));
   }
 
 }
