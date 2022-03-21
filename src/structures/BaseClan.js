@@ -84,6 +84,10 @@ class BaseClan extends Base {
     this.startedQuestCount = data.clan.questHistoryCount;
   }
 
+  /**
+   * Fetch the clan.
+   * @returns {Clan}
+   */
   async fetch() {
     return await this.client.clans.fetchById(this.id);
   }

@@ -2,6 +2,10 @@ const Base = require('./Base');
 const QueriedClan = require('./QueriedClan');
 const { Collection } = require('@discordjs/collection');
 
+/**
+ * Represents a clan querier.
+ * @extends {Base}
+ */
 class ClanQuerier extends Base {
   constructor(client, data) {
     super(client);

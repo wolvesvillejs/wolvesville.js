@@ -15,7 +15,7 @@ class FriendManager extends BaseManager {
 
   /**
    * Fetch friends.
-   * @returns {Clan}
+   * @returns {Collection<string, Friend>}
    */
   async fetch() {
     const request = await fetch(`${this.client.options.http.api.core}/friends`, {
@@ -33,6 +33,10 @@ class FriendManager extends BaseManager {
     return fetchedFriends;
   }
 
+  /**
+   * Fetch friend requests.
+   * @returns {Object}
+   */
   async fetchRequests() {
     const request = await fetch(`${this.client.options.http.api.core}/friendRequests/pending`, {
       method: 'GET',

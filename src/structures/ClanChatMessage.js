@@ -2,7 +2,7 @@ const Base = require('./Base');
 const ClanChatMessageAuthor = require('./ClanChatMessageAuthor');
 
 /**
- * Clan chat message.
+ * Represents a clan chat message.
  * @extends {Base}
  */
 class ClanChatMessage extends Base {
