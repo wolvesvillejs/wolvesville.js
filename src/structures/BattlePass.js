@@ -1,6 +1,5 @@
 const Base = require('./Base');
 const BattlePassReward = require('./BattlePassReward.js');
-const { Collection } = require('@discordjs/collection');
 
 /**
  * Represents a battle pass.
@@ -50,18 +49,13 @@ class BattlePass extends Base {
      * Battle pass rewards.
      * @type {Collection<string, BattlePassReward>}
      */
-     this.rewards = new Collection();
-
-     for (const index in data.battlePassSeason.rewards) {
-       const reward = data.battlePassSeason.rewards[index];
-       this.rewards.set(
-         index,
-         new BattlePassReward(client, Object.assign(reward, {
-           tier: data.battlePassSeason.rewards.indexOf(reward),
-           claimed: data.battlePassSeason.rewards.indexOf(reward) <= this.tier ? true : false
-         }))
-       );
-     }
+     this.rewards = data.battlePassSeason.rewards.map((_, tier) => {
+       const reward = data.battlePassSeason.rewards[tier];
+       return new BattlePassReward(client, Object.assign(reward, {
+         tier: data.battlePassSeason.rewards.indexOf(reward),
+         claimed: data.battlePassSeason.rewards.indexOf(reward) <= this.tier ? true : false
+       }));
+     });
 
      /**
       * Battle pass duration.
