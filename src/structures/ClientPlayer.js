@@ -250,6 +250,19 @@ class ClientPlayer extends Player {
     return response.map(gift => new ReceivedGift(this.client, gift));
   }
 
+  /**
+   * Fetch friend requests.
+   * @returns {Object}
+   */
+  async fetchFriendRequests() {
+    const request = await fetch(`${this.client.options.http.api.core}/friendRequests/pending`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return response;
+  }
+
 }
 
 module.exports = ClientPlayer;
