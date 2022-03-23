@@ -1,7 +1,8 @@
-const BaseManager = require('./BaseManager');
+const CacheManager = require('./CacheManager');
 const ClanQuerier = require('../structures/ClanQuerier');
 const Clan = require('../structures/Clan');
 const ClientClan = require('../structures/ClientClan');
+const { isUUID } = require('../util/Util');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -9,52 +10,78 @@ const fetch = require('node-fetch');
  * Manages API methods for Clans.
  * @extends {BaseManager}
  */
-class ClanManager extends BaseManager {
+class ClanManager extends CacheManager {
   constructor(client) {
     super(client);
   }
 
   /**
    * Fetch clan by player id.
+   * @param {string} id Player id
+   * @param {Object} [options={}] Options
    * @returns {Clan}
    */
-  async fetchByPlayerId(id) {
-    if(!id || typeof id !== 'string' || !Number.isInteger(id)) throw new Error('INVALID_CLAN_PLAYER_ID_FORMAT');
+  async fetchByPlayerId(id, options = {}) {
+
+    if(!options.force) {
+      const existing = this.cache.get(id);
+      if(existing) return existing;
+    }
+
+    if(!id || typeof id !== 'string' || !isUUID(id)) throw new Error('INVALID_PLAYER_ID_FORMAT');
     const request = await fetch(`${this.client.options.http.api.core}/clans/byPlayer?playerId=${id}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
+    if(request.status === 204) throw new Error('PLAYER_OR_CLAN_NOT_FOUND');
     const response = await request.json();
-    return new Clan(this.client, response);
-  }
 
   /**
    * Fetch clan by id.
+   * @param {string} id Clan id
+   * @param {Object} [options={}] Options
    * @returns {Clan}
    */
-  async fetchById(id) {
-    if(!id || typeof id !== 'string') throw new Error('INVALID_CLAN_ID_FORMAT');
+  async fetchById(id, options = {}) {
+
+    if(!options.force) {
+      const existing = this.cache.get(id);
+      if(existing) return existing;
+    }
+
+    if(!id || typeof id !== 'string' !isUUID(id)) throw new Error('INVALID_CLAN_ID_FORMAT');
     const request = await fetch(`${this.client.options.http.api.core}/clans/${id}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
     if(request.status === 204) throw new Error('CLAN_NOT_FOUND');
     const response = await request.json();
-    return new Clan(this.client, response);
+
+    const data = new Clan(this.client, response);
+    return this._add(data);
   }
 
   /**
    * Fetch client player clan.
+   * @param {Object} [options={}] Options
    * @returns {ClientClan}
    */
-  async fetchOwn() {
+  async fetchOwn(options = {}) {
+
+    if(!options.force) {
+      const existing = this.cache.get(id);
+      if(existing) return existing;
+    }
+
     const request = await fetch(`${this.client.options.http.api.core}/clans/myClan`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
     if(request.status === 204) throw new Error('NOT_IN_A_CLAN');
     const response = await request.json();
-    return new ClientClan(this.client, response);
+
+    const data = new ClientClan(this.client, response);
+    return this._add(data);
   }
 
   /**
