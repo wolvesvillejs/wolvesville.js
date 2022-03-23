@@ -47,7 +47,7 @@ class BattlePass extends Base {
 
     /**
      * Battle pass rewards.
-     * @type {Collection<string, BattlePassReward>}
+     * @type {BattlePassReward[]}
      */
      this.rewards = data.battlePassSeason.rewards.map((_, tier) => {
        const reward = data.battlePassSeason.rewards[tier];
