@@ -46,6 +46,15 @@ class Clan extends BaseClan {
       return this.members.find(member => member.rank === 2);
     }
 
+    /**
+     * Wether the clan is the client clan.
+     * @type {boolean}
+     * @readonly
+     */
+    get own() {
+      return this.constructor.name === 'ClientClan';
+    }
+
 }
 
 module.exports = Clan;
