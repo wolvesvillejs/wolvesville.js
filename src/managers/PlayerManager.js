@@ -58,7 +58,9 @@ class PlayerManager extends CacheManager {
     });
     if(request.status === 204) throw new Error('PLAYER_NOT_FOUND');
     const response = await request.json();
-    return this._add(response.xpTotal ? new ClientPlayer(this.client, response) : new Player(this.client, response));
+
+    const data = response.xpTotal ? new ClientPlayer(this.client, response) : new Player(this.client, response);
+    return this._add(data);
   }
 
 }
