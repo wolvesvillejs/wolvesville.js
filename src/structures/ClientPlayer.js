@@ -211,13 +211,12 @@ class ClientPlayer extends Player {
     }
   }
 
-
   /**
    * Battle pass.
    * @returns {BattlePass}
    */
   async fetchBattlePass() {
-    const request = await fetch(`${CORE_API_URL}/battlePass/seasonAndBattlePass`, {
+    const request = await fetch(`${this.client.options.http.api.core}/battlePass/seasonAndBattlePass`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -230,7 +229,7 @@ class ClientPlayer extends Player {
    * @returns {Array<SentGift>}
    */
   async fetchSentGifts() {
-    const request = await fetch(`${CORE_API_URL}/billing/gifts/sent`, {
+    const request = await fetch(`${this.client.options.http.api.core}/billing/gifts/sent`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
@@ -243,7 +242,7 @@ class ClientPlayer extends Player {
    * @returns {Array<ReceivedGift>}
    */
   async fetchReceivedGifts() {
-    const request = await fetch(`${CORE_API_URL}/billing/gifts/received`, {
+    const request = await fetch(`${this.client.options.http.api.core}/billing/gifts/received`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
