@@ -42,7 +42,7 @@ class Challenge extends Base {
    * @readonly
    */
   get completed() {
-    return this.progress === this.target ? true : false;
+    return this.progress === this.target;
   }
 
 }
