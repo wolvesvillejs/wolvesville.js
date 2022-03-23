@@ -37,8 +37,8 @@ class LeaderboardManager extends BaseManager {
     return new leaderboard(this.client, response);
   }
 
-  async fetchRanked({ offset } = {}) {
-    const request = await fetch(`${this.client.options.http.api.core}/ranked/highScore${!offset ? '/top100' : ''}`, {
+  async fetchRanked(options = {}) {
+    const request = await fetch(`${this.client.options.http.api.core}/ranked/highScore${!options.offset ? '/top100' : ''}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
