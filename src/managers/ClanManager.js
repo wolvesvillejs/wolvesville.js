@@ -53,13 +53,13 @@ class ClanManager extends CacheManager {
       if(existing) return existing;
     }
 
-    if(!id || typeof id !== 'string' !isUUID(id)) throw new Error('INVALID_CLAN_ID_FORMAT');
+    if(!id || typeof id !== 'string' || !isUUID(id)) throw new Error('INVALID_CLAN_ID_FORMAT');
     const request = await fetch(`${this.client.options.http.api.core}/clans/${id}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
     });
-    if(request.status === 204) throw new Error('CLAN_NOT_FOUND');
     const response = await request.json();
+    if(!response.clan) throw new Error('CLAN_NOT_FOUND');
 
     const data = new Clan(this.client, response);
     return this._add(data);
@@ -73,7 +73,7 @@ class ClanManager extends CacheManager {
   async fetchOwn(options = {}) {
 
     if(!options.force) {
-      const existing = this.cache.get(id);
+      const existing = this.cache.find(clan => clan.own);
       if(existing) return existing;
     }
 
@@ -89,7 +89,7 @@ class ClanManager extends CacheManager {
   }
 
   /**
-   * Options for {@link Client#query}.
+   * Options for {@link ClanManager#query}.
    * @typedef {Object} ClanQueryingOptions
    * @property {string} searchType What to query
    * @property {number} levelMin Minimum required level of clans
