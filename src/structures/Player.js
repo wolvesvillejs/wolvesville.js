@@ -64,9 +64,9 @@ class Player extends BasePlayer {
 
     /**
      * Player creation timestamp.
-     * @type {string}
+     * @type {?string}
      */
-    this.creationTimestamp = data.creationTime;
+    this.creationTimestamp = data.creationTime || null;
 
     /**
      * Player last online timestamp.

@@ -23,6 +23,11 @@ class Util {
     return given;
   }
 
+  isUUID(uuid) {
+    const regex = '\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b';
+    return regex.test(uuid);
+  }
+
 }
 
 module.exports = Util;
