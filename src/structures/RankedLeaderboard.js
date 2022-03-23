@@ -18,20 +18,24 @@ class RankedLeaderboard extends Base {
 
     /**
      * Ranked leadeboard.
-     * @type {number}
+     * @type {Collection<string, RankedLeaderboardPlayer>}
      */
     this.entries = new Collection();
 
     for (const index in Object.keys(data.seasonPlayerRanks)) {
       const player = data.seasonPlayerRanks[index];
       this.entries.set(
-        index,
+        player.playerId,
         new RankedLeaderboardPlayer(client, Object.assign(player, {
           rank: parseInt(index)
         }))
       )
     }
 
+    /**
+     * Weather the player is unranked.
+     * @type {boolean}
+     */
     this.unranked = data.unranked;
   }
 }
