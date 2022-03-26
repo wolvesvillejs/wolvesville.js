@@ -10,7 +10,7 @@ class Role extends Base {
     /**
      * Role id.
      */
-    this.id = role.id;
+    this.id = data.id;
   }
 }
 
