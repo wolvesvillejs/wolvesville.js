@@ -2,6 +2,7 @@ const BasePlayer = require('./BasePlayer');
 const AvatarSlot = require('./AvatarSlot');
 const ClanManager = require('../managers/ClanManager');
 const Role = require('./Role');
+const RoleCard = require('./RoleCard');
 const { Collection } = require('@discordjs/collection');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
@@ -152,7 +153,35 @@ class Player extends BasePlayer {
       headers: getAuthenticationHeaders(this.client.token)
     });
     const response = await request.json();
-    return response.ids.length > 0 ? response.ids : null;
+    return response.ids;
+  }
+
+  async fetchRoleCards() {
+    const request = await fetch(`${this.client.options.http.api.core}/roleCards/owned/${!this.own ? this.id : ''}`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+
+    const fetchedRoleCards = new Collection();
+
+    for (const roleCard of response) {
+      fetchedRoleCards.set(
+        roleCard.id,
+        new RoleCard(this.client, roleCard)
+      );
+    }
+
+    return fetchedRoleCards;
+  }
+
+  /**
+   * Wether the player is the client player.
+   * @type {boolean}
+   * @readonly
+   */
+  get own() {
+    return this.constructor.name === 'ClientPlayer';
   }
 
   get clanTagAndUsername() {
