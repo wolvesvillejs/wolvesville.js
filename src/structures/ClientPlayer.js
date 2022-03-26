@@ -1,4 +1,5 @@
 const Player = require('./Player');
+const Role = require('./Role');
 const Inventory = require('./Inventory');
 const EquippedItems = require('./EquippedItems');
 const DailyRewards = require('./DailyRewards');
@@ -44,6 +45,17 @@ class ClientPlayer extends Player {
     this.equippedItems.loadingScreen = {
       id: data.equippedLoadingScreenId
     }
+
+    /**
+     * Role stats.
+     * @type {Role[]}
+     */
+    this.stats.roles = Object.keys(this._roleStats).map(roleId => {
+      const role = new Role(client, { id: roleId });
+      role.loseCount = this._roleStats[roleId].loseCount;
+      role.winCount = this._roleStats[roleId].winCount;
+      return role;
+    })
 
     /**
      * Number of times player was banned.
