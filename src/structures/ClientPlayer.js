@@ -83,6 +83,12 @@ class ClientPlayer extends Player {
      */
     this.options.badgesHidden = data.hideBadges;
 
+    /**
+     * Are role cards hidden to other players.
+     * @type {boolean}
+     */
+    this.options.roleCardsHidden = data.roleCardsArePublic;
+
     if(data.deletionTime) {
       /**
        * Player deletion timestamp.
