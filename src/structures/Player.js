@@ -1,7 +1,6 @@
 const BasePlayer = require('./BasePlayer');
 const AvatarSlot = require('./AvatarSlot');
 const ClanManager = require('../managers/ClanManager');
-const Role = require('./Role');
 const RoleCard = require('./RoleCard');
 const { Collection } = require('@discordjs/collection');
 const { getAuthenticationHeaders } = require('../util/Headers');
@@ -86,23 +85,21 @@ class Player extends BasePlayer {
       }
     }
 
+    Object.defineProperty(this, '_roleStats', { value: data.playerStats.roleStats });
+
     /**
      * Player stats.
      * @type {Object}
      */
     this.stats = {
+      wonGameCount: Object.values(this._roleStats).reduce((t, n) => t + n.winCount, 0),
+      lostGameCount: Object.values(this._roleStats).reduce((t, n) => t + n.loseCount, 0),
       finishedGameCount: data.playerStats.finishedGamesCount,
       gamesSurvivedCount: data.playerStats.gamesSurvivedCount,
       gamesKilledCount: data.playerStats.gamesKilledCount,
       gamesExitedCount: data.playerStats.exitGameAfterDeathCount,
       fledGameCount: data.playerStats.exitGameBySuicideCount,
       minutesPlayedInGame: data.playerStats.totalPlayTimeInMinutes,
-      roles: Object.keys(data.playerStats.roleStats).map(roleId => {
-        const role = new Role(client, { id: roleId });
-        role.loseCount = data.playerStats.roleStats[roleId].loseCount;
-        role.winCount = data.playerStats.roleStats[roleId].winCount;
-        return role;
-      }),
       ranked: {
         seasonSkill: data.seasonSkill !== -1 ? data.seasonSkill : null,
         seasonSkillRecord: data.seasonMaxSkill !== -1 ? data.seasonMaxSkill : null,
@@ -190,14 +187,6 @@ class Player extends BasePlayer {
 
   get online() {
     return new Date(this.lastOnlineTimestamp).getTime() + 10 * 60 * 1000 > Date.now();
-  }
-
-  get wonGameCount() {
-    return Object.values(this.stats.roles).reduce((t, n) => t + n.winCount, 0);
-  }
-
-  get lostGameCount() {
-    return Object.values(this.stats.roles).reduce((t, n) => t + n.loseCount, 0);
   }
 
   get gamesPlayedCount() {
