@@ -6,6 +6,7 @@ const DailyRewards = require('./DailyRewards');
 const ClientClan = require('./ClientClan');
 const Challenge = require('./Challenge');
 const BattlePass = require('./BattlePass');
+const Calendar = require('./Calendar');
 const SentGift = require('./SentGift');
 const ReceivedGift = require('./ReceivedGift');
 const { getAuthenticationHeaders } = require('../util/Headers');
@@ -240,6 +241,19 @@ class ClientPlayer extends Player {
     });
     const response = await request.json();
     return new BattlePass(this.client, response);
+  }
+
+  /**
+   * Fetch calendar.
+   * @returns {BattlePass}
+   */
+  async fetchCalendar() {
+    const request = await fetch(`${this.client.options.http.api.core}/calendars`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return new Calendar(this.client, response[0]);
   }
 
   /**

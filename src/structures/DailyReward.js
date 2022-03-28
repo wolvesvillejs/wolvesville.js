@@ -38,9 +38,9 @@ class DailyReward extends Base {
       this.amount = data.amount;
     }
 
-    if(this.type === 'TALISMAN') {
+    if(['TALISMAN', 'ROLE_CARD'].includes(this.type)) {
       /**
-       * Is an unknown talisman.
+       * Is an unknown item.
        * @type {?boolean}
        */
       this.unknown = data.unknown;

@@ -1,4 +1,6 @@
 const BaseClan = require('./BaseClan');
+const Clan = require('./Clan');
+const ClientClan = require('./ClientClan');
 const ClanMember = require('./ClanMember');
 const ClientClanMember = require('./ClientClanMember');
 const { Collection } = require('@discordjs/collection');
@@ -21,7 +23,7 @@ class Clan extends BaseClan {
       member.clan = data.clan;
       this.members.set(
         member.playerId,
-        this.constructor.name === 'Clan'
+        this.constructor === Clan
           ? new ClanMember(client, member)
           : new ClientClanMember(client, member)
       );
@@ -52,7 +54,7 @@ class Clan extends BaseClan {
      * @readonly
      */
     get own() {
-      return this.constructor.name === 'ClientClan';
+      return this.constructor === ClientClan;
     }
 
 }
