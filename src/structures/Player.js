@@ -120,7 +120,7 @@ class Player extends BasePlayer {
   }
 
   async fetchClan() {
-    return this.constructor.name !== 'ClientPlayer'
+    return this.constructor.name === Player
       ? await this.client.clans.fetchByUsername(this.username)
       : await this.client.clans.fetchOwn();
   }
@@ -178,7 +178,7 @@ class Player extends BasePlayer {
    * @readonly
    */
   get own() {
-    return this.constructor.name === 'ClientPlayer';
+    return this.constructor !== Player;
   }
 
   get clanTagAndUsername() {

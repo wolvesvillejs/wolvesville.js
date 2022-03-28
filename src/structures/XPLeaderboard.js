@@ -1,4 +1,5 @@
 const Base = require('./Base');
+const LifetimeXPLeaderboard = require('./LifetimeXPLeaderboard');
 const XPLeaderboardPlayer = require('./XPLeaderboardPlayer');
 const LifetimeXPLeaderboardPlayer = require('./LifetimeXPLeaderboardPlayer');
 const { Collection } = require('@discordjs/collection');
@@ -19,7 +20,7 @@ class XPLeaderboard extends Base {
 
     for (const index in Object.keys(data.ranks)) {
       const player = data.ranks[index];
-      const leaderboardPlayer = this.constructor.name !== 'LifetimeXPLeaderboard' ? XPLeaderboardPlayer : LifetimeXPLeaderboardPlayer;
+      const leaderboardPlayer = this.constructor !== LifetimeXPLeaderboard ? XPLeaderboardPlayer : LifetimeXPLeaderboardPlayer;
       this.entries.set(
         index,
         new leaderboardPlayer(client, Object.assign(player, {
