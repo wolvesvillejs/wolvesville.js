@@ -1,5 +1,4 @@
 const BaseClan = require('./BaseClan');
-const Clan = require('./Clan');
 const ClientClan = require('./ClientClan');
 const ClanMember = require('./ClanMember');
 const ClientClanMember = require('./ClientClanMember');
