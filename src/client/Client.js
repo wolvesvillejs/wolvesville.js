@@ -129,15 +129,24 @@ class Client extends BaseClient {
 
   /**
    * Fetch player associated to the client.
+   * @param {Object} [options={}] Options
    * @returns {ClientPlayer}
    */
-  async fetchPlayer() {
+  async fetchPlayer(options = {}) {
+
+    if(!options.force) {
+      const existing = this.players.cache.get(id);
+      if(existing) return existing;
+    }
+
     const request = await fetch(`${this.options.http.api.core}/players/me`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.token)
     });
     const response = await request.json();
-    return new ClientPlayer(this, response);
+
+    const data = new ClientPlayer(this, response);
+    return this.players._add(data);
   }
 
 }
