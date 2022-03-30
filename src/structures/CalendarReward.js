@@ -4,7 +4,7 @@ const Base = require('./Base');
  * Represents a calendar reward.
  * @extends {Base}
  */
-class BattlePassReward extends Base {
+class CalendarReward extends Base {
   constructor(client, data) {
     super(client);
     /**
@@ -48,4 +48,4 @@ class BattlePassReward extends Base {
   }
 }
 
-module.exports = BattlePassReward;
+module.exports = CalendarReward;
