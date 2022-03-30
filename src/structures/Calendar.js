@@ -62,4 +62,4 @@ class Calendar extends Base {
 
 }
 
-module.exorts = Calendar;
+module.exports = Calendar;
