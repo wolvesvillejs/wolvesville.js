@@ -56,7 +56,7 @@ class ClientPlayer extends Player {
       role.loseCount = this._roleStats[roleId].loseCount;
       role.winCount = this._roleStats[roleId].winCount;
       return role;
-    })
+    });
 
     /**
      * Number of times player was banned.
@@ -83,6 +83,18 @@ class ClientPlayer extends Player {
       watchedCount: data.watchedVideoAdsCount,
       watchedTodayCount: data.adRewardCount
     }
+
+    /**
+     * Are clan chat notifications disabled
+     * @type {boolean}
+     */
+    this.options.clanChatNotificationsDisabled = data.notificationsDisabledClanChat;
+
+    /**
+     * Are clan action notifications disabled
+     * @type {boolean}
+     */
+    this.options.clanActionNotificationsDisabled = data.notificationsDisabledClanActions;
 
     /**
      * Is receiving clan invites disabled.

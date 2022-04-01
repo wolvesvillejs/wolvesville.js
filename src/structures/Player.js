@@ -113,9 +113,7 @@ class Player extends BasePlayer {
      * @type {Object}
      */
     this.options = {
-      clanTagHidden: data.hideClanTag,
-      clanChatNotificationsDisabled: data.notificationsDisabledClanChat,
-      clanActionNotificationsDisabled: data.notificationsDisabledClanActions
+      clanTagHidden: data.hideClanTag
     }
   }
 
