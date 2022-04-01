@@ -8,7 +8,6 @@ const RoleCardAbility = require('./RoleCardAbility');
 class RoleCard extends Base {
   constructor(client, data) {
     super(client);
-
     /**
      * Card id.
      * @type {string}
@@ -16,16 +15,18 @@ class RoleCard extends Base {
     this.id = data.id;
 
     /**
-     * First role id.
+     * Card role id.
      * @type {string}
      */
-    this.roleId1 = data.roleId1;
+    this.role = data.roleId1;
 
-    /**
-     * First ability id.
-     * @type {string}
-     */
-    this.abilityId1 = data.abilityId1;
+    if(data.roleId2) {
+      /**
+       * Card advanced role id.
+       * @type {string}
+       */
+      this.advancedRole = data.roleId2;
+    }
 
     /**
      * Card rarity.

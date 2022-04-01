@@ -7,7 +7,6 @@ const Base = require('./Base');
 class RoleCardAbility extends Base {
   constructor(client, data) {
     super(client);
-
     /**
      * Ability id.
      * @type {string}
@@ -20,11 +19,13 @@ class RoleCardAbility extends Base {
      */
     this.tier = data.tier;
 
-    /**
-     * Ability efficiency.
-     * @type {number}
-     */
-    this.efficiency = data.effectValue;
+    if(data.effectValue !== -1) {
+      /**
+       * Ability efficiency.
+       * @type {number}
+       */
+      this.efficiency = data.effectValue;
+    }
   }
 }
 
