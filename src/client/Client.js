@@ -135,7 +135,7 @@ class Client extends BaseClient {
   async fetchPlayer(options = {}) {
 
     if(!options.force) {
-      const existing = this.players.cache.get(id);
+      const existing = this.players.cache.find(player => player.own);
       if(existing) return existing;
     }
 
