@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mainleau/wolvesville.js.git"
+    "url": "https://github.com/mainleau/wolvesville.js.git"
   },
   "keywords": [
     "wolvesville",
@@ -19,7 +19,11 @@
   },
   "homepage": "https://github.com/mainleau/wolvesville.js#readme",
   "dependencies": {
-    "@discordjs/collection": "^0.5.0",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "@discordjs/collection": "^0.5.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.2",
+    "terser-webpack-plugin": "^5.3.1"
   }
 }
