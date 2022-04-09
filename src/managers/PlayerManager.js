@@ -43,7 +43,7 @@ class PlayerManager extends CacheManager {
       if(existing) return existing;
     }
     
-    if(!username || typeof username !== 'string') throw new Error('INVALID_PLAYER_ID_FORMAT');
+    if(!username || typeof username !== 'string') throw new Error('INVALID_PLAYER_USERNAME_FORMAT');
     if(username.length < 3) throw new Error('PLAYER_USERNAME_TOO_SHORT');
     const response = await this.#fetchMinimalByUsername(username);
     return await this.fetchById(response.id);
