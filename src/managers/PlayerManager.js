@@ -1,6 +1,7 @@
 const CacheManager = require('./CacheManager');
 const Player = require('../structures/Player');
 const ClientPlayer = require('../structures/ClientPlayer');
+const { isUUID } = require('../util/Util');
 const { getAuthenticationHeaders } = require('../util/Headers');
 const fetch = require('node-fetch');
 
@@ -32,9 +33,18 @@ class PlayerManager extends CacheManager {
   /**
    * Fetch a player by its username.
    * @param {string} username Player username
+   * @param {Object} [options={}] Options
    * @returns {Player|ClientPlayer}
    */
-  async fetchByUsername(username) {
+  async fetchByUsername(username, options = {}) {
+    
+    if(!options.force) {
+      const existing = this.cache.find(player => player.username === username);
+      if(existing) return existing;
+    }
+    
+    if(!username || typeof username !== 'string') throw new Error('INVALID_PLAYER_ID_FORMAT');
+    if(username.length < 3) throw new Error('PLAYER_USERNAME_TOO_SHORT');
     const response = await this.#fetchMinimalByUsername(username);
     return await this.fetchById(response.id);
   }
@@ -52,6 +62,7 @@ class PlayerManager extends CacheManager {
       if(existing) return existing;
     }
 
+    if(!id || typeof id !== 'string' || !isUUID(id)) throw new Error('INVALID_PLAYER_ID_FORMAT');
     const request = await fetch(`${this.client.options.http.api.core}/players/${id}`, {
       method: 'GET',
       headers: getAuthenticationHeaders(this.client.token)
