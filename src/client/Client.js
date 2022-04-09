@@ -116,6 +116,7 @@ class Client extends BaseClient {
 
     if(response.code) throw new Error('INVALID_REFRESH_TOKEN');
     this.token = response.idToken;
+    this.lastTokenRefreshTimestamp = new Date().toISOString();
   }
 
   /**
