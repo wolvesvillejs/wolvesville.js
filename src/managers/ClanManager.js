@@ -115,7 +115,7 @@ class ClanManager extends CacheManager {
 
     if(options.searchType) {
       if(typeof options.searchType !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
-      if(['exactName', 'tag'].includes(options.searchType)) throw new Error('INVALID_OPTION_VALUE');
+      if(!['exactName', 'tag'].includes(options.searchType)) throw new Error('INVALID_OPTION_VALUE');
       params += `&searchType=${options.searchType}`;
     }
 
