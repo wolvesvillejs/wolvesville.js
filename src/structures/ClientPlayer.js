@@ -41,10 +41,10 @@ class ClientPlayer extends Player {
       : 0;
 
     this.equippedItems.background = {
-      id: data.equippedBackgroundId
+      id: data.equippedBackgroundId || null
     }
     this.equippedItems.loadingScreen = {
-      id: data.equippedLoadingScreenId
+      id: data.equippedLoadingScreenId || null
     }
 
     /**
