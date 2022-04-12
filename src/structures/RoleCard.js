@@ -1,5 +1,5 @@
 const Base = require('./Base');
-const RoleCardAbility = require('./RoleCardAbility');
+const RoleCardPerk = require('./RoleCardPerk');
 
 /**
  * Represents a role card.
@@ -35,10 +35,10 @@ class RoleCard extends Base {
     this.rarity = data.rarity;
 
     /**
-     * Card abilities.
-     * @type {RoleCardAbility[]}
+     * Card perks.
+     * @type {RoleCardPerk[]}
      */
-    this.abilities = data.allAbilities.map(ability => new RoleCardAbility(client, ability));
+    this.perks = data.allAbilities.map(ability => new RoleCardPerk(client, ability));
 
     /**
      * Wether card is equipped.
