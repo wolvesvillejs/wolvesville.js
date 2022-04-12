@@ -8,20 +8,20 @@ class RoleCardPerk extends Base {
   constructor(client, data) {
     super(client);
     /**
-     * Ability id.
+     * Perk id.
      * @type {string}
      */
     this.id = data.id;
 
     /**
-     * Ability tier.
+     * Perk tier.
      * @type {number}
      */
     this.tier = data.tier;
 
     if(data.effectValue !== -1) {
       /**
-       * Ability efficiency.
+       * Perk efficiency.
        * @type {number}
        */
       this.efficiency = data.effectValue;
