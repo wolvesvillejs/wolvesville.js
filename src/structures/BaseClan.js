@@ -28,9 +28,9 @@ class BaseClan extends Base {
 
     /**
      * Clan created timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.createdTimestamp = data.clan.creationTime;
+    this.createdTimestamp = new Date(data.clan.creationTime).getTime();
 
     /**
      * Clan description.

@@ -25,9 +25,9 @@ class ClanChatMessage extends Base {
 
     /**
      * Message created timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.createdTimestamp = data.date;
+    this.createdTimestamp = new Date(data.date).getTime();
 
     /**
      * Is a system message.
