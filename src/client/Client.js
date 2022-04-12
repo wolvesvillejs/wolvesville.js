@@ -57,11 +57,35 @@ class Client extends BaseClient {
      * @type {GameManager}
      */
     this.games = new GameManager(this);
+
+    /**
+     * Ready timestamp.
+     * @type {?number}
+     */
+    this.readyTimestamp = null;
+  }
+
+  /**
+   * Time at which the client was ready.
+   * @type {?Date}
+   * @readonly
+   */
+  get readyAt() {
+    return this.readyTimestamp && new Date(this.readyTimestamp);
+  }
+
+  /**
+   * How long it has been since the client was ready.
+   * @type {?number}
+   * @readonly
+   */
+  get uptime() {
+    return this.readyTimestamp && Date.now() - this.readyTimestamp;
   }
 
   /**
    * Is client token expired.
-   * @returns {Date}
+   * @returns {boolean}
    * @readonly
    */
   static get expired() {
@@ -103,6 +127,7 @@ class Client extends BaseClient {
     this.refreshToken = response.refreshToken;
     this.lastTokenRefreshTimestamp = Date.now();
     this.token = response.idToken;
+    this.readyTimestamp = Date.now();
     this.upper = setInterval(() => this.tokenRefresh(), this.options.tokenRefreshInterval);
     return this;
   }
@@ -134,6 +159,7 @@ class Client extends BaseClient {
     this.upper = clearInterval(this.upper);
     this.refreshToken = null;
     this.token = null;
+    this.readyTimestamp = null;
   }
 
   /**
