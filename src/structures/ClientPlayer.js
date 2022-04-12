@@ -307,6 +307,19 @@ class ClientPlayer extends Player {
     return response;
   }
 
+  /**
+   * Fetch custom games owned roles.
+   * @returns {Object}
+   */
+  async fetchCustomGamesOwnedRoles() {
+    const request = await fetch(`${this.client.options.http.api.core}/customGames/ownRoles`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return response;
+  }
+
 }
 
 module.exports = ClientPlayer;

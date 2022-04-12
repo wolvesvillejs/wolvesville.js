@@ -35,15 +35,6 @@ class RoleManager extends BaseManager {
     return response;
   }
 
-  async fetchOwnedInCustomGames() {
-    const request = await fetch(`${this.client.options.http.api.core}/customGames/ownRoles`, {
-      method: 'GET',
-      headers: getAuthenticationHeaders(this.client.token)
-    });
-    const response = await request.json();
-    return response;
-  }
-
 }
 
 module.exports = RoleManager;
