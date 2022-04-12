@@ -188,7 +188,7 @@ class Player extends BasePlayer {
   }
 
   get gamesPlayedCount() {
-    return this.wonGameCount + this.lostGameCount + this.stats.fledGameCount;
+    return this.stats.wonGameCount + this.stats.lostGameCount + this.stats.fledGameCount;
   }
 
 }
