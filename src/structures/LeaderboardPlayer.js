@@ -1,22 +1,13 @@
-const Base = require('./Base');
+const BasePlayer = require('./BasePlayer');
 
 /**
  * Represents a player in leaderboard.
  * @extends {Base}
  */
-class LeaderboardPlayer extends Base {
+class LeaderboardPlayer extends BasePlayer {
   constructor(client, data) {
-    super(client);
+    super(client, data);
   }
-
-  /**
-   * Fetch the player.
-   * @returns {Player|ClientPlayer}
-   */
-  async fetch() {
-    return this.client.players.fetchById(this.id);
-  }
-
 }
 
 module.exports = LeaderboardPlayer;
