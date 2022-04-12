@@ -23,9 +23,9 @@ class ClanLedgerField extends Base {
 
     /**
      * Field type.
-     * @type {?boolean}
+     * @type {boolean}
      */
-    this.type = data.gold ? 0 : data.gems ? 1 : null;
+    this.type = data.gold ? 0 : 1;
 
     /**
      * Field amount.
