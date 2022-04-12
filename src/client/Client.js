@@ -20,6 +20,7 @@ class Client extends BaseClient {
     super(options);
 
     Object.defineProperty(this, 'refreshToken', { writable: true });
+    Object.defineProperty(this, 'token', { writable: true });
 
     /**
      * The player manager of the client.
@@ -99,9 +100,9 @@ class Client extends BaseClient {
     const response = await request.json();
 
     if(response.message) throw new Error('INVALID_CREDENTIALS');
-    this.token = response.idToken;
     this.refreshToken = response.refreshToken;
-    this.lastTokenRefreshTimestamp = new Date().toISOString();
+    this.lastTokenRefreshTimestamp = Date.now();
+    this.token = response.idToken;
     this.upper = setInterval(() => this.tokenRefresh(), this.options.tokenRefreshInterval);
     return this;
   }
@@ -123,16 +124,16 @@ class Client extends BaseClient {
 
     if(response.code) throw new Error('INVALID_REFRESH_TOKEN');
     this.token = response.idToken;
-    this.lastTokenRefreshTimestamp = new Date().toISOString();
+    this.lastTokenRefreshTimestamp = Date.now();
   }
 
   /**
    * Destroy client.
    */
   destroy() {
+    this.upper = clearInterval(this.upper);
     this.refreshToken = null;
     this.token = null;
-    this.upper = clearInterval(this.upper);
   }
 
   /**
