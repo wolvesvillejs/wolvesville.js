@@ -179,14 +179,29 @@ class Player extends BasePlayer {
     return this.constructor !== Player;
   }
 
+  /**
+   * Clan tag and username.
+   * @type {string}
+   * @readonly
+   */
   get clanTagAndUsername() {
-    return this.clanTag ? this.clanTag + '|' + this.username : this.username;
+    return this.clanTag ? `${this.clanTag} | ${this.username}` : this.username;
   }
 
+  /**
+   * Wether the player is online.
+   * @type {boolean}
+   * @readonly
+   */
   get online() {
     return this.lastOnlineTimestamp + 10 * 60 * 1000 > Date.now();
   }
 
+  /**
+   * Games played count.
+   * @type {number}
+   * @readonly
+   */
   get gamesPlayedCount() {
     return this.stats.wonGameCount + this.stats.lostGameCount + this.stats.fledGameCount;
   }
