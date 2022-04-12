@@ -73,14 +73,21 @@ class Client extends BaseClient {
 
   /**
    * Login.
-   * @param {Object} credentials Credentials.
-   * @param {string} credentials.email Email.
-   * @param {string} credentials.password Password.
+   * @param {Object} credentials Credentials
+   * @param {string} credentials.email Email
+   * @param {string} credentials.password Password
    * @returns {Client}
    */
   async login(credentials) {
-    if(!credentials || typeof credentials !== 'object') throw new Error('INVALID_CREDENTIALS_FORMAT');
 
+    if(process.env.WOLVESVILLE_EMAIL && process.env.WOLVESVILLE_PASSWORD) {
+      credentials = {
+        email: process.env.WOLVESVILLE_EMAIL,
+        password: process.env.WOLVESVILLE_PASSWORD
+      }
+    }
+
+    if(!credentials || typeof credentials !== 'object') throw new Error('INVALID_CREDENTIALS_FORMAT');
     const request = await fetch(`${this.options.http.api.auth}/players/signInWithEmailAndPassword`, {
       method: 'POST',
       headers: getBodyHeaders(),
