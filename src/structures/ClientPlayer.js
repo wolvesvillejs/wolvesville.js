@@ -6,6 +6,7 @@ const DailyRewards = require('./DailyRewards');
 const ClientClan = require('./ClientClan');
 const Challenge = require('./Challenge');
 const BattlePass = require('./BattlePass');
+const RankedSeason = require('./RankedSeason');
 const Calendar = require('./Calendar');
 const SentGift = require('./SentGift');
 const ReceivedGift = require('./ReceivedGift');
@@ -256,8 +257,22 @@ class ClientPlayer extends Player {
   }
 
   /**
+   * Fetch ranked season.
+   * @returns {RankedSeason}
+   */
+  async fetchRankedSeason() {
+    const request = await fetch(`${this.client.options.http.api.core}/ranked/seasonInfoCompact`, {
+      method: 'GET',
+      headers: getAuthenticationHeaders(this.client.token)
+    });
+    const response = await request.json();
+    return new RankedSeason(this.client, response);
+  }
+
+
+  /**
    * Fetch calendar.
-   * @returns {BattlePass}
+   * @returns {Calendar}
    */
   async fetchCalendar() {
     const request = await fetch(`${this.client.options.http.api.core}/calendars`, {
@@ -270,7 +285,7 @@ class ClientPlayer extends Player {
 
   /**
    * Sent gifts.
-   * @returns {Array<SentGift>}
+   * @returns {SentGift[]}
    */
   async fetchSentGifts() {
     const request = await fetch(`${this.client.options.http.api.core}/billing/gifts/sent`, {
@@ -283,7 +298,7 @@ class ClientPlayer extends Player {
 
   /**
    * Received gifts.
-   * @returns {Array<ReceivedGift>}
+   * @returns {ReceivedGift[]}
    */
   async fetchReceivedGifts() {
     const request = await fetch(`${this.client.options.http.api.core}/billing/gifts/received`, {
