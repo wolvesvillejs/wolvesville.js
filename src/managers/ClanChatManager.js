@@ -15,7 +15,7 @@ class ClanChatManager extends BaseManager {
   /**
    * Obtains one or multiple messages.
    * @param {string} timestamp Date of messages around
-   * @returns {Array<ClanChatMessage>}
+   * @returns {Promise<ClanChatMessage[]>}
    */
   async fetchMessages(timestamp) {
 

@@ -19,7 +19,7 @@ class ClanManager extends CacheManager {
    * Fetch clan by player id.
    * @param {string} id Player id
    * @param {Object} [options={}] Options
-   * @returns {Clan}
+   * @returns {Promise<Clan>}
    */
   async fetchByPlayerId(id, options = {}) {
 
@@ -44,7 +44,7 @@ class ClanManager extends CacheManager {
    * Fetch clan by id.
    * @param {string} id Clan id
    * @param {Object} [options={}] Options
-   * @returns {Clan}
+   * @returns {Promise<Clan>}
    */
   async fetchById(id, options = {}) {
 
@@ -68,7 +68,7 @@ class ClanManager extends CacheManager {
   /**
    * Fetch client player clan.
    * @param {Object} [options={}] Options
-   * @returns {ClientClan}
+   * @returns {Promise<ClientClan>}
    */
   async fetchOwn(options = {}) {
 
@@ -104,7 +104,7 @@ class ClanManager extends CacheManager {
    * @param {string} name Clan name to query
    * @param {ClanQueryingOptions} options Query options
    * @param {string} sorting Query order
-   * @returns {ClanQuerier}
+   * @returns {Promise<ClanQuerier>}
    */
   async query(name, options = {}, sorting) {
 

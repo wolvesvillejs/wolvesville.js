@@ -17,7 +17,7 @@ class PlayerManager extends CacheManager {
   /**
    * Fetch few information from a player by its username.
    * @param {string} username Player username
-   * @returns {Object}
+   * @returns {Promise<Object>}
    * @private
    */
   async #fetchMinimalByUsername(username) {
@@ -34,15 +34,15 @@ class PlayerManager extends CacheManager {
    * Fetch a player by its username.
    * @param {string} username Player username
    * @param {Object} [options={}] Options
-   * @returns {Player|ClientPlayer}
+   * @returns {Promise<Player|ClientPlayer>}
    */
   async fetchByUsername(username, options = {}) {
-    
+
     if(!options.force) {
       const existing = this.cache.find(player => player.username === username);
       if(existing) return existing;
     }
-    
+
     if(!username || typeof username !== 'string') throw new Error('INVALID_PLAYER_USERNAME_FORMAT');
     if(username.length < 3) throw new Error('PLAYER_USERNAME_TOO_SHORT');
     const response = await this.#fetchMinimalByUsername(username);
@@ -53,7 +53,7 @@ class PlayerManager extends CacheManager {
    * Fetch a player by its username.
    * @param {string} id Player id
    * @param {Object} [options={}] Options
-   * @returns {Player|ClientPlayer}
+   * @returns {Promise<Player|ClientPlayer>}
    */
   async fetchById(id, options = {}) {
 
