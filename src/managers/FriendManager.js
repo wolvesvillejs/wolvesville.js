@@ -15,7 +15,7 @@ class FriendManager extends CacheManager {
 
   /**
    * Fetch friends.
-   * @returns {Collection<string, Friend>}
+   * @returns {Promise<Collection<string, Friend>>}
    */
   async fetch() {
     const request = await fetch(`${this.client.options.http.api.core}/friends`, {

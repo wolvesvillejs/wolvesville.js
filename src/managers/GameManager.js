@@ -14,7 +14,7 @@ class GameManager extends BaseManager {
 
   /**
    * Fetch custom game lobbies.
-   * @returns {CustomGame[]}
+   * @returns {Promise<CustomGame[]>}
    */
   async fetchCustom(language) {
     if(!language || typeof language !== 'string') throw new Error('INVALID_LANGUAGE_FORMAT');
