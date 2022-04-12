@@ -34,9 +34,9 @@ class ClanMember extends BasePlayer {
 
     /**
      * Member last online timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.lastOnlineTimestamp = data.lastOnline;
+    this.lastOnlineTimestamp = new Date(data.lastOnline);
 
     /**
      * Member profile icon.

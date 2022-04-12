@@ -29,9 +29,9 @@ class Friend extends BasePlayer {
 
     /**
      * Friend last online timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.lastOnlineTimestamp = data.lastOnline;
+    this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
 
     /**
      * Friend profile icon.
@@ -62,7 +62,7 @@ class Friend extends BasePlayer {
   }
 
   get online() {
-    return new Date(this.lastOnlineTimestamp).getTime() + 10 * 60 * 1000 > Date.now();
+    return this.lastOnlineTimestamp + 10 * 60 * 1000 > Date.now();
   }
 
 }

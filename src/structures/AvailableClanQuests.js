@@ -65,9 +65,9 @@ class AvailableClanQuests extends Base {
 
     /**
      * Clan quests reset timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.resetTimestamp = data.endTime;
+    this.resetTimestamp = new Date(data.endTime).getTime();
   }
 
 }

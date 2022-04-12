@@ -66,13 +66,13 @@ class Player extends BasePlayer {
      * Player creation timestamp.
      * @type {?string}
      */
-    this.creationTimestamp = data.creationTime || null;
+    this.creationTimestamp = new Date(data.creationTime).getTime() || null;
 
     /**
      * Player last online timestamp.
      * @type {string}
      */
-    this.lastOnlineTimestamp = data.lastOnline;
+    this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
 
     /**
      * Player equipped items.
@@ -184,7 +184,7 @@ class Player extends BasePlayer {
   }
 
   get online() {
-    return new Date(this.lastOnlineTimestamp).getTime() + 10 * 60 * 1000 > Date.now();
+    return this.lastOnlineTimestamp + 10 * 60 * 1000 > Date.now();
   }
 
   get gamesPlayedCount() {

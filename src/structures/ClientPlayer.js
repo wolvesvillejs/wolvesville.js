@@ -69,7 +69,7 @@ class ClientPlayer extends Player {
      * @type {Object}
      */
     this.lastBan = data.bannedUntilTime ? {
-      expirationTimestamp: data.bannedUntilTime,
+      expirationTimestamp: new Date(data.bannedUntilTime).getTime(),
       reason: data.banReason,
       message: data.banReasonMsg
     } : null;
@@ -79,7 +79,7 @@ class ClientPlayer extends Player {
      * @type {Object}
      */
     this.ads = {
-      lastWatchedTimestamp: data.lastVideoAdWatched,
+      lastWatchedTimestamp: new Date(data.lastVideoAdWatched).getTime(),
       watchedCount: data.watchedVideoAdsCount,
       watchedTodayCount: data.adRewardCount
     }
@@ -117,9 +117,9 @@ class ClientPlayer extends Player {
     if(data.deletionTime) {
       /**
        * Player deletion timestamp.
-       * @type {string}
+       * @type {number}
        */
-      this.deletionTimestamp = data.deletionTime;
+      this.deletionTimestamp = new Date(data.deletionTime).getTime();
     }
   }
 

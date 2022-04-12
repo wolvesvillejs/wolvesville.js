@@ -35,9 +35,9 @@ class ClanLedgerField extends Base {
 
     /**
      * Field creation timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.creationTimestamp = data.creationTime;
+    this.creationTimestamp = new Date(data.creationTime).getTime();
 
   }
 

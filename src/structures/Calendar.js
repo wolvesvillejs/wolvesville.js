@@ -24,8 +24,8 @@ class Calendar extends Base {
     }
 
     this.duration = data.durationInDays;
-    this.startTimestamp = data.startTime;
-    this.endTimestamp = new Date(new Date(this.startTimestamp).getTime() + this.duration * 24 * 60 * 60 * 1000).toISOString();
+    this.startTimestamp = new Date(data.startTime).getTime();
+    this.endTimestamp = new Date(this.startTimestamp + this.duration * 24 * 60 * 60 * 1000).getTime();
 
     Object.defineProperty(this, '_assets', { value: {
       backgroundImage: {

@@ -16,10 +16,10 @@ class ClanLog extends Base {
     this.action = data.action;
 
     /**
-     * Log creation timestamp.
-     * @type {string}
+     * Log created timestamp.
+     * @type {number}
      */
-    this.creationTimestamp = data.creationTime;
+    this.createdTimestamp = new Date(data.creationTime).getTime();
 
     /**
      * Log target username.

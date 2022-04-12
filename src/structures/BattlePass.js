@@ -65,15 +65,15 @@ class BattlePass extends Base {
 
     /**
      * Battle pass start timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.startTimestamp = data.battlePassSeason.startTime;
+    this.startTimestamp = new Date(data.battlePassSeason.startTime).getTime();
 
     /**
      * Battle pass end timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.endTimestamp = new Date(new Date(this.startTimestamp).getTime() + this.duration * 24 * 60 * 60 * 1000).toISOString();
+    this.endTimestamp = new Date(this.startTimestamp + this.duration * 24 * 60 * 60 * 1000).getTime();
   }
 
   /**

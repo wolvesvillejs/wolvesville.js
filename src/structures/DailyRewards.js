@@ -24,9 +24,9 @@ class DailyRewards extends Base {
 
     /**
      * Daily rewards claim timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.claimTimestamp = data.rewards.find(reward => reward.canBeClaimedDate).canBeClaimedDate;
+    this.claimTimestamp = new Date(data.rewards.find(reward => reward.canBeClaimedDate).canBeClaimedDate).getTime();
 
     /**
      * Daily rewards.

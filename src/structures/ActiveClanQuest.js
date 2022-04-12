@@ -36,15 +36,15 @@ class ActiveClanQuest extends ClanQuest {
 
     /**
      * Quest tier start timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.tierStartTimestamp = data.tierStartTime;
+    this.tierStartTimestamp = new Date(data.tierStartTime).getTime();
 
     /**
      * Quest tier end timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.tierEndTimestamp = data.tierEndTime;
+    this.tierEndTimestamp = new Date(data.tierEndTime).getTime();
 
     /**
      * Quest participants.

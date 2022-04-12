@@ -16,9 +16,9 @@ class Gift extends Base {
 
     /**
      * Gift pruchase timestamp.
-     * @type {string}
+     * @type {number}
      */
-    this.purchaseTimestamp = data.purchaseTime;
+    this.purchaseTimestamp = new Date(data.purchaseTime).getTime();
   }
 }
 
