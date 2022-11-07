@@ -1,0 +1,55 @@
+'use strict';
+
+const CacheManager = require('./CacheManager');
+const Player = require('../structures/Player');
+const Routes = require('../util/Routes');
+const { isUUID } = require('../util/Util');
+
+/**
+ * Manages API methods for Players.
+ * @extends {BaseManager}
+ */
+class PlayerManager extends CacheManager {
+  /**
+   * Fetch a player by its username.
+   * @param {string} username Player username
+   * @param {Object} [options={}] Options
+   * @returns {Promise<Player|ClientPlayer>}
+   */
+  async fetchByUsername(username, options = {}) {
+    if (!options.force) {
+      const existing = this.cache.find(player => player.username === username);
+      if (existing) return existing;
+    }
+
+    if (!username || typeof username !== 'string') throw new Error('INVALID_PLAYER_USERNAME_FORMAT');
+    if (username.length < 3) throw new Error('PLAYER_USERNAME_TOO_SHORT');
+    const response = await this.client.rest.get(Routes.PLAYER_BY_USERNAME(username));
+    if (response.code === 404) throw new Error('PLAYER_NOT_FOUND');
+
+    const player = new Player(this.client, response);
+    return this._add(player);
+  }
+
+  /**
+   * Fetch a player by its id.
+   * @param {string} id Player id
+   * @param {Object} [options={}] Options
+   * @returns {Promise<Player|ClientPlayer>}
+   */
+  async fetchById(id, options = {}) {
+    if (!options.force) {
+      const existing = this.cache.get(id);
+      if (existing) return existing;
+    }
+
+    if (!id || typeof id !== 'string' || !isUUID(id)) throw new Error('INVALID_PLAYER_ID_FORMAT');
+    const response = await this.client.rest.get(Routes.PLAYER(id));
+    if (response.code === 404) throw new Error('PLAYER_NOT_FOUND');
+
+    const player = new Player(this.client, response);
+    return this._add(player);
+  }
+}
+
+module.exports = PlayerManager;

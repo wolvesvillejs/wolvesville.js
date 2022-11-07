@@ -1,0 +1,8 @@
+# Packages
+node_modules/
+package-lock.json
+
+# Miscellaneous
+webpack/
+test/.env
+docs/docs.json

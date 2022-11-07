@@ -1,0 +1,41 @@
+'use strict';
+
+const APIRequest = require('./APIRequest');
+
+class REST {
+  constructor(options) {
+    this.options = options;
+  }
+
+  setAPIKey(APIKey) {
+    this.APIKey = APIKey;
+  }
+
+  get(route, options = {}) {
+    return this.#request('GET', route, options);
+  }
+
+  post(route, options = {}) {
+    return this.#request('POST', route, options);
+  }
+
+  put(route, options = {}) {
+    return this.#request('PUT', route, options);
+  }
+
+  async #request(method, route, options) {
+    const request = new APIRequest(this, method, route, options);
+
+    const response = await request.make();
+
+    if (response.status !== 200) return { code: response.status };
+
+    if (response.headers.get('Content-Type')?.startsWith('application/json')) {
+      return response.json();
+    } else {
+      throw new Error('INVALID_RESPONSE');
+    }
+  }
+}
+
+module.exports = REST;
