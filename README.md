@@ -3,7 +3,7 @@ wolvesville.js is a [Node.js](https://nodejs.org) module to interact with the [W
 
 - Website : https://wolvesvillejs.github.io/website
 - NPM package : https://www.npmjs.com/package/wolvesville.js
-- Discord server : https://discord.gg/C52jNDPemY
+- Discord server : https://discord.gg/HuNzvV9S6Z
 
 ## Installation
 
