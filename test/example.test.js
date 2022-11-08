@@ -6,7 +6,7 @@ client.login();
 
 async function main() {
   const player = await client.players.fetchByUsername('Arnaud');
-  console.log(player.username, player.level);
+  console.log(player.avatars);
 }
 
 main();

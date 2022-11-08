@@ -1,5 +1,6 @@
 'use strict';
 
+const Avatar = require('./Avatar');
 const BasePlayer = require('./BasePlayer');
 const OwnedProfileIcon = require('./OwnedProfileIcon');
 const RoleCard = require('./RoleCard');
@@ -111,7 +112,7 @@ class Player extends BasePlayer {
      */
     this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
 
-    this.avatars = data.avatars;
+    this.avatars = data.avatars.map(avatar => new Avatar(client, avatar));
 
     this.badges = data.badgeIds.map(badgeId => this.client.items.resolve(badgeId, ItemTypes.AVATAR_ITEM));
 
