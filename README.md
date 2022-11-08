@@ -1,7 +1,7 @@
 ## About
 wolvesville.js is a [Node.js](https://nodejs.org) module to interact with the [Wolvesville API](https://api-docs.wolvesville.com).
 
-- Website : https://wolvesvillejs.github.io/website
+- Website : https://wolvesville.js.org
 - NPM package : https://www.npmjs.com/package/wolvesville.js
 - Discord server : https://discord.gg/HuNzvV9S6Z
 
