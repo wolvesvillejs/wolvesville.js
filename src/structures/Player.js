@@ -64,7 +64,7 @@ class Player extends BasePlayer {
 
     /**
      * Player profile icon
-     * @type {OwnedProfileIcon}
+     * @type {?OwnedProfileIcon}
      */
     this.profileIcon = !data.profileIconId
       ? null
@@ -112,10 +112,22 @@ class Player extends BasePlayer {
      */
     this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
 
+    /**
+     * Player avatars
+     * @type {Avatar[]}
+     */
     this.avatars = data.avatars.map(avatar => new Avatar(client, avatar));
 
+    /**
+     * Player badges
+     * @type {AvatarItem[]}
+     */
     this.badges = data.badgeIds.map(badgeId => this.client.items.resolve(badgeId, ItemTypes.AVATAR_ITEM));
 
+    /**
+     * Player role cards
+     * @type {RoleCard[]}
+     */
     this.roleCards = data.roleCards.map(roleCard => new RoleCard(this.client, roleCard));
   }
 
