@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/mainleau/wolvesville.js/issues"
   },
-  "homepage": "https://wolvesvillejs.github.io/website",
+  "homepage": "https://wolvesville.js.org",
   "dependencies": {
     "@discordjs/collection": "^0.5.0",
     "node-fetch": "^2.6.7"
