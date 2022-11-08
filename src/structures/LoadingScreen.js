@@ -51,7 +51,7 @@ class LoadingScreen extends Base {
       this.accentColor ??= null;
     }
 
-    if ('image' in data and 'imageWide' in data) {
+    if ('image' in data && 'imageWide' in data) {
       Object.defineProperty(this, '_cdn', {
         image: data.image,
         imageWide: data.imageWide,
