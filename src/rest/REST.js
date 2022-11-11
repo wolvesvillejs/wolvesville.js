@@ -28,6 +28,8 @@ class REST {
 
     const response = await request.make();
 
+    if (response.status === 401) throw new Error('INVALID_API_KEY');
+
     if (response.status !== 200) return { code: response.status };
 
     if (response.headers.get('Content-Type')?.startsWith('application/json')) {
