@@ -11,7 +11,7 @@
 /**
  * API options.
  * @typedef {Object} APIOptions
- * @property {string} [core='https://api-core.wolvesville.com'] Base URL of the core API
+ * @property {string} [core='https://api.wolvesville.com'] Base URL of the API
  */
 
 /**
