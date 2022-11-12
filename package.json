@@ -7,7 +7,7 @@
   "main": "./src/index.js",
   "scripts": {
     "lint": "eslint src --fix",
-    "docs": "docgen --source ./src --custom ./docs/index.yml --output ./docs/docs.json",
+    "docs": "docgen -i ./src/*/*.js -c ./docs/index.json -o ./docs/docs.json",
     "bundle": "npx webpack-cli"
   },
   "keywords": [
