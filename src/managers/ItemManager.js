@@ -42,7 +42,7 @@ class ItemManager extends BaseManager {
 
   /**
    * Fetch items.
-   * @returns {Promise<AvatarItem[]>}
+   * @returns {Promise<Collection<string, AvatarItem>>}
    */
   async fetchItems() {
     const response = await this.client.rest.get(Routes.AVATAR_ITEMS());
@@ -53,6 +53,10 @@ class ItemManager extends BaseManager {
     return items;
   }
 
+  /**
+   * Fetch item sets.
+   * @returns {Promise<Collection<string, ItemSet>>}
+   */
   async fetchItemSets() {
     const response = await this.client.rest.get(Routes.AVATAR_ITEM_SETS());
 
@@ -62,6 +66,10 @@ class ItemManager extends BaseManager {
     return itemSets;
   }
 
+  /**
+   * Fetch item collections.
+   * @returns {Promise<Collection<string, ItemCollection>>}
+   */
   async fetchItemCollections() {
     const response = await this.client.rest.get(Routes.AVATAR_ITEM_COLLECTIONS());
 
@@ -71,6 +79,10 @@ class ItemManager extends BaseManager {
     return itemCollections;
   }
 
+  /**
+   * Fetch profile icons.
+   * @returns {Promise<Collection<string, ProfileIcon>>}
+   */
   async fetchProfileIcons() {
     const response = await this.client.rest.get(Routes.PROFILE_ICONS());
 
@@ -80,6 +92,10 @@ class ItemManager extends BaseManager {
     return profileIcons;
   }
 
+  /**
+   * Fetch emojis.
+   * @returns {Promise<Collection<string, Emoji>>}
+   */
   async fetchEmojis() {
     const response = await this.client.rest.get(Routes.EMOJIS());
 
@@ -89,6 +105,10 @@ class ItemManager extends BaseManager {
     return emojis;
   }
 
+  /**
+   * Fetch emoji collections.
+   * @returns {Promise<Collection<string, EmojiCollection>>}
+   */
   async fetchEmojiCollections() {
     const response = await this.client.rest.get(Routes.EMOJI_COLLECTIONS());
 
@@ -98,6 +118,10 @@ class ItemManager extends BaseManager {
     return emojiCollections;
   }
 
+  /**
+   * Fetch backgrounds.
+   * @returns {Promise<Collection<string, Background>>}
+   */
   async fetchBackgrounds() {
     const response = await this.client.rest.get(Routes.BACKGROUNDS());
 
@@ -107,6 +131,10 @@ class ItemManager extends BaseManager {
     return backgrounds;
   }
 
+  /**
+   * Fetch loading screens.
+   * @returns {Promise<Collection<string, LoadingScreen>>}
+   */
   async fetchLoadingScreens() {
     const response = await this.client.rest.get(Routes.LOADING_SCREENS());
 
@@ -116,6 +144,10 @@ class ItemManager extends BaseManager {
     return loadingScreens;
   }
 
+  /**
+   * Fetch role icons.
+   * @returns {Promise<Collection<string, RoleIcon>>}
+   */
   async fetchRoleIcons() {
     const response = await this.client.rest.get(Routes.ROLE_ICONS());
 
@@ -125,6 +157,10 @@ class ItemManager extends BaseManager {
     return roleIcons;
   }
 
+  /**
+   * Fetch advanced role card offers.
+   * @returns {Promise<Collection<string, AdvancedRoleCardOffers>>}
+   */
   async fetchAdvancedRoleCardOffers() {
     const response = await this.client.rest.get(Routes.ADVANCED_ROLE_CARD_OFFERS());
 
@@ -137,6 +173,10 @@ class ItemManager extends BaseManager {
     return advancedRoleCardOffers;
   }
 
+  /**
+   * Fetch roses.
+   * @returns {Promise<Collection<string, Rose>>}
+   */
   async fetchRoses() {
     const response = await this.client.rest.get(Routes.ROSES());
 
@@ -146,6 +186,10 @@ class ItemManager extends BaseManager {
     return roses;
   }
 
+  /**
+   * Fetch talismans.
+   * @returns {Promise<Collection<string, Talisman>>}
+   */
   async fetchTalismans() {
     const response = await this.client.rest.get(Routes.TALISMANS());
 
@@ -159,7 +203,7 @@ class ItemManager extends BaseManager {
    * Resolve an item.
    * @param {Object|string} item Item object or id
    * @param {string} [type] Item type
-   * @returns {?(AvatarItem|ItemSet|Background|LoadingScreen|ProfileIcon|Emoji|Talisman)}
+   * @returns {?(AvatarItem|ItemSet|Background|LoadingScreen|ProfileIcon|Emoji|Talisman|Rose|RoleIcon|ItemCollection)}
    */
   resolve(item, type) {
     if (!item || !type) return null;
