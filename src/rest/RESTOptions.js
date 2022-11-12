@@ -4,14 +4,8 @@
  * Options for a REST instance.
  * @typedef {Object} RESTOptions
  * @property {number} [timeout=15_000] The time to wait in milliseconds before a request is aborted
- * @property {APIOptions} [api] API options
+ * @property {string} [api='https://api.wolvesville.com'] Base URL of the API
  * @property {CDNOptions} [cdn] CDN options
- */
-
-/**
- * API options.
- * @typedef {Object} APIOptions
- * @property {string} [core='https://api.wolvesville.com'] Base URL of the API
  */
 
 /**
