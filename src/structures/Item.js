@@ -4,10 +4,10 @@ const Base = require('./Base');
 const { AvatarItemTypes, Rarities } = require('../util/Constants');
 
 /**
- * Represents an avatar item.
+ * Represents an item.
  * @extends {Base}
  */
-class AvatarItem extends Base {
+class Item extends Base {
   constructor(client, data) {
     super(client);
 
@@ -36,28 +36,7 @@ class AvatarItem extends Base {
        * Item type
        * @type {?string}
        */
-      this.type =
-        data.type === 'HAT'
-          ? AvatarItemTypes.HAT
-          : data.type === 'HAIR'
-          ? AvatarItemTypes.HAIR
-          : data.type === 'EYES'
-          ? AvatarItemTypes.EYES
-          : data.type === 'GLASSES'
-          ? AvatarItemTypes.GLASSES
-          : data.type === 'MOUTH'
-          ? AvatarItemTypes.MOUTH
-          : data.type === 'MASK'
-          ? AvatarItemTypes.MASK
-          : data.type === 'CLOTHES'
-          ? AvatarItemTypes.CLOTHES
-          : data.type === 'FOREGROUND'
-          ? AvatarItemTypes.FOREGROUND
-          : data.type === 'BACKGROUND'
-          ? AvatarItemTypes.BACKGROUND
-          : data.type === 'BADGE'
-          ? AvatarItemTypes.BADGE
-          : AvatarItemTypes.GRAVESTONE;
+      this.type = AvatarItemTypes[data.type];
     } else {
       this.type ??= null;
     }
@@ -67,14 +46,7 @@ class AvatarItem extends Base {
        * Item rarity
        * @type {?string}
        */
-      this.rarity =
-        data.rarity === 'COMMON'
-          ? Rarities.COMMON
-          : data.rarity === 'RARE'
-          ? Rarities.RARE
-          : data.rarity === 'EPIC'
-          ? Rarities.EPIC
-          : Rarities.LEGENDARY;
+      this.rarity = Rarities[data.rarity];
     } else {
       this.rarity ??= null;
     }
@@ -107,4 +79,4 @@ class AvatarItem extends Base {
   }
 }
 
-module.exports = AvatarItem;
+module.exports = Item;

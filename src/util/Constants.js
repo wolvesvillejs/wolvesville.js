@@ -29,6 +29,7 @@ exports.ItemTypes = {
   ITEM_SET: 'ITEM_SET',
   ROLE_ICON: 'ROLE_ICON',
   ITEM_COLLECTION: 'ITEM_COLLECTION',
+  ROLE_CARD_PACK: 'ROLE_CARD_PACK',
 };
 
 exports.Status = {

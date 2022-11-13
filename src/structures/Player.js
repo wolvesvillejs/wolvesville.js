@@ -68,10 +68,10 @@ class Player extends BasePlayer {
      */
     this.profileIcon = !data.profileIconId
       ? null
-      : this.client.items.profileIcons.cache.size
+      : this.client.profileIcons.cache.size
       ? new OwnedProfileIcon(
           this.client,
-          Object.assign(this.client.items.profileIcons.cache.get(data.profileIconId), {
+          Object.assign(this.client.profileIcons.cache.get(data.profileIconId), {
             color: data.profileIconColor,
           }),
         )

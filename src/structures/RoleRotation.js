@@ -3,12 +3,24 @@
 const Base = require('./Base');
 const Role = require('./Role');
 
+/**
+ * Represents a role rotation.
+ * @extends {Base}
+ */
 class RoleRotation extends Base {
   constructor(client, data) {
     super(client);
 
+    /**
+     * Role rotation id.
+     * @type {string}
+     */
     this.id = data.id;
 
+    /**
+     * Role rotation roles.
+     * @type {Array<Role|Array<Role>>}
+     */
     this.roles = data.roles.map(roles =>
       roles.map(item =>
         item.role

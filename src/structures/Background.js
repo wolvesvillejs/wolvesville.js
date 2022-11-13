@@ -61,14 +61,23 @@ class Background extends Base {
       this.nightColor ??= null;
     }
 
-    Object.defineProperty(this, '_cdn', {
-      imageDay: data.imageDay,
-      imageDayWide: data.imageDayWide,
-      imageNight: data.imageNight,
-      imageNightWide: data.imageNightWide,
-      imageDaySmall: data.imageDaySmall,
-      imageNightSmall: data.imageNightSmall,
-    });
+    if (
+      'imageDay' in data &&
+      'imageDayWide' in data &&
+      'imageNight' in data &&
+      'imageNightWide' in data &&
+      'imageDaySmall' in data &&
+      'imageNightSmall' in data
+    ) {
+      Object.defineProperty(this, '_cdn', {
+        imageDay: data.imageDay,
+        imageDayWide: data.imageDayWide,
+        imageNight: data.imageNight,
+        imageNightWide: data.imageNightWide,
+        imageDaySmall: data.imageDaySmall,
+        imageNightSmall: data.imageNightSmall,
+      });
+    }
   }
 }
 

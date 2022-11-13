@@ -12,7 +12,7 @@ class RoleIcon extends Base {
     super(client);
 
     /**
-     * Profile icon id
+     * Role icon id
      * @type {string}
      */
     this.id = data.id;
@@ -41,9 +41,11 @@ class RoleIcon extends Base {
       this.rarity ??= null;
     }
 
-    Object.defineProperty(this, '_cdn', {
-      image: data.image,
-    });
+    if ('image' in data) {
+      Object.defineProperty(this, '_cdn', {
+        image: data.image,
+      });
+    }
   }
 }
 

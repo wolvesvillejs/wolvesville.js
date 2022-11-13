@@ -1,9 +1,21 @@
 'use strict';
 
 const BaseClient = require('./BaseClient');
+const BackgroundManager = require('../managers/BackgroundManager');
 const ClanManager = require('../managers/ClanManager');
+const EmojiCollectionManager = require('../managers/EmojiCollectionManager');
+const EmojiManager = require('../managers/EmojiManager');
+const ItemCollectionManager = require('../managers/ItemCollectionManager');
 const ItemManager = require('../managers/ItemManager');
+const ItemSetManager = require('../managers/ItemSetManager');
+const LoadingScreenManager = require('../managers/LoadingScreenManager');
 const PlayerManager = require('../managers/PlayerManager');
+const ProfileIconManager = require('../managers/ProfileIconManager');
+const RoleCardPackManager = require('../managers/RoleCardPackManager');
+const RoleIconManager = require('../managers/RoleIconManager');
+const RoseManager = require('../managers/RoseManager');
+const TalismanManager = require('../managers/TalismanManager');
+const AdvancedRoleCardOffer = require('../structures/AdvancedRoleCardOffer');
 const BattlePassChallenge = require('../structures/BattlePassChallenge');
 const BattlePassSeason = require('../structures/BattlePassSeason');
 const GameMode = require('../structures/GameMode');
@@ -42,6 +54,72 @@ class Client extends BaseClient {
      * @type {ItemManager}
      */
     this.items = new ItemManager(this);
+
+    /**
+     * The item set manager of the client
+     * @type {ItemSetManager}
+     */
+    this.itemSets = new ItemSetManager(this);
+
+    /**
+     * The item collection manager of the client
+     * @type {ItemCollectionManager}
+     */
+    this.itemCollections = new ItemCollectionManager(this);
+
+    /**
+     * The profile icon manager of the client
+     * @type {ProfileIconManager}
+     */
+    this.profileIcons = new ProfileIconManager(this);
+
+    /**
+     * The emoji manager of the client
+     * @type {EmojiManager}
+     */
+    this.emojis = new EmojiManager(this);
+
+    /**
+     * The emoji collection manager of the client
+     * @type {EmojiCollectionManager}
+     */
+    this.emojiCollections = new EmojiCollectionManager(this);
+
+    /**
+     * The background manager of the client
+     * @type {BackgroundManager}
+     */
+    this.backgrounds = new BackgroundManager(this);
+
+    /**
+     * The loading screen manager of the client
+     * @type {LoadingScreenManager}
+     */
+    this.loadingScreens = new LoadingScreenManager(this);
+
+    /**
+     * The role icon manager of the client
+     * @type {RoleIconManager}
+     */
+    this.roleIcons = new RoleIconManager(this);
+
+    /**
+     * The role card pack manager of the client
+     * @type {RoleCardPackManager}
+     */
+    this.roleCardPacks = new RoleCardPackManager(this);
+
+    /**
+     * The rose manager of the client
+     * @type {RoseManager}
+     */
+    this.roses = new RoseManager(this);
+
+    /**
+     * The talisman manager of the client
+     * @type {TalismanManager}
+     */
+    this.talismans = new TalismanManager(this);
   }
 
   /**
@@ -77,17 +155,21 @@ class Client extends BaseClient {
 
   /**
    * Fetch active offers.
-   * @returns {Promise<Array<LimitedCollectionOffer|LimitedItemCollectionOffer|LimitedOffer>>}
+   * @returns {Promise<Array<LimitedCollectionOffer|LimitedItemCollectionOffer|AdvancedRoleCardOffer|LimitedOffer>>}
    */
   async fetchActiveOffers() {
     const response = await this.rest.get(Routes.ACTIVE_OFFERS());
-    return response.map(offer =>
-      offer.type.endsWith('OUTFITS')
-        ? new LimitedCollectionOffer(this, offer)
-        : offer.type === 'AVATAR_ITEMS'
-        ? new LimitedItemCollectionOffer(this, offer)
-        : new LimitedOffer(this, offer),
+    const data = response.map(item =>
+      item.type.endsWith('OUTFITS')
+        ? new LimitedCollectionOffer(this, item)
+        : item.type === 'AVATAR_ITEMS'
+        ? new LimitedItemCollectionOffer(this, item)
+        : item.type === 'ADVANCED_ROLE_CARD'
+        ? new AdvancedRoleCardOffer(this, item)
+        : new LimitedOffer(this, item),
     );
+
+    return data;
   }
 }
 

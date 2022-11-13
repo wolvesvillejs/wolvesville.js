@@ -28,7 +28,7 @@ class REST {
 
     const response = await request.make();
 
-    switch(response.status) {
+    switch (response.status) {
       case 401:
         throw new Error('INVALID_API_KEY');
       case 429:

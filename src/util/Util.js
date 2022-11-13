@@ -5,6 +5,16 @@
  */
 class Util {
   /**
+   * Verify if the parameter is a valid UUID
+   * @param {string} uuid UUID
+   * @returns {boolean}
+   */
+  static isUUID(uuid) {
+    const regex = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+    return regex.test(uuid);
+  }
+
+  /**
    * Sets default properties on an object that aren't already specified.
    * @param {Object} def Default properties
    * @param {Object} given Object to assign defaults to
@@ -22,11 +32,6 @@ class Util {
     }
 
     return given;
-  }
-
-  static isUUID(uuid) {
-    const regex = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
-    return regex.test(uuid);
   }
 }
 
