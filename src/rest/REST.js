@@ -28,9 +28,14 @@ class REST {
 
     const response = await request.make();
 
-    if (response.status === 401) throw new Error('INVALID_API_KEY');
-
-    if (response.status !== 200) return { code: response.status };
+    switch(response.status) {
+      case 401:
+        throw new Error('INVALID_API_KEY');
+      case 429:
+        throw new Error('TOO_MANY_REQUESTS');
+      default:
+        if (response.status !== 200) return { code: response.status };
+    }
 
     if (response.headers.get('Content-Type')?.startsWith('application/json')) {
       return response.json();
