@@ -7,7 +7,7 @@ jobs:
   npm:
     name: npm
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'mainleau'
+    if: github.repository_owner == 'wolvesvillejs'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

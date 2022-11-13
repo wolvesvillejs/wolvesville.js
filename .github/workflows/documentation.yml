@@ -10,7 +10,7 @@ jobs:
   build:
     name: Build documentation
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'mainleau'
+    if: github.repository_owner == 'wolvesvillejs'
     outputs:
       BRANCH_NAME: ${{ steps.env.outputs.BRANCH_NAME }}
       BRANCH_OR_TAG: ${{ steps.env.outputs.BRANCH_OR_TAG }}
