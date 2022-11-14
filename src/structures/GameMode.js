@@ -17,8 +17,16 @@ class GameMode extends Base {
      */
     this.name = data.gameMode;
 
+    /**
+     * Game mode languages
+     * @type {string[]}
+     */
     this.languages = data.languages;
 
+    /**
+     * Role rotations
+     * @type {RoleRotation[]}
+     */
     this.roleRotations = data.roleRotations.map(roleRotation => new RoleRotation(client, roleRotation.roleRotation));
   }
 }

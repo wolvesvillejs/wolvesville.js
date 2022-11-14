@@ -70,12 +70,14 @@ class Background extends Base {
       'imageNightSmall' in data
     ) {
       Object.defineProperty(this, '_cdn', {
-        imageDay: data.imageDay,
-        imageDayWide: data.imageDayWide,
-        imageNight: data.imageNight,
-        imageNightWide: data.imageNightWide,
-        imageDaySmall: data.imageDaySmall,
-        imageNightSmall: data.imageNightSmall,
+        value: {
+          imageDay: data.imageDay,
+          imageDayWide: data.imageDayWide,
+          imageNight: data.imageNight,
+          imageNightWide: data.imageNightWide,
+          imageDaySmall: data.imageDaySmall,
+          imageNightSmall: data.imageNightSmall,
+        },
       });
     }
   }

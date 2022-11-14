@@ -73,8 +73,10 @@ class ItemCollection extends Base {
 
     if ('promoImageUrl' in data && 'iconUrl' in data) {
       Object.defineProperty(this, '_cdn', {
-        imageURL: data.promoImageUrl,
-        iconURL: data.iconUrl,
+        value: {
+          imageURL: data.promoImageUrl,
+          iconURL: data.iconUrl,
+        },
       });
     }
   }

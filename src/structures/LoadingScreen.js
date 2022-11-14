@@ -53,8 +53,7 @@ class LoadingScreen extends Base {
 
     if ('image' in data && 'imageWide' in data) {
       Object.defineProperty(this, '_cdn', {
-        image: data.image,
-        imageWide: data.imageWide,
+        value: { image: data.image, imageWide: data.imageWide },
       });
     }
   }

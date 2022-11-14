@@ -23,7 +23,7 @@ class Avatar extends Base {
     this.height = data.height;
 
     Object.defineProperty(this, '_cdn', {
-      imageURL: data.url,
+      value: { imageURL: data.url },
     });
   }
 

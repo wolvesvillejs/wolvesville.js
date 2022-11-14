@@ -36,7 +36,7 @@ class ClanQuest extends Base {
     this.rewards = data.rewards.map(reward => new ClanQuestReward(client, reward));
 
     Object.defineProperty(this, '_cdn', {
-      imageURL: data.promoImageUrl,
+      value: { imageURL: data.promoImageUrl },
     });
   }
 

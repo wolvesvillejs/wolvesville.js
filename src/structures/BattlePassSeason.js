@@ -81,7 +81,7 @@ class BattlePassSeason extends Base {
     this.background = client.items.resolve(data.seasonBackgroundId, ItemTypes.BACKGROUND);
 
     Object.defineProperty(this, '_cdn', {
-      iconURL: data.iconUrl,
+      value: { iconURL: data.iconUrl },
     });
   }
 

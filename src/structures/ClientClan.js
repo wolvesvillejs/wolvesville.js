@@ -132,6 +132,7 @@ class ClientClan extends Clan {
 
   /**
    * Suffle quests.
+   * @returns {void}
    */
   async shuffleQuests() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_SHUFFLE(this.id));
@@ -155,6 +156,7 @@ class ClientClan extends Clan {
 
   /**
    * Skip quest waiting time.
+   * @returns {void}
    */
   async skipQuestWaitingTime() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_SKIP_WAITING_TIME(this.id));
@@ -163,6 +165,7 @@ class ClientClan extends Clan {
 
   /**
    * Claim additional time for the active quest.
+   * @returns {void}
    */
   async claimQuestExtraTime() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_CLAIM_TIME(this.id));
@@ -171,6 +174,7 @@ class ClientClan extends Clan {
 
   /**
    * Cancel active quest.
+   * @returns {void}
    */
   async cancelActiveQuest() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_CANCEL(this.id));
@@ -179,6 +183,7 @@ class ClientClan extends Clan {
 
   /**
    * Cancel active quest.
+   * @returns {void}
    */
   async fetchQuests() {
     const response = await this.client.rest.get(Routes.CLANS_QUESTS_ALL());

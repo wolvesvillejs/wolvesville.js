@@ -51,10 +51,14 @@ class Emoji extends Base {
       this.event ??= null;
     }
 
-    Object.defineProperty(this, '_cdn', {
-      animationURL: data.urlAnimation,
-      previewURL: data.urlPreview,
-    });
+    if ('urlAnimation' in data && 'urlPreview' in data) {
+      Object.defineProperty(this, '_cdn', {
+        value: {
+          animationURL: data.urlAnimation,
+          previewURL: data.urlPreview,
+        },
+      });
+    }
   }
 }
 

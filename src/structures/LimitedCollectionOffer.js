@@ -20,7 +20,7 @@ class LimitedCollectionOffer extends Offer {
     );
 
     Object.defineProperty(this, '_cdn', {
-      imageURL: data.promoImageUrl,
+      value: { imageURL: data.promoImageUrl },
     });
   }
 }

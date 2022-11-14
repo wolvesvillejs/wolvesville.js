@@ -43,7 +43,9 @@ class RoleIcon extends Base {
 
     if ('image' in data) {
       Object.defineProperty(this, '_cdn', {
-        image: data.image,
+        value: {
+          image: data.image,
+        },
       });
     }
   }

@@ -14,7 +14,7 @@ class PlayerManager extends CacheManager {
    * Fetch a player by its username.
    * @param {string} username Player username
    * @param {Object} [options={}] Options
-   * @returns {Promise<Player|ClientPlayer>}
+   * @returns {Promise<Player>}
    */
   async fetchByUsername(username, options = {}) {
     if (!options.force) {
@@ -35,7 +35,7 @@ class PlayerManager extends CacheManager {
    * Fetch a player by its id.
    * @param {string} id Player id
    * @param {Object} [options={}] Options
-   * @returns {Promise<Player|ClientPlayer>}
+   * @returns {Promise<Player>}
    */
   async fetchById(id, options = {}) {
     if (!options.force) {

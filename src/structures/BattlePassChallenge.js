@@ -42,7 +42,7 @@ class BattlePassChallenge extends Base {
     this.duration = data.durationInDays;
 
     Object.defineProperty(this, '_cdn', {
-      iconURL: data.iconUrl,
+      value: { iconURL: data.iconUrl },
     });
   }
 }
