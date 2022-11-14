@@ -3,31 +3,21 @@
 const fetch = require('node-fetch');
 
 class APIRequest {
-  constructor(rest, method, path, options) {
+  constructor(rest, method, route, options) {
     this.rest = rest;
     this.method = method;
-    this.route = options.route;
     this.options = options;
+    this.route = route;
 
-    let queryString = '';
-    if (options.query) {
-      const query =
-        typeof options.query === 'string'
-          ? options.query
-          : Object.entries(options.query)
-              .filter(([, value]) => value !== null && typeof value !== 'undefined')
-              .flatMap(([key, value]) => (Array.isArray(value) ? value.map(v => [key, v]) : [[key, value]]));
-      queryString = new URLSearchParams(query).toString();
-    }
-    this.path = `${path}${queryString && `?${queryString}`}`;
+    if(options.query) this.route += `?${new URLSearchParams(options.query).toString()}`;
   }
 
   make() {
-    const url = (this.options.api || this.rest.options.api) + this.path;
+    const url = (this.options.api || this.rest.options.api) + this.route;
 
-    let headers = {};
-
-    headers.Authorization = `Bot ${this.rest.APIKey}`;
+    const headers = {
+      Authorization: `Bot ${this.rest.APIKey}`
+    };
 
     let body;
 

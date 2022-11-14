@@ -63,26 +63,28 @@ class ClanManager extends CacheManager {
   async search(name, options = {}, sorting) {
     if (name && typeof name !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
 
-    var params = '';
+    const params = {
+      name
+    }
 
     if (options.searchType) {
       if (typeof options.searchType !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
       if (!['exactName', 'tag'].includes(options.searchType)) throw new Error('INVALID_OPTION_VALUE');
-      params += `&searchType=${options.searchType}`;
+      params.searchType = options.searchType;
     }
 
     if (options.levelMin) {
       if (typeof options.levelMin !== 'number') throw new Error('OPTION_VALUE_MUST_BE_A_NUMBER');
       if (options.levelMin < 1 || options.levelMin > 100) throw new Error('OPTION_VALUE_OUT_OF_RANGE');
       if (options.levelMax && options.levelMin > options.levelMax) throw new Error('INVALID_OPTION_VALUES');
-      params += `&minLevelMin=${options.levelMin}`;
+      params.minLevelMin = options.levelMin;
     }
 
     if (options.levelMax) {
       if (typeof options.levelMax !== 'number') throw new Error('OPTION_VALUE_MUST_BE_A_NUMBER');
       if (options.levelMax < 1 || options.levelMax > 100) throw new Error('OPTION_VALUE_OUT_OF_RANGE');
       if (options.levelMin && options.levelMin > options.levelMax) throw new Error('INVALID_OPTION_VALUES');
-      params += `&minLevelMax=${options.levelMax}`;
+      params.minLevelMax = options.levelMax;
     }
 
     if (options.language) {
@@ -194,26 +196,26 @@ class ClanManager extends CacheManager {
       ) {
         throw new Error('INVALID_OPTION_VALUE');
       }
-      params += `&language=${options.language.toUpperCase()}`;
+      params.language = options.language.toUpperCase();
     }
 
     if (options.joinType) {
       if (!['PUBLIC', 'JOIN_BY_REQUEST', 'PRIVATE'].includes(options.joinType)) throw new Error('INVALID_OPTION_VALUE');
-      params += `&joinType=${options.joinType}`;
+      params.joinType = options.joinType;
     }
 
     if (options.notFull) {
       if (typeof options.notFull !== 'boolean') throw new Error('OPTION_VALUE_MUST_BE_A_BOOLEAN');
-      params += `&notFull=${options.notFull}`;
+      params.notFull = options.notFull;
     }
 
     if (sorting) {
       if (!['XP', 'CREATION_TIME', 'QUEST_HISTORY_COUNT', 'NAME', 'MIN_LEVEL'].includes(sorting)) {
         throw new Error('INVALID_OPTION_VALUE');
       }
-      params += `&sortBy=${sorting}`;
+      params.sortBy = sorting;
     }
-    const response = await this.client.rest.get(Routes.CLANS_SEARCH_BY_NAME(name), { query: params });
+    const response = await this.client.rest.get(Routes.CLANS_SEARCH_BY_NAME(), { query: params });
 
     const data = response.map(clan => new Clan(this.client, clan));
     return data.reduce((col, clan) => col.set(clan.id, this._add(clan)), new Collection());

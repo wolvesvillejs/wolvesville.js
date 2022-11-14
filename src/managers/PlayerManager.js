@@ -24,7 +24,7 @@ class PlayerManager extends CacheManager {
 
     if (!username || typeof username !== 'string') throw new Error('INVALID_PLAYER_USERNAME_FORMAT');
     if (username.length < 3) throw new Error('PLAYER_USERNAME_TOO_SHORT');
-    const response = await this.client.rest.get(Routes.PLAYER_BY_USERNAME(username));
+    const response = await this.client.rest.get(Routes.PLAYER_BY_USERNAME(), { query: { username } });
     if (response.code === 404) throw new Error('PLAYER_NOT_FOUND');
 
     const player = new Player(this.client, response);

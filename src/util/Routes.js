@@ -22,9 +22,9 @@ module.exports = {
   ACTIVE_OFFERS: () => '/shop/activeOffers',
 
   PLAYER: playerId => `/players/${playerId}`,
-  PLAYER_BY_USERNAME: playerUsername => `/players/search?username=${playerUsername}`,
+  PLAYER_BY_USERNAME: () => `/players/search`,
 
-  CLANS_SEARCH_BY_NAME: clanName => `/clans/search?name=${clanName}`,
+  CLANS_SEARCH_BY_NAME: () => `/clans/search`,
   CLANS_INFO: clanId => `/clans/${clanId}/info`,
   CLANS_MEMBERS: clanId => `/clans/${clanId}/members`,
   CLANS_MEMBERS_MEMBER: (clanId, memberId) => `/clans/${clanId}/members/${memberId}`,
