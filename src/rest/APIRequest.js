@@ -9,14 +9,14 @@ class APIRequest {
     this.options = options;
     this.route = route;
 
-    if(options.query) this.route += `?${new URLSearchParams(options.query).toString()}`;
+    if (options.query) this.route += `?${new URLSearchParams(options.query).toString()}`;
   }
 
   make() {
     const url = (this.options.api || this.rest.options.api) + this.route;
 
     const headers = {
-      Authorization: `Bot ${this.rest.APIKey}`
+      Authorization: `Bot ${this.rest.APIKey}`,
     };
 
     let body;

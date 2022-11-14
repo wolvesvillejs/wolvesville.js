@@ -6,6 +6,7 @@ const Util = require('../util/Util');
 
 /**
  * The base class for all clients.
+ * @abstract
  */
 class BaseClient {
   constructor(options = {}) {
@@ -53,7 +54,7 @@ class BaseClient {
   /**
    * Logs the client in.
    * @param {?string} [APIKey] API key
-   * @returns {Client}
+   * @returns {void}
    */
   login(APIKey) {
     if (!APIKey && process.env.WOLVESVILLE_API_KEY) {
@@ -66,7 +67,6 @@ class BaseClient {
 
     this.rest.setAPIKey(APIKey);
     this.readyTimestamp = Date.now();
-    return this;
   }
 
   /**

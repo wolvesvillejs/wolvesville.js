@@ -1,7 +1,13 @@
-export class BaseClient {
+export abstract class BaseClient {
     private constructor(options?: ClientOptions);
 
     public options: ClientOptions;
+    public readyTimestamp: ?number;
+
+    readonly get readyAt(): ?Date;
+    readonly get uptime(): ?number;
+
+    public login(APIKey: ?string): void;
     public destroy(): void;
 }
 

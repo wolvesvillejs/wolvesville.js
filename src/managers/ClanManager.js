@@ -64,8 +64,8 @@ class ClanManager extends CacheManager {
     if (name && typeof name !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
 
     const params = {
-      name
-    }
+      name,
+    };
 
     if (options.searchType) {
       if (typeof options.searchType !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
