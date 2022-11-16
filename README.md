@@ -14,10 +14,9 @@ npm install wolvesville.js
 
 Log the username and level of the player with username `Arnaud`:
 ```javascript
-const Wolvesville = require('wolvesville.js');
+const Wolvesville = require('wolvesville.js@dev');
 
-const client = new Wolvesville.Client();
-client.login('yourWolvesvileBotApiKey');
+const client = new Wolvesville.Client('yourWolvesvileBotApiKey');
 
 async function main() {
   const player = client.players.fetchByUsername('Arnaud');
