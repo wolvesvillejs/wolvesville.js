@@ -2,9 +2,7 @@
 .gitignore
 .eslintrc.json
 .commitlintrc.json
-webpack.config.js
 .github/
 .husky/
 test/
-webpack/
 docs/

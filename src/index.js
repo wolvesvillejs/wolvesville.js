@@ -79,6 +79,5 @@ exports.Rarities = require('./util/Constants').Rarities;
 exports.ClanLedgerActions = require('./util/Constants').ClanLedgerActions;
 exports.ClanActions = require('./util/Constants').ClanActions;
 
-exports.Options = require('./util/Options');
 exports.Routes = require('./util/Routes');
 exports.Util = require('./util/Util');

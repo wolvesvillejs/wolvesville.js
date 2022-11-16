@@ -1,19 +1,10 @@
 export abstract class BaseClient {
-    private constructor(options?: ClientOptions);
+    private constructor(APIKey?: string);
 
-    public options: ClientOptions;
-    public readyTimestamp: ?number;
+    public readyTimestamp: number | null;
 
-    readonly get readyAt(): ?Date;
-    readonly get uptime(): ?number;
+    public get readyAt(): Date | null;
+    public get uptime(): number | null;
 
-    public login(APIKey: ?string): void;
     public destroy(): void;
 }
-
-export class Options extends null {
-    private constructor();
-    public static createDefault(): ClientOptions;
-}
-
-export interface ClientOptions {}

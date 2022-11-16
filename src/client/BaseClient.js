@@ -1,36 +1,32 @@
 'use strict';
 
 const REST = require('../rest/REST');
-const Options = require('../util/Options');
-const Util = require('../util/Util');
 
 /**
  * The base class for all clients.
  * @abstract
  */
 class BaseClient {
-  constructor(options = {}) {
-    if (typeof options !== 'object' || options === null) {
-      throw new Error('INVALID_OPTIONS');
+  constructor(APIKey) {
+    if (!APIKey && process.env.WOLVESVILLE_API_KEY) {
+      APIKey = process.env.WOLVESVILLE_API_KEY;
     }
 
-    /**
-     * The options the client was instantiated with
-     * @type {ClientOptions}
-     */
-    this.options = Util.mergeDefault(Options.createDefault(), options);
+    if (!(APIKey && typeof APIKey === 'string')) {
+      throw new Error('INVALID_API_KEY_FORMAT');
+    }
 
     /**
      * The REST manager of the client
      * @type {REST}
      */
-    this.rest = new REST(this.options.rest);
+    this.rest = new REST(APIKey);
 
     /**
      * Ready timestamp
      * @type {?number}
      */
-    this.readyTimestamp = null;
+    this.readyTimestamp = Date.now();
   }
 
   /**
@@ -52,28 +48,11 @@ class BaseClient {
   }
 
   /**
-   * Logs the client in.
-   * @param {?string} [APIKey] API key
+   * Destroy client.
    * @returns {void}
    */
-  login(APIKey) {
-    if (!APIKey && process.env.WOLVESVILLE_API_KEY) {
-      APIKey = process.env.WOLVESVILLE_API_KEY;
-    }
-
-    if (!(APIKey && typeof APIKey === 'string')) {
-      throw new Error('INVALID_API_KEY_FORMAT');
-    }
-
-    this.rest.setAPIKey(APIKey);
-    this.readyTimestamp = Date.now();
-  }
-
-  /**
-   * Destroy client.
-   */
   destroy() {
-    this.rest.setAPIKey(null);
+    this.rest.APIKey = null;
     this.readyTimestamp = null;
   }
 }

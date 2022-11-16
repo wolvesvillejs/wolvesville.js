@@ -16,7 +16,7 @@
  */
 
 /**
- * Options to be passed when creating the REST instance.
+ * Options of the REST instance.
  */
 class RESTOptions {
   /**

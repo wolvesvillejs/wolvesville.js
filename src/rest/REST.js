@@ -1,14 +1,12 @@
 'use strict';
 
 const APIRequest = require('./APIRequest');
+const RESTOptions = require('./RESTOptions');
 
 class REST {
-  constructor(options) {
-    this.options = options;
-  }
-
-  setAPIKey(APIKey) {
+  constructor(APIKey) {
     this.APIKey = APIKey;
+    this.options = RESTOptions.createDefault();
   }
 
   get(route, options = {}) {
