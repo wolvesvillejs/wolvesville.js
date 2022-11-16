@@ -7,12 +7,15 @@ const REST = require('../rest/REST');
  * @abstract
  */
 class BaseClient {
+  /**
+   * @param {?string} [APIKey] APIKey
+   */
   constructor(APIKey) {
     if (!APIKey && process.env.WOLVESVILLE_API_KEY) {
       APIKey = process.env.WOLVESVILLE_API_KEY;
     }
 
-    if (!(APIKey && typeof APIKey === 'string')) {
+    if (!APIKey || typeof APIKey !== 'string') {
       throw new Error('INVALID_API_KEY_FORMAT');
     }
 

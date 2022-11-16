@@ -30,12 +30,10 @@ const Routes = require('../util/Routes');
  */
 class Client extends BaseClient {
   /**
-   * @param {ClientOptions} options Options for the client
+   * @param {?string} [APIKey] APIKey
    */
-  constructor(options) {
-    super(options);
-
-    Object.defineProperty(this, 'refreshToken', { writable: true });
+  constructor(APIKey) {
+    super(APIKey);
 
     /**
      * The player manager of the client
@@ -128,8 +126,8 @@ class Client extends BaseClient {
    */
   async fetchGameModes() {
     const response = await this.rest.get(Routes.ROLE_ROTATIONS());
-    const gameModes = response.map(gameMode => new GameMode(this, gameMode));
-    return gameModes;
+    const data = response.map(item => new GameMode(this, item));
+    return data;
   }
 
   /**
@@ -149,15 +147,15 @@ class Client extends BaseClient {
   async fetchBattlePassChallenges() {
     const response = await this.rest.get(Routes.BATTLE_PASS_CHALLENGES());
 
-    const challenges = response.map(challenge => new BattlePassChallenge(this, challenge));
-    return challenges;
+    const data = response.map(item => new BattlePassChallenge(this, item));
+    return data;
   }
 
   /**
-   * Fetch active offers.
+   * Fetch shop.
    * @returns {Promise<Array<LimitedCollectionOffer|LimitedItemCollectionOffer|AdvancedRoleCardOffer|LimitedOffer>>}
    */
-  async fetchActiveOffers() {
+  async fetchShop() {
     const response = await this.rest.get(Routes.ACTIVE_OFFERS());
     const data = response.map(item =>
       item.type.endsWith('OUTFITS')
