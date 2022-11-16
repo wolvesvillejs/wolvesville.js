@@ -1,3 +1,5 @@
+"use strict";
+
 export abstract class BaseClient {
     private constructor(APIKey?: string);
 

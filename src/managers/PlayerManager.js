@@ -11,44 +11,53 @@ const { isUUID } = require('../util/Util');
  */
 class PlayerManager extends CacheManager {
   /**
-   * Fetch a player by its username.
-   * @param {string} username Player username
+   * Data that resolves to give a Player object.
+   * @typedef {string|Object|Player|ClanChatMessageAuthor|ClanMember|ClientClanMember
+   * |ClanHistoryPlayer|ClanLedgerFieldPlayer|ClanQuestParticipant} PlayerResolvable
+   */
+
+  /**
+   * Fetch a player by their id or username.
+   * @param {PlayerResolvable} player The player to fetch
    * @param {Object} [options={}] Options
    * @returns {Promise<Player>}
    */
-  async fetchByUsername(username, options = {}) {
+  async fetch(player, options = {}) {
+    player = this.resolve(player);
+
     if (!options.force) {
-      const existing = this.cache.find(player => player.username === username);
+      const existing = player.id ? this.cache.get(player) : this.cache.find(item => item === player);
       if (existing) return existing;
     }
 
-    if (!username || typeof username !== 'string') throw new Error('INVALID_PLAYER_USERNAME_FORMAT');
-    if (username.length < 3) throw new Error('PLAYER_USERNAME_TOO_SHORT');
-    const response = await this.client.rest.get(Routes.PLAYER_BY_USERNAME(), { query: { username } });
+    const response = player.id
+      ? await this.client.rest.get(Routes.PLAYER(player.id))
+      : await this.client.rest.get(Routes.PLAYER_BY_USERNAME(), { query: player });
     if (response.code === 404) throw new Error('PLAYER_NOT_FOUND');
 
-    const player = new Player(this.client, response);
-    return this._add(player);
+    const data = new Player(this.client, response);
+    return this._add(data);
   }
 
   /**
-   * Fetch a player by its id.
-   * @param {string} id Player id
-   * @param {Object} [options={}] Options
-   * @returns {Promise<Player>}
+   * Resolves a {@link UserResolvable} to an object that contains a player id or username.
+   * @param {PlayerResolvable} player The PlayerResolvable to identify
+   * @returns {Object}
    */
-  async fetchById(id, options = {}) {
-    if (!options.force) {
-      const existing = this.cache.get(id);
-      if (existing) return existing;
+  resolve(player) {
+    if (typeof player === 'object') {
+      if ('id' in player) {
+        if (typeof player.id !== 'string' || !isUUID(player.id)) throw new Error('INVALID_PLAYER_ID_FORMAT');
+      } else if ('username' in player) {
+        if (typeof player.username !== 'string') throw new Error('INVALID_PLAYER_USERNAME_FORMAT');
+      }
+    } else if (typeof player === 'string') {
+      player = isUUID(player) ? { id: player } : { username: player };
     }
 
-    if (!id || typeof id !== 'string' || !isUUID(id)) throw new Error('INVALID_PLAYER_ID_FORMAT');
-    const response = await this.client.rest.get(Routes.PLAYER(id));
-    if (response.code === 404) throw new Error('PLAYER_NOT_FOUND');
+    if ('username' in player && player.username.length < 3) throw new Error('PLAYER_USERNAME_TOO_SHORT');
 
-    const player = new Player(this.client, response);
-    return this._add(player);
+    return player;
   }
 }
 
