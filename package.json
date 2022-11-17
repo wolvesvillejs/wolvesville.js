@@ -7,8 +7,7 @@
   "main": "./src/index.js",
   "scripts": {
     "lint": "eslint src --fix",
-    "docs": "docgen -i ./src/*/*.js -c ./docs/index.json -o ./docs/docs.json",
-    "bundle": "npx webpack-cli"
+    "docs": "docgen -i ./src/*/*.js -c ./docs/index.json -o ./docs/docs.json"
   },
   "keywords": [
     "wolvesville",
