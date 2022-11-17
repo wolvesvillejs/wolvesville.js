@@ -40,7 +40,7 @@ class PlayerManager extends CacheManager {
   }
 
   /**
-   * Resolves a {@link UserResolvable} to an object that contains a player id or username.
+   * Resolves a {@link PlayerResolvable} to an object that contains a player id or username.
    * @param {PlayerResolvable} player The PlayerResolvable to identify
    * @returns {Object}
    */

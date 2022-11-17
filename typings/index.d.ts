@@ -33,7 +33,17 @@ export class Client extends BaseClient {
     public fetchShop(): Promise<Array<LimitedCollectionOffer|LimitedItemCollectionOffer|AdvancedRoleCardOffer|LimitedOffer>>;
 }
 
-export class PlayerManager {}
+export class PlayerManager extends CacheManager {
+    private constructor(client: Client);
+
+    fetch(player: PlayerResolvable, options?: {
+        force: boolean
+    });
+    resolve(player: PlayerResolvable): Object;
+}
+
+type PlayerResolvable = String | Object;
+
 export class ClanManager {}
 export class ItemManager {}
 export class ItemSetManager {}
@@ -55,3 +65,5 @@ export class LimitedCollectionOffer {}
 export class LimitedItemCollectionOffer {}
 export class AdvancedRoleCardOffer {}
 export class LimitedOffer {}
+
+export class CacheManager {}
