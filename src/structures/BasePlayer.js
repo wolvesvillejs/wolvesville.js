@@ -9,10 +9,11 @@ const Base = require('./Base');
 class BasePlayer extends Base {
   /**
    * Fetch the player.
+   * @param {boolean} force Whether force fetching
    * @returns {Player}
    */
-  fetch() {
-    return this.client.players.fetch(this);
+  fetch(force = true) {
+    return this.client.players.fetch(this, { force });
   }
 }
 

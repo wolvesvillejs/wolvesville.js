@@ -151,10 +151,11 @@ class Clan extends Base {
 
   /**
    * Fetch the clan.
+   * @param {boolean} force Whether force fetching
    * @returns {Clan|ClientClient}
    */
-  fetch() {
-    return this.client.clans.fetch(this);
+  fetch(force = true) {
+    return this.client.clans.fetch(this, { force });
   }
 
   /**

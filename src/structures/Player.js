@@ -140,10 +140,11 @@ class Player extends BasePlayer {
 
   /**
    * Fetch player clan.
+   * @param {boolean} force Whether force fetching
    * @returns {Promise<Clan>}
    */
-  fetchClan() {
-    return this.client.clans.fetch(this.clanId);
+  fetchClan(force = true) {
+    return this.client.clans.fetch(this.clanId, { force });
   }
 
   /**
