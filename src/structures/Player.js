@@ -5,6 +5,7 @@ const BasePlayer = require('./BasePlayer');
 const OwnedProfileIcon = require('./OwnedProfileIcon');
 const RoleCard = require('./RoleCard');
 const { ItemTypes } = require('../util/Constants');
+const Clan = require('./Clan');
 
 /**
  * Represents a player.
@@ -25,6 +26,12 @@ class Player extends BasePlayer {
      * @type {string}
      */
     this.username = data.username;
+
+    /**
+     * Clan tag
+     * @type {?string}
+     */
+    this.clanTag = data.clanTag || null;
 
     /**
      * Player personal message
@@ -77,10 +84,10 @@ class Player extends BasePlayer {
     this.gameStats = data.gameStats;
 
     /**
-     * Clan
-     * @type {?Object}
+     * Clan id
+     * @type {?string}
      */
-    this.clan = { id: data.clanId, tag: data.clanTag } || null;
+    this.clanId = data.clanId || null;
 
     /**
      * Ranked season skill points
@@ -119,10 +126,10 @@ class Player extends BasePlayer {
     this.avatars = data.avatars.map(avatar => new Avatar(client, avatar));
 
     /**
-     * Player badges
-     * @type {AvatarItem[]}
+     * Player badge ids
+     * @type {Array}
      */
-    this.badges = data.badgeIds.map(badgeId => this.client.items.resolve(badgeId, ItemTypes.AVATAR_ITEM));
+    this.badgeIds = data.badgeIds;
 
     /**
      * Player role cards
@@ -136,7 +143,7 @@ class Player extends BasePlayer {
    * @returns {Promise<Clan>}
    */
   fetchClan() {
-    return this.client.clans.fetch(this.clan);
+    return this.client.clans.fetch(this.clanId);
   }
 
   /**
@@ -146,6 +153,25 @@ class Player extends BasePlayer {
    */
   get clanTagAndUsername() {
     return this.clan.tag ? `${this.clan.tag} | ${this.username}` : this.username;
+  }
+
+  /**
+   * Player badges
+   * @type {Item[]}
+   */
+  get badges() {
+    return this.badgeIds.map(item => this.client.items.resolve(item, ItemTypes.AVATAR_ITEM));
+  }
+
+  /**
+   * Player's clan
+   * @type {?Clan}
+   * @readonly
+   */
+  get clan() {
+    return this.clanId
+      ? (this.client.clans.cache.get(this.clanId) || new Clan(this.client, { id: this.clanId, tag: this.clanTag }))
+      : null;
   }
 
   /**
