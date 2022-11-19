@@ -39,7 +39,7 @@ export class PlayerManager extends CacheManager {
     fetch(player: PlayerResolvable, options?: {
         force: boolean
     });
-    resolve(player: PlayerResolvable): Object;
+    resolve(player: PlayerResolvable): Object | null;
 }
 
 type PlayerResolvable = String | Object;

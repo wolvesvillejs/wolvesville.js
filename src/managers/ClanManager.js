@@ -13,8 +13,8 @@ const { isUUID } = require('../util/Util');
  */
 class ClanManager extends CacheManager {
   /**
-   * Fetch clan by id.
-   * @returns {Promise<Clan>}
+   * Fetch authorized clans.
+   * @returns {Promise<ClientClan>}
    */
   async fetchAuthorized() {
     const response = await this.client.rest.get(Routes.CLANS_AUTHORIZED());
@@ -24,18 +24,20 @@ class ClanManager extends CacheManager {
 
   /**
    * Fetch clan by id.
-   * @param {string} id Clan id
+   * @param {string} clan Clan id
    * @param {Object} [options={}] Options
-   * @returns {Promise<Clan>}
+   * @returns {Promise<Clan|ClientClan>}
    */
-  async fetchById(id, options = {}) {
+  async fetch(clan, options = {}) {
+    clan = this.resolve(clan) || {};
+    if (!clan.id) throw new Error('INVALID_CLAN_FORMAT');
+
     if (!options.force) {
-      const existing = this.cache.get(id);
+      const existing = this.cache.get(clan.id);
       if (existing) return existing;
     }
 
-    if (!id || typeof id !== 'string' || !isUUID(id)) throw new Error('INVALID_CLAN_ID_FORMAT');
-    const response = await this.client.rest.get(Routes.CLANS_INFO(id));
+    const response = await this.client.rest.get(Routes.CLANS_INFO(clan.id));
     if (response.code === 404) throw new Error('CLAN_NOT_FOUND');
 
     const data = new ('gold' in response ? ClientClan : Clan)(this.client, response);
@@ -219,6 +221,29 @@ class ClanManager extends CacheManager {
 
     const data = response.map(clan => new Clan(this.client, clan));
     return data.reduce((col, clan) => col.set(clan.id, this._add(clan)), new Collection());
+  }
+
+  /**
+   * Data that resolves to give a Clan object.
+   * @typedef {string|Object|Clan|ClientClan} ClanResolvable
+   */
+
+  /**
+   * Resolves a {@link ClanResolvable} to an object that contains a clans id or name.
+   * @param {ClanResolvable} clan The ClanResolvable to identify
+   * @returns {?Object}
+   */
+  resolve(clan) {
+    if (typeof clan === 'object') {
+      if ('id' in clan) {
+        if (typeof clan.id !== 'string' || !isUUID(clan.id)) clan = null;
+      } else if ('name' in clan) {
+        if (typeof clan.name !== 'string') clan = null;
+      }
+    } else if (typeof clan === 'string') {
+      clan = isUUID(clan) ? { id: clan } : { name: clan };
+    }
+    return clan;
   }
 }
 

@@ -59,7 +59,7 @@ class Clan extends Base {
 
     /**
      * Clan icon
-     * @type {string}
+     * @type {OwnedClanIcon}
      */
     this.icon = new OwnedClanIcon(client, {
       name: data.icon,
@@ -99,10 +99,10 @@ class Clan extends Base {
 
   /**
    * Fetch the clan.
-   * @returns {Clan}
+   * @returns {Clan|ClientClient}
    */
   fetch() {
-    return this.client.clans.fetchById(this.id);
+    return this.client.clans.fetch(this);
   }
 
   /**

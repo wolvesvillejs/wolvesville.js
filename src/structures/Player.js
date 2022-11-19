@@ -27,12 +27,6 @@ class Player extends BasePlayer {
     this.username = data.username;
 
     /**
-     * Player clan tag
-     * @type {?string}
-     */
-    this.clanTag = data.clanTag ?? null;
-
-    /**
      * Player personal message
      * @type {?string}
      */
@@ -81,6 +75,12 @@ class Player extends BasePlayer {
         });
 
     this.gameStats = data.gameStats;
+
+    /**
+     * Clan
+     * @type {?Object}
+     */
+    this.clan = { id: data.clanId, tag: data.clanTag } || null;
 
     /**
      * Ranked season skill points
@@ -136,7 +136,7 @@ class Player extends BasePlayer {
    * @returns {Promise<Clan>}
    */
   fetchClan() {
-    return this.client.clans.fetchById(this.clanId);
+    return this.client.clans.fetch(this.clan);
   }
 
   /**
@@ -145,7 +145,7 @@ class Player extends BasePlayer {
    * @readonly
    */
   get clanTagAndUsername() {
-    return this.clanTag ? `${this.clanTag} | ${this.username}` : this.username;
+    return this.clan.tag ? `${this.clan.tag} | ${this.username}` : this.username;
   }
 
   /**
