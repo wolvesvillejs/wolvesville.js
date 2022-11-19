@@ -2,10 +2,10 @@
 
 const Avatar = require('./Avatar');
 const BasePlayer = require('./BasePlayer');
+const Clan = require('./Clan');
 const OwnedProfileIcon = require('./OwnedProfileIcon');
 const RoleCard = require('./RoleCard');
 const { ItemTypes } = require('../util/Constants');
-const Clan = require('./Clan');
 
 /**
  * Represents a player.
@@ -171,7 +171,7 @@ class Player extends BasePlayer {
    */
   get clan() {
     return this.clanId
-      ? (this.client.clans.cache.get(this.clanId) || new Clan(this.client, { id: this.clanId, tag: this.clanTag }))
+      ? this.client.clans.cache.get(this.clanId) || new Clan(this.client, { id: this.clanId, tag: this.clanTag })
       : null;
   }
 

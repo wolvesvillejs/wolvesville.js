@@ -25,7 +25,7 @@ class Clan extends Base {
   }
 
   _patch(data) {
-    if('name' in data) {
+    if ('name' in data) {
       /**
        * Clan name
        * @type {?string}
@@ -35,17 +35,17 @@ class Clan extends Base {
       this.name ??= null;
     }
 
-    if(data.tag) {
+    if (data.tag) {
       /**
        * Clan tag
        * @type {?string}
        */
-      this.tag = data.tag
+      this.tag = data.tag;
     } else {
       this.tag ??= null;
     }
- 
-    if('creationTime' in data) {
+
+    if ('creationTime' in data) {
       /**
        * Clan created timestamp
        * @type {?number}
@@ -55,7 +55,7 @@ class Clan extends Base {
       this.createdTimestamp ??= null;
     }
 
-    if(data.description) {
+    if (data.description) {
       /**
        * Clan description
        * @type {?string}
@@ -64,8 +64,8 @@ class Clan extends Base {
     } else {
       this.description ??= null;
     }
- 
-    if('xp' in data) {
+
+    if ('xp' in data) {
       /**
        * Clan xp
        * @type {?number}
@@ -75,7 +75,7 @@ class Clan extends Base {
       this.xp ??= null;
     }
 
-    if('language' in data) {
+    if ('language' in data) {
       /**
        * Clan language
        * @type {?string}
@@ -85,7 +85,7 @@ class Clan extends Base {
       this.language ??= null;
     }
 
-    if('icon' in data && 'iconColor' in data) {
+    if ('icon' in data && 'iconColor' in data) {
       /**
        * Clan icon
        * @type {?OwnedClanIcon}
@@ -98,7 +98,7 @@ class Clan extends Base {
       this.icon ??= null;
     }
 
-    if('joinType' in data) {
+    if ('joinType' in data) {
       /**
        * Clan join type
        * @type {?string}
@@ -108,7 +108,7 @@ class Clan extends Base {
       this.joinType ??= null;
     }
 
-    if('memberCount' in data) {
+    if ('memberCount' in data) {
       /**
        * Clan member count
        * @type {?number}
@@ -117,8 +117,8 @@ class Clan extends Base {
     } else {
       this.memberCount ??= null;
     }
- 
-    if('leaderId' in data) {
+
+    if ('leaderId' in data) {
       /**
        * Clan leader
        * @type {?Object}
@@ -128,7 +128,7 @@ class Clan extends Base {
       this.leader ??= null;
     }
 
-    if('minLevel' in data) {
+    if ('minLevel' in data) {
       /**
        * Clan required level to join
        * @type {?number}
@@ -137,13 +137,13 @@ class Clan extends Base {
     } else {
       this.requiredLevel ??= null;
     }
- 
-    if('questHistoryCount' in data) {
+
+    if ('questHistoryCount' in data) {
       /**
        * Clan started quest count
        * @type {?number}
        */
-      this.startedQuestCount = data.questHistoryCount;      
+      this.startedQuestCount = data.questHistoryCount;
     } else {
       this.startedQuestCount ??= null;
     }
