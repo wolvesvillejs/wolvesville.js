@@ -7,9 +7,6 @@ const REST = require('../rest/REST');
  * @abstract
  */
 class BaseClient {
-  /**
-   * @param {?string} [APIKey] APIKey
-   */
   constructor(APIKey) {
     if (!APIKey && process.env.WOLVESVILLE_API_KEY) {
       APIKey = process.env.WOLVESVILLE_API_KEY;
