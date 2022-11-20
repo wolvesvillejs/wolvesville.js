@@ -12,8 +12,7 @@ const { isUUID } = require('../util/Util');
 class PlayerManager extends CacheManager {
   /**
    * Data that resolves to give a Player object.
-   * @typedef {string|Object|Player|ClanChatMessageAuthor|ClanMember|ClientClanMember
-   * |ClanHistoryPlayer|ClanLedgerFieldPlayer|ClanQuestParticipant} PlayerResolvable
+   * @typedef {string|Object|Player|ClanMember|ClientClanMember|ClanQuestParticipant} PlayerResolvable
    */
 
   /**
