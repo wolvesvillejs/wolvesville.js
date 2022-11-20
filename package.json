@@ -7,7 +7,8 @@
   "main": "./src/index.js",
   "scripts": {
     "lint": "eslint src --fix",
-    "docs": "docgen -i ./src/*/*.js -c ./docs/index.json -o ./docs/docs.json"
+    "docs": "docgen -i ./src/*/*.js -c ./docs/index.json -o ./docs/docs.json",
+    "bundle": "webpack-cli"
   },
   "keywords": [
     "wolvesville",
@@ -37,7 +38,10 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^8.0.0",
-    "jsdoc": "^3.6.10"
+    "jsdoc": "^3.6.10",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0",
+    "terser-webpack-plugin": "^5.3.6"
   },
   "engines": {
     "node": ">=16.9.0"
