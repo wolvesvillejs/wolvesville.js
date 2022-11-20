@@ -1,7 +1,7 @@
 {
   "name": "wolvesville.js",
   "version": "2.1.0-dev",
-  "description": "The JavaScript read-only library for interacting with the Wolvesville API.",
+  "description": "The JavaScript library for interacting with the Wolvesville API.",
   "author": "mainleau",
   "license": "MIT",
   "main": "./src/index.js",
