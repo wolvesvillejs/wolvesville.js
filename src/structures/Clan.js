@@ -5,6 +5,7 @@ const Base = require('./Base');
 const ClanMember = require('./ClanMember');
 const ClientClanMember = require('./ClientClanMember');
 const OwnedClanIcon = require('./OwnedClanIcon');
+const Player = require('./Player');
 const Routes = require('../util/Routes');
 
 /**
@@ -121,11 +122,11 @@ class Clan extends Base {
     if ('leaderId' in data) {
       /**
        * Clan leader
-       * @type {?Object}
+       * @type {?string}
        */
-      this.leader = { id: data.leaderId };
+      this.leaderId = data.leaderId;
     } else {
-      this.leader ??= null;
+      this.leaderId ??= null;
     }
 
     if ('minLevel' in data) {
@@ -169,7 +170,7 @@ class Clan extends Base {
       member =>
         new (response[0].participateInClanQuests ? ClientClanMember : ClanMember)(
           this.client,
-          Object.assign(member, { leaderId: this.leader.id }),
+          Object.assign(member, { leaderId: this.leaderId }),
         ),
     );
     return members.reduce((col, member) => col.set(member.id, member), new Collection());
@@ -186,6 +187,17 @@ class Clan extends Base {
     return response.participateInClanQuests
       ? new ClientClanMember(this.client, response)
       : new ClanMember(this.client, response);
+  }
+
+  /**
+   * Leader of the clan
+   * @type {?Player}
+   * @readonly
+   */
+  get leader() {
+    return this.leaderId
+      ? this.client.players.cache.get(this.leaderId) || new Player(this.client, { id: this.leaderId })
+      : null;
   }
 
   /**

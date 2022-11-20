@@ -21,121 +21,182 @@ class Player extends BasePlayer {
      */
     this.id = data.id;
 
-    /**
-     * Player username
-     * @type {string}
-     */
-    this.username = data.username;
+    this._patch(data);
+  }
 
-    /**
-     * Clan tag
-     * @type {?string}
-     */
-    this.clanTag = data.clanTag || null;
+  _patch(data) {
+    if ('username' in data) {
+      /**
+       * Player username
+       * @type {?string}
+       */
+      this.username = data.username;
+    } else {
+      this.username ??= null;
+    }
 
-    /**
-     * Player personal message
-     * @type {?string}
-     */
-    this.personalMessage = data.personalMsg || null;
+    if (data.personalMsg) {
+      /**
+       * Player personal message
+       * @type {?string}
+       */
+      this.personalMessage = data.personalMsg;
+    } else {
+      this.personalMessage ??= null;
+    }
 
-    /**
-     * Player level
-     * @type {number}
-     */
-    this.level = data.level;
+    if ('level' in data) {
+      /**
+       * Player level
+       * @type {?number}
+       */
+      this.level = data.level;
+    } else {
+      this.level ??= null;
+    }
 
-    /**
-     * Player status
-     * @type {string}
-     */
-    this.status = data.status;
+    if ('status' in data) {
+      /**
+       * Player status
+       * @type {?number}
+       */
+      this.status = data.status;
+    } else {
+      this.status ??= null;
+    }
 
-    /**
-     * Number of roses the player received
-     * @type {number}
-     */
-    this.receivedRoses = data.receivedRoses ?? 0;
+    if ('receivedRosesCount' in data) {
+      /**
+       * Number of roses the player received
+       * @type {?number}
+       */
+      this.receivedRosesCount = data.receivedRosesCount ?? 0;
+    } else {
+      this.receivedRosesCount ??= null;
+    }
 
-    /**
-     * Number of roses the player sent
-     * @type {number}
-     */
-    this.sentRoses = data.sentRoses ?? 0;
+    if ('sentRosesCount' in data) {
+      /**
+       * Number of roses the player sent
+       * @type {?number}
+       */
+      this.sentRosesCount = data.sentRosesCount ?? 0;
+    } else {
+      this.sentRosesCount ??= null;
+    }
 
-    /**
-     * Player profile icon
-     * @type {?OwnedProfileIcon}
-     */
-    this.profileIcon = !data.profileIconId
-      ? null
-      : this.client.profileIcons.cache.size
-      ? new OwnedProfileIcon(
-          this.client,
-          Object.assign(this.client.profileIcons.cache.get(data.profileIconId), {
-            color: data.profileIconColor,
-          }),
-        )
-      : new OwnedProfileIcon(this.client, {
-          id: data.profileIconId,
-          color: data.profileIconColor,
-        });
+    if ('profileIconId' in data && 'profileIconColor' in data) {
+      /**
+       * Player profile icon
+       * @type {?OwnedProfileIcon}
+       */
+      this.profileIcon = new OwnedProfileIcon(this.client, {
+        id: data.profileIconId,
+        color: data.profileIconColor,
+      });
+    } else {
+      this.profileIcon ??= null;
+    }
 
-    this.gameStats = data.gameStats;
+    if (data.clanId) {
+      /**
+       * Player's clan id
+       * @type {?string}
+       */
+      this.clanId = data.clanId;
+    } else {
+      this.clanId ??= null;
+    }
 
-    /**
-     * Clan id
-     * @type {?string}
-     */
-    this.clanId = data.clanId || null;
+    if ('gameStats' in data) {
+      /**
+       * Player game stats
+       * @type {?Object}
+       */
+      this.gameStats = data.gameStats;
+    } else {
+      this.gameStats ??= null;
+    }
 
-    /**
-     * Ranked season skill points
-     * @type {?number}
-     */
-    this.seasonSkill = data.rankedSeasonSkill !== -1 ? data.rankedSeasonSkill : null;
+    if ('rankedSeasonSkill' in data && data.rankedSeasonSkill !== -1) {
+      /**
+       * Ranked season skill points
+       * @type {?number}
+       */
+      this.seasonSkill = data.rankedSeasonSkill;
+    } else {
+      this.seasonSkill ??= null;
+    }
 
-    /**
-     * Ranked season skill points record
-     * @type {?number}
-     */
-    this.skillRecord = data.rankedSeasonMaxSkill !== -1 ? data.rankedSeasonMaxSkill : null;
+    if ('rankedSeasonMaxSkill' in data && data.rankedSeasonMaxSkill !== -1) {
+      /**
+       * Ranked season skill points record
+       * @type {?number}
+       */
+      this.skillRecord = data.rankedSeasonMaxSkill;
+    } else {
+      this.skillRecord ??= null;
+    }
 
-    /**
-     * Ranked final rank record
-     * @type {?number}
-     */
-    this.rankRecord = data.rankedSeasonBestRank !== -1 ? data.rankedSeasonBestRank : null;
+    if ('rankedSeasonBestRank' in data && data.rankedSeasonBestRank !== -1) {
+      /**
+       * Ranked final rank record
+       * @type {?number}
+       */
+      this.rankRecord = data.rankedSeasonBestRank;
+    } else {
+      this.rankRecord ??= null;
+    }
 
-    /**
-     * Ranked season played count
-     * @type {number}
-     */
-    this.seasonPlayedCount = data.rankedSeasonPlayedCount;
+    if ('rankedSeasonPlayedCount' in data) {
+      /**
+       * Ranked season played count
+       * @type {?number}
+       */
+      this.seasonPlayedCount = data.rankedSeasonPlayedCount;
+    } else {
+      this.seasonPlayedCount ??= null;
+    }
 
-    /**
-     * Player last online timestamp
-     * @type {number}
-     */
-    this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
+    if ('lastOnline' in data) {
+      /**
+       * Player last online timestamp
+       * @type {?number}
+       */
+      this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
+    } else {
+      this.lastOnlineTimestamp ??= null;
+    }
 
-    /**
-     * Player avatars
-     * @type {Avatar[]}
-     */
-    this.avatars = data.avatars.map(avatar => new Avatar(client, avatar));
+    if ('avatars' in data) {
+      /**
+       * Player avatars
+       * @type {?Avatar[]}
+       */
+      this.avatars = data.avatars.map(avatar => new Avatar(this.client, avatar));
+    } else {
+      this.avatars ??= null;
+    }
 
-    /**
-     * Player badge ids
-     * @type {Array}
-     */
-    this.badgeIds = data.badgeIds;
+    if ('badgeIds' in data) {
+      /**
+       * Player badge ids
+       * @type {?string[]}
+       */
+      this.badgeIds = data.badgeIds;
+    } else {
+      this.badgeIds ??= null;
+    }
 
-    /**
-     * Player role cards
-     * @type {RoleCard[]}
-     */
-    this.roleCards = data.roleCards.map(roleCard => new RoleCard(this.client, roleCard));
+    if ('roleCards' in data) {
+      /**
+       * Player role cards
+       * @type {?RoleCard[]}
+       */
+      this.roleCards = data.roleCards.map(roleCard => new RoleCard(this.client, roleCard));
+    } else {
+      this.roleCards ??= null;
+    }
   }
 
   /**
@@ -148,20 +209,30 @@ class Player extends BasePlayer {
   }
 
   /**
+   * Clan tag
+   * @type {?string}
+   * @readonly
+   */
+   get clanTag() {
+    return this.clan.tag || null;
+  }
+
+  /**
    * Clan tag and username
-   * @type {string}
+   * @type {?string}
    * @readonly
    */
   get clanTagAndUsername() {
-    return this.clan.tag ? `${this.clan.tag} | ${this.username}` : this.username;
+    return this.username ? (this.clanTag ? `${this.clanTag} | ${this.username}` : this.username) : null;
   }
 
   /**
    * Player badges
-   * @type {Item[]}
+   * @type {?(Item[])}
+   * @readonly
    */
   get badges() {
-    return this.badgeIds.map(item => this.client.items.resolve(item, ItemTypes.AVATAR_ITEM));
+    return this.badgeIds ? this.badgeIds.map(item => this.client.items.resolve(item, ItemTypes.AVATAR_ITEM)) : null;
   }
 
   /**
@@ -177,20 +248,22 @@ class Player extends BasePlayer {
 
   /**
    * Whether the player is online
-   * @type {boolean}
+   * @type {?boolean}
    * @readonly
    */
   get online() {
-    return this.lastOnlineTimestamp + 10 * 60 * 1000 > Date.now();
+    return this.lastOnlineTimestamp ? this.lastOnlineTimestamp + 10 * 60 * 1000 > Date.now() : null;
   }
 
   /**
    * Games played count
-   * @type {number}
+   * @type {?number}
    * @readonly
    */
   get gamesPlayedCount() {
-    return this.stats.wonGameCount + this.stats.lostGameCount + this.stats.fledGameCount;
+    return this.gameStats
+      ? this.gameStats.totalWinCount + this.gameStats.totalLoseCount + this.gameStats.totalTieCount
+      : null;
   }
 }
 

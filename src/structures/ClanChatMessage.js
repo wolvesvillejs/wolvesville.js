@@ -1,8 +1,8 @@
 'use strict';
 
 const Base = require('./Base');
-const ClanChatMessageAuthor = require('./ClanChatMessageAuthor');
 const { ItemTypes } = require('../util/Constants');
+const Player = require('./Player');
 
 /**
  * Represents a clan chat message.
@@ -14,10 +14,10 @@ class ClanChatMessage extends Base {
 
     /**
      * Message author
-     * @type {?ClanChatMessageAuthor}
+     * @type {?Player}
      */
     this.author = !data.playerBotOwnerUsername
-      ? new ClanChatMessageAuthor(client, {
+      ? new Player(client, {
           id: data.playerId,
         })
       : null;

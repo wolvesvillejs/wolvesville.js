@@ -1,8 +1,8 @@
 'use strict';
 
 const Base = require('./Base');
-const ClanLedgerFieldPlayer = require('./ClanLedgerFieldPlayer');
 const { ItemTypes, ClanLedgerActions } = require('../util/Constants');
+const Player = require('./Player');
 
 /**
  * Represents a clan ledger field.
@@ -38,9 +38,9 @@ class ClanLedgerField extends Base {
 
     /**
      * Field creation timestamp
-     * @type {ClanLedgerFieldPlayer}
+     * @type {Player}
      */
-    this.player = new ClanLedgerFieldPlayer(client, data);
+    this.player = new Player(client, data);
 
     /**
      * Field created timestamp
