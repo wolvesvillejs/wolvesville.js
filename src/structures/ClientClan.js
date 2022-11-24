@@ -132,7 +132,7 @@ class ClientClan extends Clan {
 
   /**
    * Suffle quests.
-   * <warn>Calling this endpoint will spend clan gold!</warn>
+   * <warn>Using this method will spend clan gold!</warn>
    * @returns {void}
    */
   async shuffleQuests() {
@@ -142,8 +142,8 @@ class ClientClan extends Clan {
 
   /**
    * Claim a quest.
+   * <warn>Using this method will spend clan gold/gems!</warn>
    * @param {string} questId Quest id
-   * <warn>Calling this endpoint will spend clan gold/gems!</warn>
    * @returns {Promise<AchievedClanQuest[]>}
    */
   async claimQuest(questId) {
@@ -158,7 +158,7 @@ class ClientClan extends Clan {
 
   /**
    * Skip quest waiting time.
-   * <warn>Calling this endpoint will spend clan gold!</warn>
+   * <warn>Using this method will spend clan gold!</warn>
    * @returns {void}
    */
   async skipQuestWaitingTime() {
@@ -168,7 +168,7 @@ class ClientClan extends Clan {
 
   /**
    * Claim additional time for the active quest.
-   * <warn>Calling this endpoint will spend clan gold!</warn>
+   * <warn>Using this method will spend clan gold!</warn>
    * @returns {void}
    */
   async claimQuestExtraTime() {
