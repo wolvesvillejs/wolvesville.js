@@ -132,6 +132,7 @@ class ClientClan extends Clan {
 
   /**
    * Suffle quests.
+   * <warn>Calling this endpoint will spend clan gold!</warn>
    * @returns {void}
    */
   async shuffleQuests() {
@@ -142,6 +143,7 @@ class ClientClan extends Clan {
   /**
    * Claim a quest.
    * @param {string} questId Quest id
+   * <warn>Calling this endpoint will spend clan gold/gems!</warn>
    * @returns {Promise<AchievedClanQuest[]>}
    */
   async claimQuest(questId) {
@@ -156,6 +158,7 @@ class ClientClan extends Clan {
 
   /**
    * Skip quest waiting time.
+   * <warn>Calling this endpoint will spend clan gold!</warn>
    * @returns {void}
    */
   async skipQuestWaitingTime() {
@@ -165,6 +168,7 @@ class ClientClan extends Clan {
 
   /**
    * Claim additional time for the active quest.
+   * <warn>Calling this endpoint will spend clan gold!</warn>
    * @returns {void}
    */
   async claimQuestExtraTime() {
@@ -182,8 +186,8 @@ class ClientClan extends Clan {
   }
 
   /**
-   * Cancel active quest.
-   * @returns {void}
+   * Fetch all quests.
+   * @returns {ClanQuest[]}
    */
   async fetchQuests() {
     const response = await this.client.rest.get(Routes.CLANS_QUESTS_ALL());
