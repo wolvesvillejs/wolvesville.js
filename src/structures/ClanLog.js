@@ -1,8 +1,8 @@
 'use strict';
 
 const Base = require('./Base');
-const { ClanActions } = require('../util/Constants');
 const Player = require('./Player');
+const { ClanActions } = require('../util/Constants');
 
 /**
  * Represents a clan log.

@@ -1,10 +1,11 @@
 'use strict';
 
 const CacheManager = require('./CacheManager');
-const Routes = require('../util/Routes');
 const AchievedClanQuest = require('../structures/AchievedClanQuest');
-const ClanQuest = require('../structures/ClanQuest');
 const ActiveClanQuest = require('../structures/ActiveClanQuest');
+const AvailableClanQuest = require('../structures/AvailableClanQuest');
+const Routes = require('../util/Routes');
+const { isUUID } = require('../util/Util');
 
 /**
  * Manages API methods for clan quests.
@@ -23,7 +24,7 @@ class ClanQuestManager extends CacheManager {
    */
   async fetch() {
     const quests = await this.client.rest.get(Routes.CLANS_QUESTS_AVAILABLE(this.clan.id));
-    return quests.map(quest => new ClanQuest(this.client, quest));
+    return quests.map(quest => new AvailableClanQuest(this.client, quest, this.clan));
   }
 
   /**
@@ -50,7 +51,7 @@ class ClanQuestManager extends CacheManager {
    * Claim a quest.
    * <warn>Using this method will spend clan gold/gems!</warn>
    * @param {string} questId Quest id
-   * @returns {Promise<AchievedClanQuest[]>}
+   * @returns {void}
    */
   async claim(questId) {
     if (!questId || typeof questId !== 'string' || !isUUID(questId)) throw new Error('INVALID_QUEST_ID_FORMAT');

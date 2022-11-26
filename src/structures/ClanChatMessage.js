@@ -1,8 +1,8 @@
 'use strict';
 
 const Base = require('./Base');
-const { ItemTypes } = require('../util/Constants');
 const Player = require('./Player');
+const { ItemTypes } = require('../util/Constants');
 
 /**
  * Represents a clan chat message.

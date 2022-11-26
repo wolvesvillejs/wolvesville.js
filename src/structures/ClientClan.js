@@ -4,10 +4,10 @@ const { Collection } = require('@discordjs/collection');
 const Clan = require('./Clan');
 const ClanLedgerField = require('./ClanLedgerField');
 const ClanLog = require('./ClanLog');
+const ClanQuestManager = require('../managers/ClanQuestManager');
 const ClanChatMessage = require('../structures/ClanChatMessage');
 const Routes = require('../util/Routes');
 const { isUUID } = require('../util/Util');
-const ClanQuestManager = require('../managers/ClanQuestManager');
 
 /**
  * Represents a client clan.

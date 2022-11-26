@@ -213,7 +213,7 @@ class Player extends BasePlayer {
    * @type {?string}
    * @readonly
    */
-   get clanTag() {
+  get clanTag() {
     return this.clan.tag || null;
   }
 

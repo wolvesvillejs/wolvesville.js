@@ -1,8 +1,8 @@
 'use strict';
 
 const Base = require('./Base');
-const { ItemTypes, ClanLedgerActions } = require('../util/Constants');
 const Player = require('./Player');
+const { ItemTypes, ClanLedgerActions } = require('../util/Constants');
 
 /**
  * Represents a clan ledger field.

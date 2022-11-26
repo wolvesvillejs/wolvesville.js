@@ -2,6 +2,7 @@
 
 const ClanQuest = require('./ClanQuest');
 const ClanQuestParticipant = require('./ClanQuestParticipant');
+const Routes = require('../util/Routes');
 
 /**
  * Represents an active clan quest.
@@ -59,7 +60,7 @@ class ActiveClanQuest extends ClanQuest {
      */
     this.durationExtensionClaimed = data.claimedTime;
 
-    Object.defineProperty(this, 'clan', { value: data });
+    Object.defineProperty(this, 'clan', { value: clan });
   }
 
   /**

@@ -24,6 +24,7 @@ exports.TalismanManager = require('./managers/TalismanManager');
 exports.AchievedClanQuest = require('./structures/AchievedClanQuest');
 exports.ActiveClanQuest = require('./structures/ActiveClanQuest');
 exports.AdvancedRoleCardOffer = require('./structures/AdvancedRoleCardOffer');
+exports.AvailableClanQuest = require('./structures/AvailableClanQuest');
 exports.Avatar = require('./structures/Avatar');
 exports.Background = require('./structures/Background');
 exports.Base = require('./structures/Base');
