@@ -20,7 +20,7 @@ class ClanQuestManager extends CacheManager {
 
   /**
    * Fetch available quests.
-   * @returns {Promise<ClanQuest[]>}
+   * @returns {Promise<AvailableClanQuest[]>}
    */
   async fetch() {
     const quests = await this.client.rest.get(Routes.CLANS_QUESTS_AVAILABLE(this.clan.id));

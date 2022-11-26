@@ -4,8 +4,8 @@ const { Collection } = require('@discordjs/collection');
 const Clan = require('./Clan');
 const ClanLedgerField = require('./ClanLedgerField');
 const ClanLog = require('./ClanLog');
+const ClanChatManager = require('../managers/ClanChatManager');
 const ClanQuestManager = require('../managers/ClanQuestManager');
-const ClanChatMessage = require('../structures/ClanChatMessage');
 const Routes = require('../util/Routes');
 const { isUUID } = require('../util/Util');
 
@@ -19,9 +19,15 @@ class ClientClan extends Clan {
 
     /**
      * The quest manager of the clan
-     * @type {PlayerManager}
+     * @type {ClanQuestManager}
      */
     this.quests = new ClanQuestManager(client, this);
+
+    /**
+     * The chat manager of the clan
+     * @type {ClanQuestManager}
+     */
+    this.chat = new ClanChatManager(client, this);
 
     /**
      * Clan gold count
@@ -74,35 +80,6 @@ class ClientClan extends Clan {
   async fetchLog() {
     const response = await this.client.rest.get(Routes.CLANS_LOGS(this.id));
     return response.map(log => new ClanLog(this.client, log));
-  }
-
-  /**
-   * Fetch chat messages.
-   * @param {number} timestamp Timestamp of messages around
-   * @returns {Promise<ClanChatMessage[]>}
-   */
-  async fetchChatMessages(timestamp) {
-    if (timestamp) {
-      const date = new Date(timestamp);
-      if (isNaN(timestamp) || timestamp !== date.getTime()) throw new Error('INVALID_TIMESTAMP');
-      timestamp = date.toISOString();
-    }
-
-    const response = await this.client.rest.get(Routes.CLANS_CHAT(this.id), { query: { oldest: timestamp } });
-    return response.map(message => new ClanChatMessage(this.client, message));
-  }
-
-  /**
-   * Send chat message.
-   * @param {string} content Message content
-   */
-  async sendMessage(content) {
-    if (typeof content !== 'string') throw new Error('MESSAGE_CONTENT_MUST_BE_A_STRING');
-    await this.client.rest.post(Routes.CLANS_CHAT(this.id), {
-      data: {
-        message: content,
-      },
-    });
   }
 }
 
