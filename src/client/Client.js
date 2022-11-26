@@ -23,6 +23,7 @@ const LimitedCollectionOffer = require('../structures/LimitedCollectionOffer');
 const LimitedItemCollectionOffer = require('../structures/LimitedItemCollectionOffer');
 const LimitedOffer = require('../structures/LimitedOffer');
 const Routes = require('../util/Routes');
+const ClanQuest = require('../structures/ClanQuest');
 
 /**
  * Wolvesville client.
@@ -169,6 +170,16 @@ class Client extends BaseClient {
 
     return data;
   }
+
+  /**
+   * Fetch all quests.
+   * @returns {ClanQuest[]}
+   */
+  async fetchQuests() {
+    const response = await this.client.rest.get(Routes.CLANS_QUESTS_ALL());
+    return response.map(quest => new ClanQuest(this.client, quest));
+  }
+
 }
 
 module.exports = Client;

@@ -7,6 +7,7 @@ exports.BackgroundManager = require('./managers/BackgroundManager');
 exports.BaseManager = require('./managers/BaseManager');
 exports.CacheManager = require('./managers/CacheManager');
 exports.ClanManager = require('./managers/ClanManager');
+exports.ClanQuestManager = require('./managers/ClanQuestManager');
 exports.EmojiCollectionManager = require('./managers/EmojiCollectionManager');
 exports.EmojiManager = require('./managers/EmojiManager');
 exports.ItemCollectionManager = require('./managers/ItemCollectionManager');
