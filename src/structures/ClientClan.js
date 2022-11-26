@@ -25,7 +25,7 @@ class ClientClan extends Clan {
 
     /**
      * The chat manager of the clan
-     * @type {ClanQuestManager}
+     * @type {ClanChatManager}
      */
     this.chat = new ClanChatManager(client, this);
 
