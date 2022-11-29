@@ -1,5 +1,6 @@
 'use strict';
 
+const { Collection } = require('@discordjs/collection');
 const CacheManager = require('./CacheManager');
 const AchievedClanQuest = require('../structures/AchievedClanQuest');
 const ActiveClanQuest = require('../structures/ActiveClanQuest');
@@ -23,8 +24,10 @@ class ClanQuestManager extends CacheManager {
    * @returns {Promise<AvailableClanQuest[]>}
    */
   async fetch() {
-    const quests = await this.client.rest.get(Routes.CLANS_QUESTS_AVAILABLE(this.clan.id));
-    return quests.map(quest => new AvailableClanQuest(this.client, quest, this.clan));
+    const response = await this.client.rest.get(Routes.CLANS_QUESTS_AVAILABLE(this.clan.id));
+
+    const data = response.map(item => new AvailableClanQuest(this.client, item, this.clan));
+    return data.reduce((col, item) => col.set(item.id, this._add(item)), new Collection());
   }
 
   /**

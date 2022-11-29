@@ -1,14 +1,14 @@
 'use strict';
 
-const CacheManager = require('./CacheManager');
+const BaseManager = require('./BaseManager');
 const ClanChatMessage = require('../structures/ClanChatMessage');
 const Routes = require('../util/Routes');
 
 /**
  * Manages API methods for chat.
- * @extends {CacheManager}
+ * @extends {BaseManager}
  */
-class ClanChatManager extends CacheManager {
+class ClanChatManager extends BaseManager {
   constructor(client, data) {
     super(client);
 

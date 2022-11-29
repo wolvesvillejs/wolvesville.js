@@ -55,7 +55,6 @@ exports.Status = {
   OFFLINE: 'OFFLINE',
 };
 
-
 /**
  * The avatr item types.
  * @typedef {string} AvatarItemType
