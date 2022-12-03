@@ -36,13 +36,50 @@ export class Client extends BaseClient {
 export class PlayerManager extends CacheManager {
     private constructor(client: Client);
 
-    fetch(player: PlayerResolvable, options?: {
+    public fetch(player: PlayerResolvable, options?: {
         force: boolean
-    });
-    resolve(player: PlayerResolvable): Object | null;
+    }): Player;
+    public resolve(player: PlayerResolvable): Object | null;
 }
 
 type PlayerResolvable = String | Object;
+
+type Status = 'DEFAULT' | 'PLAY' | 'DND' | 'OFFLINE';
+
+export class Player {
+    public id: string;
+    public username: string | null;
+    public personalMessage: string | null;
+    public level: number | null;
+    public status: Status | null;
+    public receivedRosesCount: number | null;
+    public sentRosesCount: number | null;
+    public profileIcon: OwnedProfileIcon | null;
+    public clanId: string | null;
+    public gameStats: object | null;
+    public seasonSkill: number | null;
+    public skillRecord: number | null;
+    public rankRecord: number | null;
+    public seasonPlayedCount: number | null;
+    public lastOnlineTimestamp: number | null;
+    public avatars: Avatar[] | null;
+    public badgeIds: string[] | null;
+    public roleCards: RoleCard[] | null;
+
+    public fetchClan(force?: boolean): Promise<Clan>;
+    public get clanTag(): String | null;
+    public get clanTagAndUsername(): String | null;
+    public get badges(): Item[] | null;
+    public get clan(): Clan | null;
+    public get online(): boolean | null;
+    public get gamesPlayedCount(): number | null;
+}
+
+export class OwnedProfileIcon {}
+export class Avatar {}
+export class RoleCard {}
+export class Clan {}
+export class Item {}
 
 export class ClanManager {}
 export class ItemManager {}
