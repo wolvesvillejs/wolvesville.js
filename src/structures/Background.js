@@ -61,24 +61,64 @@ class Background extends Base {
       this.nightColor ??= null;
     }
 
-    if (
-      'imageDay' in data &&
-      'imageDayWide' in data &&
-      'imageNight' in data &&
-      'imageNightWide' in data &&
-      'imageDaySmall' in data &&
-      'imageNightSmall' in data
-    ) {
-      Object.defineProperty(this, '_cdn', {
-        value: {
-          imageDay: data.imageDay,
-          imageDayWide: data.imageDayWide,
-          imageNight: data.imageNight,
-          imageNightWide: data.imageNightWide,
-          imageDaySmall: data.imageDaySmall,
-          imageNightSmall: data.imageNightSmall,
-        },
-      });
+    if ('imageDay' in data) {
+      /**
+       * Background day image URL
+       * @type {?string}
+       */
+      this.dayImageURL = data.imageDay;
+    } else {
+      this.dayImageURL ??= null;
+    }
+
+    if ('imageDayWide' in data) {
+      /**
+       * Background wide day image URL
+       * @type {?string}
+       */
+      this.wideDayImageURL = data.imageDayWide;
+    } else {
+      this.wideDayImageURL ??= null;
+    }
+
+    if ('imageNight' in data) {
+      /**
+       * Background night image URL
+       * @type {?string}
+       */
+      this.nightImageURL = data.imageNight;
+    } else {
+      this.nightImageURL ??= null;
+    }
+
+    if ('imageNightWide' in data) {
+      /**
+       * Background wide night image URL
+       * @type {?string}
+       */
+      this.wideNightImageURL = data.imageNightWide;
+    } else {
+      this.wideNightImageURL ??= null;
+    }
+
+    if ('imageDaySmall' in data) {
+      /**
+       * Background small day image URL
+       * @type {?string}
+       */
+      this.smallDayImageURL = data.imageDaySmall;
+    } else {
+      this.smallDayImageURL ??= null;
+    }
+
+    if ('imageNightSmall' in data) {
+      /**
+       * Background small night image URL
+       * @type {?string}
+       */
+      this.smallNightImageURL = data.imageNightSmall;
+    } else {
+      this.smallNightImageURL ??= null;
     }
   }
 }

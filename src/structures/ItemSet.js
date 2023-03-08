@@ -4,8 +4,8 @@ const Base = require('./Base');
 const { ItemTypes } = require('../util/Constants');
 
 /**
- * Represents a limited collection.
- * @extends {Offer}
+ * Represents an item set.
+ * @extends {Base}
  */
 class ItemSet extends Base {
   constructor(client, data) {
@@ -39,6 +39,12 @@ class ItemSet extends Base {
       this.accentColor = data.promoImagePrimaryColor;
     } else {
       this.accentColor ??= null;
+    }
+
+    if('promoImageUrl' in data) {
+      this.imageURL = data.promoImageUrl;
+    } else {
+      this.imageURL ??= null;
     }
   }
 }

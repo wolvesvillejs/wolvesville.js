@@ -13,15 +13,17 @@ class LimitedCollectionOffer extends Offer {
 
     /**
      * Offer item set
-     * @type {Outfit}
+     * @type {ItemSet[]}
      */
     this.itemSets = data.avatarItemSetIds.map(avatarItemSetId =>
       client.items.resolve(avatarItemSetId, ItemTypes.ITEM_SET),
     );
 
-    Object.defineProperty(this, '_cdn', {
-      value: { imageURL: data.promoImageUrl },
-    });
+    /**
+     * Offer image URL
+     * @type {string}
+     */    
+    this.imageURL = data.promoImageUrl;
   }
 }
 

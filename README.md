@@ -19,7 +19,7 @@ const Wolvesville = require('wolvesville.js');
 const client = new Wolvesville.Client('yourWolvesvileBotApiKey');
 
 async function main() {
-  const player = client.players.fetch('Arnaud');
+  const player = await client.players.fetch('Arnaud');
   console.log(player.username, player.level);
 }
 

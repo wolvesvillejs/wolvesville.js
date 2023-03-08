@@ -71,13 +71,24 @@ class ItemCollection extends Base {
       this.accentColor ??= null;
     }
 
-    if ('promoImageUrl' in data && 'iconUrl' in data) {
-      Object.defineProperty(this, '_cdn', {
-        value: {
-          imageURL: data.promoImageUrl,
-          iconURL: data.iconUrl,
-        },
-      });
+    if ('promoImageUrl' in data) {
+      /**
+       * Collection image URL
+       * @type {string}
+       */
+      this.imageURL = data.promoImageUrl;
+    } else {
+      this.imageURL ??= null;
+    }
+
+    if ('iconUrl' in data) {
+      /**
+       * Collection icon URL
+       * @type {string}
+       */
+      this.iconURL = data.iconUrl;
+    } else {
+      this.iconURL ??= null;
     }
   }
 }

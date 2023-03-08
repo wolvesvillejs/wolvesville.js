@@ -17,9 +17,11 @@ class LimitedOffer extends Offer {
      */
     this.itemSet = client.items.resolve(data.avatarItemSetIds[0], ItemTypes.ITEM_SET);
 
-    Object.defineProperty(this, '_cdn', {
-      value: { imageURL: data.promoImageUrl },
-    });
+    /**
+     * Offer image URL
+     * @type {string}
+     */    
+    this.imageURL = data.promoImageUrl;
   }
 }
 

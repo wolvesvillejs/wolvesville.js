@@ -51,10 +51,24 @@ class LoadingScreen extends Base {
       this.accentColor ??= null;
     }
 
-    if ('image' in data && 'imageWide' in data) {
-      Object.defineProperty(this, '_cdn', {
-        value: { image: data.image, imageWide: data.imageWide },
-      });
+    if ('image' in data) {
+      /**
+       * Loading screen image URL
+       * @type {?string}
+       */
+      this.imageURL = data.image;
+    } else {
+      this.imageURL ??= null;
+    }
+
+    if ('imageWide' in data) {
+      /**
+       * Loading screen wide image URL
+       * @type {?string}
+       */
+      this.wideImageURL = data.imageWide;
+    } else {
+      this.wideImageURL ??= null;
     }
   }
 }
