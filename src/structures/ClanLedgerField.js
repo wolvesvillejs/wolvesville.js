@@ -40,7 +40,7 @@ class ClanLedgerField extends Base {
      * Field creation timestamp
      * @type {Player}
      */
-    this.player = new Player(client, data);
+    this.player = new Player(client, Object.defineProperty(data, 'username', { value: data.playerUsername }));
 
     /**
      * Field created timestamp
