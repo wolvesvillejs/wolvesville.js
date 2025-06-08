@@ -1,6 +1,7 @@
 'use strict';
 
 const Base = require('./Base');
+const Image = require('./Image');
 
 /**
  * Represents a role.
@@ -14,13 +15,43 @@ class Role extends Base {
      * Role name
      * @type {string}
      */
+    this.id = data.id;
+
+    /**
+     * Role team
+     * @type {?string}
+     */
+    this.team = data.team;
+
+    /**
+     * Role aura
+     * @type {?string}
+     */
+    this.aura = data.aura;
+
+    /**
+     * Role name
+     * @type {?string}
+     */
     this.name = data.name;
 
     /**
-     * Role probability
-     * @type {number}
+     * Role description
+     * @type {?string}
      */
-    this.probability = data.name;
+    this.description = data.description;
+
+    /**
+     * Role image
+     * @type {?Image}
+     */
+    this.image = data.image;
+
+    /**
+     * Role probability
+     * @type {?number}
+     */
+    this.probability = data.probability;
   }
 }
 
