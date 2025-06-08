@@ -1,8 +1,6 @@
 ## About
 wolvesville.js is a [Node.js](https://nodejs.org) module to interact with the [Wolvesville API](https://api-docs.wolvesville.com).
 
-You can join us on our Discord server https://discord.gg/HuNzvV9S6Z!
-
 ## Installation
 
 **Latest version of Node.js required**
