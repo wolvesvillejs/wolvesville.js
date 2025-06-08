@@ -17,10 +17,10 @@ jobs:
       SHA: ${{ steps.env.outputs.SHA }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install node.js v16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16
 
@@ -58,7 +58,7 @@ jobs:
           path: docs
 
       - name: Checkout docs repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'wolvesvillejs/docs'
           token: ${{ secrets.WJS_DOCS }}
