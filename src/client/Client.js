@@ -11,6 +11,7 @@ const ItemSetManager = require('../managers/ItemSetManager');
 const LoadingScreenManager = require('../managers/LoadingScreenManager');
 const PlayerManager = require('../managers/PlayerManager');
 const ProfileIconManager = require('../managers/ProfileIconManager');
+const RoleManager = require('../managers/RoleManager');
 const RoleCardPackManager = require('../managers/RoleCardPackManager');
 const RoleIconManager = require('../managers/RoleIconManager');
 const RoseManager = require('../managers/RoseManager');
@@ -95,6 +96,12 @@ class Client extends BaseClient {
      * @type {LoadingScreenManager}
      */
     this.loadingScreens = new LoadingScreenManager(this);
+
+    /**
+     * The roles manager of the client
+     * @type {RoleManager}
+     */
+    this.roles = new RoleManager(this);
 
     /**
      * The role icon manager of the client

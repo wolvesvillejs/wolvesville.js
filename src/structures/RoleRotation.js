@@ -24,8 +24,8 @@ class RoleRotation extends Base {
     this.roles = data.roles.map(roles =>
       roles.map(item =>
         item.role
-          ? new Role(client, { name: item.role, probability: item.probability })
-          : item.roles.map(role => new Role(client, { name: role, probability: item.probability })),
+          ? new Role(client, { id: item.role, probability: item.probability })
+          : item.roles.map(role => new Role(client, { id: role, probability: item.probability })),
       ),
     );
   }

@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = {
+  ROLES: () => '/roles', 
+
   AVATAR_ITEMS: () => '/items/avatarItems',
   AVATAR_ITEM_SETS: () => '/items/avatarItemSets',
   AVATAR_ITEM_COLLECTIONS: () => '/items/avatarItemCollections',
