@@ -1,7 +1,12 @@
 'use strict';
 
 const BaseClient = require('./BaseClient');
+const AvatarManager = require('../managers/AvatarManager');
 const BackgroundManager = require('../managers/BackgroundManager');
+const BaseRoleCardOfferManager = require('../managers/BaseRoleCardOfferManager');
+const BodyPaintManager = require('../managers/BodyPaintManager');
+const BundleManager = require('../managers/BundleManager');
+const CalendarManager = require('../managers/CalendarManager');
 const ClanManager = require('../managers/ClanManager');
 const EmojiCollectionManager = require('../managers/EmojiCollectionManager');
 const EmojiManager = require('../managers/EmojiManager');
@@ -11,10 +16,13 @@ const ItemSetManager = require('../managers/ItemSetManager');
 const LoadingScreenManager = require('../managers/LoadingScreenManager');
 const PlayerManager = require('../managers/PlayerManager');
 const ProfileIconManager = require('../managers/ProfileIconManager');
+const ProfileIconBorderManager = require('../managers/ProfileIconBorderManager');
 const RoleManager = require('../managers/RoleManager');
 const RoleCardPackManager = require('../managers/RoleCardPackManager');
 const RoleIconManager = require('../managers/RoleIconManager');
 const RoseManager = require('../managers/RoseManager');
+const RoseSkinManager = require('../managers/RoseSkinManager');
+const TagManager = require('../managers/TagManager');
 const TalismanManager = require('../managers/TalismanManager');
 const AdvancedRoleCardOffer = require('../structures/AdvancedRoleCardOffer');
 const BattlePassChallenge = require('../structures/BattlePassChallenge');
@@ -36,6 +44,12 @@ class Client extends BaseClient {
    */
   constructor(APIKey) {
     super(APIKey);
+
+    /**
+     * The avatar manager of the client
+     * @type {AvatarManager}
+     */
+    this.avatars = new AvatarManager(this);
 
     /**
      * The player manager of the client
@@ -122,10 +136,52 @@ class Client extends BaseClient {
     this.roses = new RoseManager(this);
 
     /**
+     * The rose skin manager of the client
+     * @type {RoseSkinManager}
+     */
+    this.roseSkins = new RoseSkinManager(this);
+
+    /**
      * The talisman manager of the client
      * @type {TalismanManager}
      */
     this.talismans = new TalismanManager(this);
+
+    /**
+     * The body paint manager of the client
+     * @type {BodyPaintManager}
+     */
+    this.bodyPaints = new BodyPaintManager(this);
+
+    /**
+     * The bundle manager of the client
+     * @type {BundleManager}
+     */
+    this.bundles = new BundleManager(this);
+
+    /**
+     * The calendar manager of the client
+     * @type {CalendarManager}
+     */
+    this.calendars = new CalendarManager(this);
+
+    /**
+     * The tag manager of the client
+     * @type {TagManager}
+     */
+    this.tags = new TagManager(this);
+
+    /**
+     * The profile icon border manager of the client
+     * @type {ProfileIconBorderManager}
+     */
+    this.profileIconBorders = new ProfileIconBorderManager(this);
+
+    /**
+     * The base role card offer manager of the client
+     * @type {BaseRoleCardOfferManager}
+     */
+    this.baseRoleCardOffers = new BaseRoleCardOfferManager(this);
   }
 
   /**
@@ -183,8 +239,66 @@ class Client extends BaseClient {
    * @returns {ClanQuest[]}
    */
   async fetchQuests() {
-    const response = await this.client.rest.get(Routes.CLANS_QUESTS_ALL());
-    return response.map(quest => new ClanQuest(this.client, quest));
+    const response = await this.rest.get(Routes.CLANS_QUESTS_ALL());
+    return response.map(quest => new ClanQuest(this, quest));
+  }
+
+  /**
+   * Fetch announcements (general announcements, changelogs, and Discord events).
+   * @returns {Promise<Object>}
+   */
+  async fetchAnnouncements() {
+    const response = await this.rest.get(Routes.ANNOUNCEMENTS());
+    return response;
+  }
+
+  /**
+   * Fetch battle pass shop.
+   * @returns {Promise<Object>}
+   */
+  async fetchBattlePassShop() {
+    const response = await this.rest.get(Routes.BATTLE_PASS_SHOP());
+    return response;
+  }
+
+  /**
+   * Fetch ranked season.
+   * @returns {Promise<Object>}
+   */
+  async fetchRankedSeason() {
+    const response = await this.rest.get(Routes.RANKED_SEASON());
+    return response;
+  }
+
+  /**
+   * Fetch ranked hall of fame for a specific season.
+   * @param {number} seasonNumber Season number
+   * @returns {Promise<Object>}
+   */
+  async fetchRankedHallOfFame(seasonNumber) {
+    if (typeof seasonNumber !== 'number') throw new Error('SEASON_NUMBER_MUST_BE_A_NUMBER');
+    const response = await this.rest.get(Routes.RANKED_HALL_OF_FAME(seasonNumber));
+    return response;
+  }
+
+  /**
+   * Fetch ranked leaderboard.
+   * @param {?string} [language] Optional 2-letter language code to filter by
+   * @returns {Promise<Object>}
+   */
+  async fetchRankedLeaderboard(language) {
+    const options = language ? { query: { language } } : {};
+    const response = await this.rest.get(Routes.RANKED_LEADERBOARD(), options);
+    return response;
+  }
+
+  /**
+   * Fetch player highscores.
+   * @returns {Promise<Object>}
+   */
+  async fetchPlayerHighscores() {
+    const response = await this.rest.get(Routes.PLAYER_HIGHSCORES());
+    return response;
   }
 }
 
