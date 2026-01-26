@@ -45,6 +45,15 @@ class ClanChatManager extends BaseManager {
   }
 
   /**
+   * Fetch announcements.
+   * @returns {Promise<ClanChatMessage[]>}
+   */
+  async fetchAnnouncements() {
+    const response = await this.client.rest.get(Routes.CLANS_ANNOUNCEMENTS(this.clan.id));
+    return response.map(announcement => new ClanChatMessage(this.client, announcement));
+  }
+
+  /**
    * Send announcement message.
    * @param {string} content Announcement content
    */
