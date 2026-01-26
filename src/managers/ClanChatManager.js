@@ -43,6 +43,19 @@ class ClanChatManager extends BaseManager {
       },
     });
   }
+
+  /**
+   * Send announcement message.
+   * @param {string} content Announcement content
+   */
+  async sendAnnouncement(content) {
+    if (typeof content !== 'string') throw new Error('MESSAGE_CONTENT_MUST_BE_A_STRING');
+    await this.client.rest.post(Routes.CLANS_ANNOUNCEMENTS(this.clan.id), {
+      data: {
+        message: content,
+      },
+    });
+  }
 }
 
 module.exports = ClanChatManager;

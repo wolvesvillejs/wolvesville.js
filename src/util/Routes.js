@@ -15,6 +15,10 @@ module.exports = {
   ADVANCED_ROLE_CARD_OFFERS: () => '/items/advancedRoleCardOffers',
   ROSES: () => '/items/roses',
   TALISMANS: () => '/items/talismans',
+  REDEEM_API_HAT: () => '/items/redeemApiHat',
+
+  AVATARS: avatarId => `/avatars/${avatarId}`,
+  AVATARS_SHARED_ID: (playerId, slotNumber) => `/avatars/sharedAvatarId/${playerId}/${slotNumber}`,
 
   ROLE_ROTATIONS: () => '/roleRotations',
 
@@ -33,6 +37,7 @@ module.exports = {
   CLANS_MEMBERS_MEMBER_PARTICIPATE_IN_QUESTS: (clanId, memberId) =>
     `/clans/${clanId}/members/${memberId}/participateInQuests`,
   CLANS_CHAT: clanId => `/clans/${clanId}/chat`,
+  CLANS_ANNOUNCEMENTS: clanId => `/clans/${clanId}/announcements`,
   CLANS_LEDGER: clanId => `/clans/${clanId}/ledger`,
   CLANS_LOGS: clanId => `/clans/${clanId}/logs`,
   CLANS_QUESTS_AVAILABLE: clanId => `/clans/${clanId}/quests/available`,

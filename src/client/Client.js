@@ -1,6 +1,7 @@
 'use strict';
 
 const BaseClient = require('./BaseClient');
+const AvatarManager = require('../managers/AvatarManager');
 const BackgroundManager = require('../managers/BackgroundManager');
 const ClanManager = require('../managers/ClanManager');
 const EmojiCollectionManager = require('../managers/EmojiCollectionManager');
@@ -36,6 +37,12 @@ class Client extends BaseClient {
    */
   constructor(APIKey) {
     super(APIKey);
+
+    /**
+     * The avatar manager of the client
+     * @type {AvatarManager}
+     */
+    this.avatars = new AvatarManager(this);
 
     /**
      * The player manager of the client

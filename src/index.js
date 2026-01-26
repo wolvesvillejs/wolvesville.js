@@ -3,6 +3,7 @@
 exports.BaseClient = require('./client/BaseClient');
 exports.Client = require('./client/Client');
 
+exports.AvatarManager = require('./managers/AvatarManager');
 exports.BackgroundManager = require('./managers/BackgroundManager');
 exports.BaseManager = require('./managers/BaseManager');
 exports.CacheManager = require('./managers/CacheManager');
