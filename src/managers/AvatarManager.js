@@ -17,7 +17,7 @@ class AvatarManager extends BaseManager {
    */
   async fetchSharedAvatarId(playerId, slotNumber) {
     if (!playerId) throw new Error('PLAYER_ID_REQUIRED');
-    if (typeof slotNumber !== 'number') throw new Error('SLOT_NUMBER_MUST_BE_NUMBER');
+    if (typeof slotNumber !== 'number') throw new Error('SLOT_NUMBER_MUST_BE_A_NUMBER');
 
     const response = await this.client.rest.get(Routes.AVATARS_SHARED_ID(playerId, slotNumber));
     return response;
