@@ -37,7 +37,21 @@ class AvatarManager extends BaseManager {
 
   /**
    * Create a shared avatar by specifying item IDs.
+   * Required fields: shirtId and bodyPaintId
+   * Optional fields: hairId, glassesId, hatId, gravestoneId, frontId, backId, eyesId, badgeId, maskId, mouthId
    * @param {Object} items Object containing avatar item IDs
+   * @param {string} items.shirtId Required shirt item ID
+   * @param {string} items.bodyPaintId Required body paint item ID
+   * @param {?string} [items.hairId] Optional hair item ID
+   * @param {?string} [items.glassesId] Optional glasses item ID
+   * @param {?string} [items.hatId] Optional hat item ID
+   * @param {?string} [items.gravestoneId] Optional gravestone item ID
+   * @param {?string} [items.frontId] Optional front item ID
+   * @param {?string} [items.backId] Optional back item ID
+   * @param {?string} [items.eyesId] Optional eyes item ID
+   * @param {?string} [items.badgeId] Optional badge item ID
+   * @param {?string} [items.maskId] Optional mask item ID
+   * @param {?string} [items.mouthId] Optional mouth item ID
    * @returns {Promise<Avatar>}
    */
   async createSharedAvatar(items) {

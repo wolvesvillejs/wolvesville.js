@@ -239,8 +239,8 @@ class Client extends BaseClient {
    * @returns {ClanQuest[]}
    */
   async fetchQuests() {
-    const response = await this.client.rest.get(Routes.CLANS_QUESTS_ALL());
-    return response.map(quest => new ClanQuest(this.client, quest));
+    const response = await this.rest.get(Routes.CLANS_QUESTS_ALL());
+    return response.map(quest => new ClanQuest(this, quest));
   }
 
   /**
