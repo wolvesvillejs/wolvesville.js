@@ -34,6 +34,22 @@ class AvatarManager extends BaseManager {
     const response = await this.client.rest.get(Routes.AVATARS(avatarId));
     return new Avatar(this.client, response);
   }
+
+  /**
+   * Create a shared avatar by specifying item IDs.
+   * @param {Object} items Object containing avatar item IDs
+   * @returns {Promise<Avatar>}
+   */
+  async createSharedAvatar(items) {
+    if (!items || typeof items !== 'object') throw new Error('ITEMS_MUST_BE_AN_OBJECT');
+    if (!items.shirtId) throw new Error('SHIRT_ID_REQUIRED');
+    if (!items.bodyPaintId) throw new Error('BODY_PAINT_ID_REQUIRED');
+
+    const response = await this.client.rest.post(Routes.AVATARS_SHARED_CREATE(), {
+      data: items,
+    });
+    return new Avatar(this.client, response);
+  }
 }
 
 module.exports = AvatarManager;
