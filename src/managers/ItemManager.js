@@ -32,6 +32,14 @@ class ItemManager extends CacheManager {
   }
 
   /**
+   * Redeem API hat.
+   * @returns {Promise<void>}
+   */
+  async redeemApiHat() {
+    await this.client.rest.post(Routes.REDEEM_API_HAT());
+  }
+
+  /**
    * Resolve an item.
    * @param {Object|string} item Item object or id
    * @param {string} [type] Item type
