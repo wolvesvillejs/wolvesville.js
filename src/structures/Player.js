@@ -4,6 +4,7 @@ const Avatar = require('./Avatar');
 const BasePlayer = require('./BasePlayer');
 const Clan = require('./Clan');
 const OwnedProfileIcon = require('./OwnedProfileIcon');
+const PlayerGameStats = require('./PlayerGameStats');
 const RoleCard = require('./RoleCard');
 const { ItemTypes } = require('../util/Constants');
 
@@ -161,9 +162,9 @@ class Player extends BasePlayer {
     if ('gameStats' in data) {
       /**
        * Player game stats
-       * @type {?Object}
+       * @type {?PlayerGameStats}
        */
-      this.gameStats = data.gameStats;
+      this.gameStats = new PlayerGameStats(this.client, data.gameStats);
     } else {
       this.gameStats ??= null;
     }
@@ -331,9 +332,7 @@ class Player extends BasePlayer {
    * @readonly
    */
   get gamesPlayedCount() {
-    return this.gameStats
-      ? this.gameStats.totalWinCount + this.gameStats.totalLoseCount + this.gameStats.totalTieCount
-      : null;
+    return this.gameStats ? this.gameStats.gamesPlayedCount : null;
   }
 }
 

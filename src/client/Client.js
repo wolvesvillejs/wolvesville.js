@@ -25,13 +25,19 @@ const RoseSkinManager = require('../managers/RoseSkinManager');
 const TagManager = require('../managers/TagManager');
 const TalismanManager = require('../managers/TalismanManager');
 const AdvancedRoleCardOffer = require('../structures/AdvancedRoleCardOffer');
+const Announcements = require('../structures/Announcements');
 const BattlePassChallenge = require('../structures/BattlePassChallenge');
+const BattlePassCoinShop = require('../structures/BattlePassCoinShop');
 const BattlePassSeason = require('../structures/BattlePassSeason');
 const ClanQuest = require('../structures/ClanQuest');
 const GameMode = require('../structures/GameMode');
+const HighScore = require('../structures/HighScore');
+const Leaderboard = require('../structures/Leaderboard');
 const LimitedCollectionOffer = require('../structures/LimitedCollectionOffer');
 const LimitedItemCollectionOffer = require('../structures/LimitedItemCollectionOffer');
 const LimitedOffer = require('../structures/LimitedOffer');
+const RankedSeasonInfo = require('../structures/RankedSeasonInfo');
+const SeasonWinners = require('../structures/SeasonWinners');
 const Routes = require('../util/Routes');
 
 /**
@@ -260,60 +266,60 @@ class Client extends BaseClient {
 
   /**
    * Fetch announcements (general announcements, changelogs, and Discord events).
-   * @returns {Promise<Object>}
+   * @returns {Promise<Announcements>}
    */
   async fetchAnnouncements() {
     const response = await this.rest.get(Routes.ANNOUNCEMENTS());
-    return response;
+    return new Announcements(this, response);
   }
 
   /**
-   * Fetch battle pass shop.
-   * @returns {Promise<Object>}
+   * Fetch battle pass coin shop.
+   * @returns {Promise<BattlePassCoinShop>}
    */
   async fetchBattlePassShop() {
     const response = await this.rest.get(Routes.BATTLE_PASS_SHOP());
-    return response;
+    return new BattlePassCoinShop(this, response);
   }
 
   /**
-   * Fetch ranked season.
-   * @returns {Promise<Object>}
+   * Fetch current ranked season information.
+   * @returns {Promise<RankedSeasonInfo>}
    */
   async fetchRankedSeason() {
     const response = await this.rest.get(Routes.RANKED_SEASON());
-    return response;
+    return new RankedSeasonInfo(this, response);
   }
 
   /**
    * Fetch ranked hall of fame for a specific season.
    * @param {number} seasonNumber Season number
-   * @returns {Promise<Object>}
+   * @returns {Promise<SeasonWinners>}
    */
   async fetchRankedHallOfFame(seasonNumber) {
     if (typeof seasonNumber !== 'number') throw new Error('SEASON_NUMBER_MUST_BE_A_NUMBER');
     const response = await this.rest.get(Routes.RANKED_HALL_OF_FAME(seasonNumber));
-    return response;
+    return new SeasonWinners(this, response);
   }
 
   /**
    * Fetch ranked leaderboard.
    * @param {?string} [language] Optional 2-letter language code to filter by
-   * @returns {Promise<Object>}
+   * @returns {Promise<Leaderboard>}
    */
   async fetchRankedLeaderboard(language) {
     const options = language ? { query: { language } } : {};
     const response = await this.rest.get(Routes.RANKED_LEADERBOARD(), options);
-    return response;
+    return new Leaderboard(this, response);
   }
 
   /**
    * Fetch player highscores.
-   * @returns {Promise<Object>}
+   * @returns {Promise<HighScore>}
    */
   async fetchPlayerHighscores() {
     const response = await this.rest.get(Routes.PLAYER_HIGHSCORES());
-    return response;
+    return new HighScore(this, response);
   }
 
   /**
