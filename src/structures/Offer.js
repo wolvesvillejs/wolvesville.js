@@ -61,6 +61,36 @@ class Offer extends Base {
     } else {
       this.iconURL ??= null;
     }
+
+    if ('emojisCollectionId' in data) {
+      /**
+       * Associated emoji collection id
+       * @type {?string}
+       */
+      this.emojisCollectionId = data.emojisCollectionId ?? null;
+    } else {
+      this.emojisCollectionId ??= null;
+    }
+
+    if ('baseRoleCardOfferId' in data) {
+      /**
+       * Associated base role card offer id
+       * @type {?string}
+       */
+      this.baseRoleCardOfferId = data.baseRoleCardOfferId ?? null;
+    } else {
+      this.baseRoleCardOfferId ??= null;
+    }
+
+    if ('bundleId' in data) {
+      /**
+       * Associated bundle id
+       * @type {?string}
+       */
+      this.bundleId = data.bundleId ?? null;
+    } else {
+      this.bundleId ??= null;
+    }
   }
 }
 

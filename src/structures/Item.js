@@ -53,12 +53,62 @@ class Item extends Base {
 
     if ('costInGold' in data) {
       /**
-       * Item cost
+       * Item cost in gold
        * @type {?number}
        */
       this.cost = data.costInGold;
     } else {
       this.cost ??= null;
+    }
+
+    if ('costInRoses' in data) {
+      /**
+       * Item cost in roses
+       * @type {?number}
+       */
+      this.costInRoses = data.costInRoses;
+    } else {
+      this.costInRoses ??= null;
+    }
+
+    if ('costInGems' in data) {
+      /**
+       * Item cost in gems
+       * @type {?number}
+       */
+      this.costInGems = data.costInGems;
+    } else {
+      this.costInGems ??= null;
+    }
+
+    if ('minLevel' in data) {
+      /**
+       * Minimum level required to use this item
+       * @type {?number}
+       */
+      this.minLevel = data.minLevel;
+    } else {
+      this.minLevel ??= null;
+    }
+
+    if ('gender' in data) {
+      /**
+       * Item gender restriction
+       * @type {?string}
+       */
+      this.gender = data.gender ?? null;
+    } else {
+      this.gender ??= null;
+    }
+
+    if ('event' in data) {
+      /**
+       * Item event tag
+       * @type {?string}
+       */
+      this.event = data.event ?? null;
+    } else {
+      this.event ??= null;
     }
   }
 

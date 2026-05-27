@@ -30,6 +30,18 @@ class ClanQuestReward extends Base {
        */
       this.item = client.items.resolve(data.avatarItemId, ItemTypes.AVATAR_ITEM);
     }
+
+    /**
+     * Reward loot box id
+     * @type {?string}
+     */
+    this.lootBoxId = data.lootBoxId ?? null;
+
+    /**
+     * Reward display type
+     * @type {?string}
+     */
+    this.displayType = data.displayType ?? null;
   }
 }
 

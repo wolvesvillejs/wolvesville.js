@@ -41,10 +41,30 @@ class ItemSet extends Base {
       this.accentColor ??= null;
     }
 
-    if('promoImageUrl' in data) {
+    if ('promoImageUrl' in data) {
       this.imageURL = data.promoImageUrl;
     } else {
       this.imageURL ??= null;
+    }
+
+    if ('loadingScreenId' in data) {
+      /**
+       * Item set loading screen id
+       * @type {?string}
+       */
+      this.loadingScreenId = data.loadingScreenId ?? null;
+    } else {
+      this.loadingScreenId ??= null;
+    }
+
+    if ('backgroundId' in data) {
+      /**
+       * Item set background id
+       * @type {?string}
+       */
+      this.backgroundId = data.backgroundId ?? null;
+    } else {
+      this.backgroundId ??= null;
     }
   }
 }

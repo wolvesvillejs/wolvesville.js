@@ -1,6 +1,7 @@
 'use strict';
 
 const CacheManager = require('./CacheManager');
+const Calendar = require('../structures/Calendar');
 const Routes = require('../util/Routes');
 
 /**
@@ -11,12 +12,12 @@ class CalendarManager extends CacheManager {
   /**
    * Fetch calendars.
    * @param {?string} [locale] Optional locale for translations
-   * @returns {Promise<Collection<string, Object>>}
+   * @returns {Promise<Collection<string, Calendar>>}
    */
   async fetch(locale) {
     const options = locale ? { query: { locale } } : {};
     const response = await this.client.rest.get(Routes.CALENDARS(), options);
-    response.forEach(item => this._add(item, item.id));
+    response.forEach(item => this._add(new Calendar(this.client, item)));
 
     return this.cache;
   }

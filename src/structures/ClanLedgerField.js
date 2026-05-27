@@ -47,6 +47,12 @@ class ClanLedgerField extends Base {
      * @type {number}
      */
     this.createdTimestamp = new Date(data.creationTime).getTime();
+
+    /**
+     * Associated clan quest id (if action is CLAN_QUEST)
+     * @type {?string}
+     */
+    this.clanQuestId = data.clanQuestId ?? null;
   }
 }
 

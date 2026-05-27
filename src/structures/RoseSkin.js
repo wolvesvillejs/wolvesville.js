@@ -4,15 +4,15 @@ const Base = require('./Base');
 const { Rarities } = require('../util/Constants');
 
 /**
- * Represents an emoji.
+ * Represents a rose skin.
  * @extends {Base}
  */
-class Emoji extends Base {
+class RoseSkin extends Base {
   constructor(client, data) {
     super(client);
 
     /**
-     * Emoji id
+     * Rose skin id
      * @type {string}
      */
     this.id = data.id;
@@ -21,19 +21,29 @@ class Emoji extends Base {
   }
 
   _patch(data) {
-    if ('name' in data) {
+    if ('singleImageUrl' in data) {
       /**
-       * Emoji name
+       * Single rose image URL
        * @type {?string}
        */
-      this.name = data.name;
+      this.singleImageURL = data.singleImageUrl;
     } else {
-      this.name ??= null;
+      this.singleImageURL ??= null;
+    }
+
+    if ('bouquetImageUrl' in data) {
+      /**
+       * Bouquet image URL
+       * @type {?string}
+       */
+      this.bouquetImageURL = data.bouquetImageUrl;
+    } else {
+      this.bouquetImageURL ??= null;
     }
 
     if ('rarity' in data) {
       /**
-       * Emoji rarity
+       * Rose skin rarity
        * @type {?string}
        */
       this.rarity = Rarities[data.rarity];
@@ -43,17 +53,17 @@ class Emoji extends Base {
 
     if ('event' in data) {
       /**
-       * Emoji event
+       * Rose skin event tag
        * @type {?string}
        */
-      this.event = data.event;
+      this.event = data.event ?? null;
     } else {
       this.event ??= null;
     }
 
     if ('costInGold' in data) {
       /**
-       * Emoji cost in gold
+       * Rose skin cost in gold
        * @type {?number}
        */
       this.costInGold = data.costInGold ?? null;
@@ -63,33 +73,14 @@ class Emoji extends Base {
 
     if ('costInRoses' in data) {
       /**
-       * Emoji cost in roses
+       * Rose skin cost in roses
        * @type {?number}
        */
       this.costInRoses = data.costInRoses ?? null;
     } else {
       this.costInRoses ??= null;
     }
-
-    if ('costInGems' in data) {
-      /**
-       * Emoji cost in gems
-       * @type {?number}
-       */
-      this.costInGems = data.costInGems ?? null;
-    } else {
-      this.costInGems ??= null;
-    }
-
-    if ('urlAnimation' in data && 'urlPreview' in data) {
-      Object.defineProperty(this, '_cdn', {
-        value: {
-          animationURL: data.urlAnimation,
-          previewURL: data.urlPreview,
-        },
-      });
-    }
   }
 }
 
-module.exports = Emoji;
+module.exports = RoseSkin;
