@@ -1,0 +1,39 @@
+name: Publish stable
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-stable
+  cancel-in-progress: false
+
+jobs:
+  npm:
+    name: npm
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'wolvesvillejs'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set version from tag
+        run: npm version --no-git-tag-version "${GITHUB_REF_NAME#v}"
+
+      - name: Publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.WJS_PUBLISH }}

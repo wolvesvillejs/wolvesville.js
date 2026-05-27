@@ -30,9 +30,14 @@ jobs:
       - name: Check previous released version
         id: pre-release
         run: |
-          if [[ $(npm view wolvesville.js@dev version | grep -e "$(jq --raw-output '.version' package.json)\..*-$(git rev-parse --short HEAD)") ]]; \
-          then echo "release=false" >> $GITHUB_OUTPUT; \
-          else echo "release=true" >> $GITHUB_OUTPUT; fi
+          DEV_VERSION=$(npm view wolvesville.js@dev version 2>/dev/null || true)
+          PKG_VERSION=$(jq --raw-output '.version' package.json)
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          if echo "$DEV_VERSION" | grep -q "${PKG_VERSION}.*-${SHORT_SHA}"; then
+            echo "release=false" >> $GITHUB_OUTPUT
+          else
+            echo "release=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Install dependencies
         if: steps.pre-release.outputs.release == 'true'
