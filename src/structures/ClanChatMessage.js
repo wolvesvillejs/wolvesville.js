@@ -57,6 +57,18 @@ class ClanChatMessage extends Base {
      * @type {boolean}
      */
     this.bot = !!data.playerBotOwnerUsername;
+
+    /**
+     * Bot player ID of the author (if sent by a bot)
+     * @type {?string}
+     */
+    this.botAuthorId = data.playerBotId ?? null;
+
+    /**
+     * Whether the message is pinned
+     * @type {?boolean}
+     */
+    this.pinned = data.isPinned ?? null;
   }
 }
 

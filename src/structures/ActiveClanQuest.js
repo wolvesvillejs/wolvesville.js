@@ -100,7 +100,7 @@ class ActiveClanQuest extends ClanQuest {
    * @readonly
    */
   get totalXp() {
-    return Object.values(this.participants).reduce((a, v) => a.xp + v.xp);
+    return this.participants.reduce((sum, p) => sum + p.xp, 0);
   }
 
   /**

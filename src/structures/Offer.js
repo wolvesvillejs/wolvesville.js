@@ -41,6 +41,26 @@ class Offer extends Base {
        */
       this.expirationTimestamp = new Date(data.expireDate).getTime();
     }
+
+    if ('promoImageUrl' in data) {
+      /**
+       * Offer promo image URL
+       * @type {?string}
+       */
+      this.promoImageURL = data.promoImageUrl ?? null;
+    } else {
+      this.promoImageURL ??= null;
+    }
+
+    if ('iconUrl' in data) {
+      /**
+       * Offer icon URL
+       * @type {?string}
+       */
+      this.iconURL = data.iconUrl ?? null;
+    } else {
+      this.iconURL ??= null;
+    }
   }
 }
 

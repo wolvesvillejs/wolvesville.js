@@ -66,7 +66,7 @@ class Background extends Base {
        * Background day image URL
        * @type {?string}
        */
-      this.dayImageURL = data.imageDay;
+      this.dayImageURL = data.imageDay.url;
     } else {
       this.dayImageURL ??= null;
     }
@@ -76,7 +76,7 @@ class Background extends Base {
        * Background wide day image URL
        * @type {?string}
        */
-      this.wideDayImageURL = data.imageDayWide;
+      this.wideDayImageURL = data.imageDayWide.url;
     } else {
       this.wideDayImageURL ??= null;
     }
@@ -86,7 +86,7 @@ class Background extends Base {
        * Background night image URL
        * @type {?string}
        */
-      this.nightImageURL = data.imageNight;
+      this.nightImageURL = data.imageNight.url;
     } else {
       this.nightImageURL ??= null;
     }
@@ -96,7 +96,7 @@ class Background extends Base {
        * Background wide night image URL
        * @type {?string}
        */
-      this.wideNightImageURL = data.imageNightWide;
+      this.wideNightImageURL = data.imageNightWide.url;
     } else {
       this.wideNightImageURL ??= null;
     }
@@ -106,7 +106,7 @@ class Background extends Base {
        * Background small day image URL
        * @type {?string}
        */
-      this.smallDayImageURL = data.imageDaySmall;
+      this.smallDayImageURL = data.imageDaySmall.url;
     } else {
       this.smallDayImageURL ??= null;
     }
@@ -116,9 +116,19 @@ class Background extends Base {
        * Background small night image URL
        * @type {?string}
        */
-      this.smallNightImageURL = data.imageNightSmall;
+      this.smallNightImageURL = data.imageNightSmall.url;
     } else {
       this.smallNightImageURL ??= null;
+    }
+
+    if ('event' in data) {
+      /**
+       * Background event tag
+       * @type {?string}
+       */
+      this.event = data.event ?? null;
+    } else {
+      this.event ??= null;
     }
   }
 }

@@ -72,10 +72,40 @@ class ClanMember extends BasePlayer {
     this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
 
     /**
+     * Member account creation timestamp
+     * @type {number}
+     */
+    this.createdTimestamp = new Date(data.creationTime).getTime();
+
+    /**
      * Member flair
      * @type {?string}
      */
     this.flair = data.flair ?? null;
+
+    /**
+     * Profile icon color mode
+     * @type {?string}
+     */
+    this.profileIconColorMode = data.profileIconColorMode ?? null;
+
+    /**
+     * Profile icon gradient primary color
+     * @type {?string}
+     */
+    this.profileIconGradientPrimary = data.profileIconGradientPrimary ?? null;
+
+    /**
+     * Profile icon gradient accent color
+     * @type {?string}
+     */
+    this.profileIconGradientAccent = data.profileIconGradientAccent ?? null;
+
+    /**
+     * Profile icon gradient direction
+     * @type {?string}
+     */
+    this.profileIconGradientDirection = data.profileIconGradientDirection ?? null;
   }
 }
 

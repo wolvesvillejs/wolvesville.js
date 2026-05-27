@@ -70,6 +70,16 @@ class RoleCardPack extends Base {
     } else {
       this.loyaltyTokenCount ??= null;
     }
+
+    if ('promoImageUrl' in data) {
+      /**
+       * Promo image URL
+       * @type {?string}
+       */
+      this.promoImageURL = data.promoImageUrl;
+    } else {
+      this.promoImageURL ??= null;
+    }
   }
 }
 

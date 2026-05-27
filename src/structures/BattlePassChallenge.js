@@ -18,10 +18,14 @@ class BattlePassChallenge extends Base {
     this.id = data.id;
 
     /**
-     * Challenge type
+     * Challenge type (currency or item type of the reward)
      * @type {string}
      */
-    this.type = data.rewardInGold ? ItemTypes.GOLD : ItemTypes.ROLE_ICON;
+    this.type = data.rewardInGold
+      ? ItemTypes.GOLD
+      : data.rewardAvatarItemId
+      ? ItemTypes.AVATAR_ITEM
+      : ItemTypes.ROLE_ICON;
 
     /**
      * Challenge description
@@ -30,16 +34,31 @@ class BattlePassChallenge extends Base {
     this.description = data.description;
 
     /**
-     * Challenge reward
+     * Challenge target count to complete
      * @type {number}
      */
-    this.reward = data.rewardInGold || client.items.resolve(data.rewardRoleIconId, ItemTypes.ROLE_ICON);
+    this.target = data.target;
+
+    /**
+     * Challenge reward (gold amount, or resolved item)
+     * @type {number|Item}
+     */
+    this.reward =
+      data.rewardInGold ||
+      client.items.resolve(data.rewardAvatarItemId, ItemTypes.AVATAR_ITEM) ||
+      client.items.resolve(data.rewardRoleIconId, ItemTypes.ROLE_ICON);
 
     /**
      * Challenge duration in days
      * @type {number}
      */
     this.duration = data.durationInDays;
+
+    /**
+     * Challenge start timestamp
+     * @type {number}
+     */
+    this.startTimestamp = new Date(data.startTime).getTime();
 
     Object.defineProperty(this, '_cdn', {
       value: { iconURL: data.iconUrl },

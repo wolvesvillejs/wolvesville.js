@@ -45,6 +45,18 @@ class ClanLog extends Base {
     this.createdTimestamp = new Date(data.creationTime).getTime();
 
     /**
+     * Bot player ID of the executor (if action was performed by a bot)
+     * @type {?string}
+     */
+    this.botExecutorId = data.playerBotId ?? null;
+
+    /**
+     * Username of the bot owner who performed the action
+     * @type {?string}
+     */
+    this.botOwnerUsername = data.playerBotOwnerUsername ?? null;
+
+    /**
      * Log comment
      * @type {?string}
      */

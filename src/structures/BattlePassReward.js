@@ -29,10 +29,20 @@ class BattlePassReward extends Base {
      */
     this.amount = data.amount;
 
-    if ([ItemTypes.AVATAR_ITEM, ItemTypes.PROFILE_ICON, ItemTypes.EMOJI, ItemTypes.ROSE_PACKAGE].includes(this.type)) {
+    if (
+      [
+        ItemTypes.AVATAR_ITEM,
+        ItemTypes.PROFILE_ICON,
+        ItemTypes.EMOJI,
+        ItemTypes.ROSE_PACKAGE,
+        ItemTypes.TALISMAN,
+        ItemTypes.LOADING_SCREEN,
+        ItemTypes.BODY_PAINT,
+      ].includes(this.type)
+    ) {
       /**
        * Reward item(s)
-       * @type {AvatarItem|AvatarItem[]|ProfileIcon|Emoji|Rose}
+       * @type {AvatarItem|AvatarItem[]|ProfileIcon|Emoji|Rose|Talisman|LoadingScreen}
        */
       this.item =
         data.avatarItemIdMale && data.avatarItemIdFemale
@@ -41,7 +51,13 @@ class BattlePassReward extends Base {
               client.items.resolve(data.avatarItemIdFemale, this.type),
             ]
           : client.items.resolve(
-              data.avatarItemId || data.rosePackageId || data.emojiId || data.profileIconId,
+              data.avatarItemId ||
+                data.rosePackageId ||
+                data.emojiId ||
+                data.profileIconId ||
+                data.talismanId ||
+                data.loadingScreenId ||
+                data.bodyPaintId,
               this.type,
             );
     }

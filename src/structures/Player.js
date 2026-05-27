@@ -98,6 +98,56 @@ class Player extends BasePlayer {
       this.profileIcon ??= null;
     }
 
+    if ('profileIconBorderId' in data) {
+      /**
+       * Player profile icon border id
+       * @type {?string}
+       */
+      this.profileIconBorderId = data.profileIconBorderId ?? null;
+    } else {
+      this.profileIconBorderId ??= null;
+    }
+
+    if ('profileIconColorMode' in data) {
+      /**
+       * Profile icon color mode
+       * @type {?string}
+       */
+      this.profileIconColorMode = data.profileIconColorMode ?? null;
+    } else {
+      this.profileIconColorMode ??= null;
+    }
+
+    if ('profileIconGradientPrimary' in data) {
+      /**
+       * Profile icon gradient primary color
+       * @type {?string}
+       */
+      this.profileIconGradientPrimary = data.profileIconGradientPrimary ?? null;
+    } else {
+      this.profileIconGradientPrimary ??= null;
+    }
+
+    if ('profileIconGradientAccent' in data) {
+      /**
+       * Profile icon gradient accent color
+       * @type {?string}
+       */
+      this.profileIconGradientAccent = data.profileIconGradientAccent ?? null;
+    } else {
+      this.profileIconGradientAccent ??= null;
+    }
+
+    if ('profileIconGradientDirection' in data) {
+      /**
+       * Profile icon gradient direction
+       * @type {?string}
+       */
+      this.profileIconGradientDirection = data.profileIconGradientDirection ?? null;
+    } else {
+      this.profileIconGradientDirection ??= null;
+    }
+
     if (data.clanId) {
       /**
        * Player's clan id

@@ -13,10 +13,10 @@ class BattlePassSeason extends Base {
     super(client);
 
     /**
-     * Battle pass season
+     * Battle pass season number
      * @type {number}
      */
-    this.season = data.number + 1;
+    this.season = data.number;
 
     /**
      * Battle pass xp required to complete a tier
@@ -85,32 +85,6 @@ class BattlePassSeason extends Base {
     });
   }
 
-  /**
-   * Battle pass tier
-   * @type {number}
-   * @readonly
-   */
-  get tier() {
-    return (this.xp / this.tierXpRequired) | 0;
-  }
-
-  /**
-   * Battle pass tier xp
-   * @type {number}
-   * @readonly
-   */
-  get progress() {
-    return this.xp % this.tierXpRequired;
-  }
-
-  /**
-   * Whether battle pass completed
-   * @type {boolean}
-   * @readonly
-   */
-  get completed() {
-    return this.xp === this.tierXpRequired * 100;
-  }
 }
 
 module.exports = BattlePassSeason;
