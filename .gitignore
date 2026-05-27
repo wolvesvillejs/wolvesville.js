@@ -7,3 +7,7 @@ yarn.lock
 webpack/
 test/.env
 docs/docs.json
+
+# IDE
+.idea/
+.vscode/
