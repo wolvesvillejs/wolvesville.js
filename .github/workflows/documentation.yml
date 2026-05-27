@@ -6,6 +6,14 @@ on:
       - 'stable'
     tags:
       - '**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: documentation-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build documentation
@@ -17,15 +25,15 @@ jobs:
       SHA: ${{ steps.env.outputs.SHA }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install node.js v16
-        uses: actions/setup-node@v3
+      - name: Install node.js v20
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build docs
         run: npm run docs
@@ -35,17 +43,20 @@ jobs:
         with:
           name: docs
           path: docs/docs.json
+          retention-days: 1
 
       - name: Set outputs for upload job
         id: env
         run: |
-          echo "::set-output name=BRANCH_NAME::${GITHUB_REF_NAME}"
-          echo "::set-output name=BRANCH_OR_TAG::${GITHUB_REF_TYPE}"
-          echo "::set-output name=SHA::${GITHUB_SHA}"
+          echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+          echo "BRANCH_OR_TAG=${GITHUB_REF_TYPE}" >> $GITHUB_OUTPUT
+          echo "SHA=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+
   upload:
     name: Upload Documentation
     needs: build
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'wolvesvillejs'
     env:
       BRANCH_NAME: ${{ needs.build.outputs.BRANCH_NAME }}
       BRANCH_OR_TAG: ${{ needs.build.outputs.BRANCH_OR_TAG }}
@@ -58,42 +69,31 @@ jobs:
           path: docs
 
       - name: Checkout docs repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'wolvesvillejs/docs'
           token: ${{ secrets.WJS_DOCS }}
           path: 'out'
 
-      - name: 'Extract package from tag'
-        if: env.BRANCH_OR_TAG == 'tag'
-        id: package-name
-        uses: frabert/replace-string-action@v2.0
-        with:
-          pattern: '(^@.*\\/(?<package>.*)@v?)?(?<semver>\\d+.\\d+.\\d+)-?.*'
-          string: ${{ env.BRANCH_NAME }}
-          replace-with: '$<package>'
-
-      - name: 'Extract semver from tag'
+      - name: Extract semver from tag
         if: env.BRANCH_OR_TAG == 'tag'
         id: semver
-        uses: frabert/replace-string-action@v2.0
-        with:
-          pattern: '(^@.*\\/(?<package>.*)@v?)?(?<semver>\\d+.\\d+.\\d+)-?.*'
-          string: ${{ env.BRANCH_NAME }}
-          replace-with: '$<semver>'
-
-      - name: Move docs to correct directory
-        if: env.BRANCH_OR_TAG == 'tag'
-        env:
-          SEMVER: ${{ steps.semver.outputs.replaced }}
         run: |
-          mkdir -p out/${PACKAGE}
-          mv docs/docs.json out/wolvesville.js/${SEMVER}.json
-      - name: Move docs to correct directory
+          SEMVER=$(echo "${BRANCH_NAME}" | grep -oP '\d+\.\d+\.\d+')
+          echo "value=${SEMVER}" >> $GITHUB_OUTPUT
+
+      - name: Move docs to correct directory (tag)
+        if: env.BRANCH_OR_TAG == 'tag'
+        run: |
+          mkdir -p out/wolvesville.js
+          mv docs/docs.json out/wolvesville.js/${{ steps.semver.outputs.value }}.json
+
+      - name: Move docs to correct directory (branch)
         if: env.BRANCH_OR_TAG == 'branch'
         run: |
-          mkdir -p out
+          mkdir -p out/wolvesville.js
           mv docs/docs.json out/wolvesville.js/${BRANCH_NAME}.json
+
       - name: Commit and push
         run: |
           cd out
