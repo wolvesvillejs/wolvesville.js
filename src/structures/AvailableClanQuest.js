@@ -4,14 +4,14 @@ const ClanQuest = require('./ClanQuest');
 const Routes = require('../util/Routes');
 
 /**
- * Represents an achieved clan quest.
+ * Represents an available clan quest.
  * @extends {ClanQuest}
  */
 class AvailableClanQuest extends ClanQuest {
-  constructor(client, data) {
+  constructor(client, data, clan) {
     super(client, data);
 
-    Object.defineProperty(this, 'clan', { value: data });
+    Object.defineProperty(this, 'clan', { value: clan });
   }
 
   /**

@@ -51,10 +51,19 @@ class ClanQuestManager extends CacheManager {
   }
 
   /**
+   * Fetch quest votes.
+   * @returns {Promise<Object>}
+   */
+  async fetchVotes() {
+    const response = await this.client.rest.get(Routes.CLANS_QUESTS_VOTES(this.clan.id));
+    return response;
+  }
+
+  /**
    * Claim a quest.
    * <warn>Using this method will spend clan gold/gems!</warn>
    * @param {string} questId Quest id
-   * @returns {void}
+   * @returns {Promise<ActiveClanQuest>}
    */
   async claim(questId) {
     if (!questId || typeof questId !== 'string' || !isUUID(questId)) throw new Error('INVALID_QUEST_ID_FORMAT');
@@ -63,46 +72,51 @@ class ClanQuestManager extends CacheManager {
         questId,
       },
     });
-    if (response === 404) throw new Error('QUEST_CANNOT_BE_CLAIMED');
+    if (response.code === 404) throw new Error('QUEST_CANNOT_BE_CLAIMED');
+    return new ActiveClanQuest(this.client, response, this.clan);
   }
 
   /**
-   * Suffle quests.
+   * Shuffle quests.
    * <warn>Using this method will spend clan gold!</warn>
-   * @returns {void}
+   * @returns {Promise<Collection<string, AvailableClanQuest>>}
    */
   async shuffle() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_SHUFFLE(this.clan.id));
-    if (response === 404) throw new Error('QUESTS_CANNOT_BE_SHUFFLED');
+    if (response.code === 404) throw new Error('QUESTS_CANNOT_BE_SHUFFLED');
+    const data = response.map(item => new AvailableClanQuest(this.client, item, this.clan));
+    return data.reduce((col, item) => col.set(item.id, this._add(item)), new Collection());
   }
 
   /**
    * Skip active quest waiting time.
-   * <warn>Using this method will spend clan gold!</warn>
-   * @returns {void}
+   * <warn>Using this method will spend clan gems!</warn>
+   * @returns {Promise<ActiveClanQuest>}
    */
   async skipActiveQuestWaitingTime() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_SKIP_WAITING_TIME(this.clan.id));
-    if (response === 404) throw new Error('QUEST_TIME_CANNOT_BE_SKIPPED');
+    if (response.code === 404) throw new Error('QUEST_TIME_CANNOT_BE_SKIPPED');
+    return new ActiveClanQuest(this.client, response, this.clan);
   }
 
   /**
    * Claim additional time for the active quest.
    * <warn>Using this method will spend clan gold!</warn>
-   * @returns {void}
+   * @returns {Promise<ActiveClanQuest>}
    */
   async claimActiveQuestExtraTime() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_CLAIM_TIME(this.clan.id));
-    if (response === 404) throw new Error('QUEST_EXTRA_TIME_CANNOT_BE_CLAIMED');
+    if (response.code === 404) throw new Error('QUEST_EXTRA_TIME_CANNOT_BE_CLAIMED');
+    return new ActiveClanQuest(this.client, response, this.clan);
   }
 
   /**
    * Cancel active quest.
-   * @returns {void}
+   * @returns {Promise<void>}
    */
   async cancelActiveQuest() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_CANCEL(this.clan.id));
-    if (response === 404) throw new Error('ACTIVE_QUEST_CANNOT_BE_CANCELED');
+    if (response.code === 404) throw new Error('ACTIVE_QUEST_CANNOT_BE_CANCELED');
   }
 }
 

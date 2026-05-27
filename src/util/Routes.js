@@ -39,6 +39,7 @@ module.exports = {
 
   // Battle Pass
   BATTLE_PASS_SEASON: () => '/battlePass/season',
+  BATTLE_PASS_SEASON_BY_NUMBER: seasonNumber => `/battlePass/season/${seasonNumber}`,
   BATTLE_PASS_CHALLENGES: () => '/battlePass/challenges',
   BATTLE_PASS_SHOP: () => '/battlePass/shop',
 

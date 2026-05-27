@@ -205,6 +205,17 @@ class Client extends BaseClient {
   }
 
   /**
+   * Fetch a past battle pass season by season number.
+   * @param {number} seasonNumber Season number
+   * @returns {Promise<BattlePassSeason>}
+   */
+  async fetchBattlePassSeasonByNumber(seasonNumber) {
+    if (typeof seasonNumber !== 'number') throw new Error('SEASON_NUMBER_MUST_BE_A_NUMBER');
+    const response = await this.rest.get(Routes.BATTLE_PASS_SEASON_BY_NUMBER(seasonNumber));
+    return new BattlePassSeason(this, response);
+  }
+
+  /**
    * Fetch battle pass challenges.
    * @returns {Promise<BattlePassChallenge[]>}
    */

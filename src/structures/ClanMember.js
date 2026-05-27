@@ -70,6 +70,12 @@ class ClanMember extends BasePlayer {
      * @type {number}
      */
     this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
+
+    /**
+     * Member flair
+     * @type {?string}
+     */
+    this.flair = data.flair ?? null;
   }
 }
 

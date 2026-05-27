@@ -65,31 +65,33 @@ class ActiveClanQuest extends ClanQuest {
 
   /**
    * Skip waiting time.
-   * <warn>Using this method will spend clan gold!</warn>
-   * @returns {void}
+   * <warn>Using this method will spend clan gems!</warn>
+   * @returns {Promise<ActiveClanQuest>}
    */
   async skipWaitingTime() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_SKIP_WAITING_TIME(this.clan.id));
-    if (response === 404) throw new Error('QUEST_TIME_CANNOT_BE_SKIPPED');
+    if (response.code === 404) throw new Error('QUEST_TIME_CANNOT_BE_SKIPPED');
+    return new ActiveClanQuest(this.client, response, this.clan);
   }
 
   /**
    * Claim additional time.
    * <warn>Using this method will spend clan gold!</warn>
-   * @returns {void}
+   * @returns {Promise<ActiveClanQuest>}
    */
   async claimExtraTime() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_CLAIM_TIME(this.clan.id));
-    if (response === 404) throw new Error('QUEST_EXTRA_TIME_CANNOT_BE_CLAIMED');
+    if (response.code === 404) throw new Error('QUEST_EXTRA_TIME_CANNOT_BE_CLAIMED');
+    return new ActiveClanQuest(this.client, response, this.clan);
   }
 
   /**
    * Cancel the quest.
-   * @returns {void}
+   * @returns {Promise<void>}
    */
   async cancel() {
     const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_CANCEL(this.clan.id));
-    if (response === 404) throw new Error('ACTIVE_QUEST_CANNOT_BE_CANCELED');
+    if (response.code === 404) throw new Error('ACTIVE_QUEST_CANNOT_BE_CANCELED');
   }
 
   /**
