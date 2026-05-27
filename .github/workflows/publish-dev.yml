@@ -36,13 +36,8 @@ jobs:
         id: pre-release
         run: |
           DEV_VERSION=$(npm view wolvesville.js@dev version 2>/dev/null || true)
-          if [ -n "${{ inputs.version }}" ]; then
-            PKG_VERSION="${{ inputs.version }}"
-          else
-            PKG_VERSION=$(jq --raw-output '.version' package.json)
-          fi
           SHORT_SHA=$(git rev-parse --short HEAD)
-          if echo "$DEV_VERSION" | grep -q "${PKG_VERSION}.*-${SHORT_SHA}"; then
+          if echo "$DEV_VERSION" | grep -q "${SHORT_SHA}"; then
             echo "release=false" >> $GITHUB_OUTPUT
           else
             echo "release=true" >> $GITHUB_OUTPUT
@@ -60,7 +55,7 @@ jobs:
           else
             BASE_VERSION=$(jq --raw-output '.version' package.json)
           fi
-          npm version --no-git-tag-version "${BASE_VERSION}.$(date +%s)-$(git rev-parse --short HEAD)"
+          npm version --no-git-tag-version "${BASE_VERSION}-dev.$(date +%s).$(git rev-parse --short HEAD)"
           npm publish --tag dev
         env:
           NODE_AUTH_TOKEN: ${{ secrets.WJS_PUBLISH }}
