@@ -20,7 +20,7 @@ class LimitedOffer extends Offer {
     /**
      * Offer image URL
      * @type {string}
-     */    
+     */
     this.imageURL = data.promoImageUrl;
   }
 }

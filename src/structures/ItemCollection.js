@@ -56,9 +56,7 @@ class ItemCollection extends Base {
        * Bonus avatar items
        * @type {?Item[]}
        */
-      this.bonusAvatarItems = data.bonusAvatarItemIds?.map(id =>
-        this.client.items.resolve(id, ItemTypes.AVATAR_ITEM),
-      );
+      this.bonusAvatarItems = data.bonusAvatarItemIds?.map(id => this.client.items.resolve(id, ItemTypes.AVATAR_ITEM));
     } else {
       this.bonusAvatarItems ??= null;
     }
@@ -78,9 +76,7 @@ class ItemCollection extends Base {
        * Bonus backgrounds
        * @type {?Background[]}
        */
-      this.bonusBackgrounds = data.bonusBackgroundIds?.map(id =>
-        this.client.items.resolve(id, ItemTypes.BACKGROUND),
-      );
+      this.bonusBackgrounds = data.bonusBackgroundIds?.map(id => this.client.items.resolve(id, ItemTypes.BACKGROUND));
     } else {
       this.bonusBackgrounds ??= null;
     }

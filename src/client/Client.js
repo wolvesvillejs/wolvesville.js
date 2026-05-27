@@ -15,11 +15,11 @@ const ItemManager = require('../managers/ItemManager');
 const ItemSetManager = require('../managers/ItemSetManager');
 const LoadingScreenManager = require('../managers/LoadingScreenManager');
 const PlayerManager = require('../managers/PlayerManager');
-const ProfileIconManager = require('../managers/ProfileIconManager');
 const ProfileIconBorderManager = require('../managers/ProfileIconBorderManager');
-const RoleManager = require('../managers/RoleManager');
+const ProfileIconManager = require('../managers/ProfileIconManager');
 const RoleCardPackManager = require('../managers/RoleCardPackManager');
 const RoleIconManager = require('../managers/RoleIconManager');
+const RoleManager = require('../managers/RoleManager');
 const RoseManager = require('../managers/RoseManager');
 const RoseSkinManager = require('../managers/RoseSkinManager');
 const TagManager = require('../managers/TagManager');
@@ -246,10 +246,10 @@ class Client extends BaseClient {
       item.type.endsWith('OUTFITS')
         ? new LimitedCollectionOffer(this, item)
         : item.type === 'AVATAR_ITEMS'
-        ? new LimitedItemCollectionOffer(this, item)
-        : item.type === 'ADVANCED_ROLE_CARD'
-        ? new AdvancedRoleCardOffer(this, item)
-        : new LimitedOffer(this, item),
+          ? new LimitedItemCollectionOffer(this, item)
+          : item.type === 'ADVANCED_ROLE_CARD'
+            ? new AdvancedRoleCardOffer(this, item)
+            : new LimitedOffer(this, item),
     );
 
     return data;

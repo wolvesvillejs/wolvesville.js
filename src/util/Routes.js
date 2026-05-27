@@ -5,7 +5,7 @@ module.exports = {
   ANNOUNCEMENTS: () => '/announcements',
 
   // Roles
-  ROLES: () => '/roles', 
+  ROLES: () => '/roles',
 
   // Items
   AVATAR_ITEMS: () => '/items/avatarItems',

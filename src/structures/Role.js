@@ -1,7 +1,6 @@
 'use strict';
 
 const Base = require('./Base');
-const Image = require('./Image');
 
 /**
  * Represents a role.

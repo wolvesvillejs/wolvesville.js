@@ -24,8 +24,8 @@ class BattlePassChallenge extends Base {
     this.type = data.rewardInGold
       ? ItemTypes.GOLD
       : data.rewardAvatarItemId
-      ? ItemTypes.AVATAR_ITEM
-      : ItemTypes.ROLE_ICON;
+        ? ItemTypes.AVATAR_ITEM
+        : ItemTypes.ROLE_ICON;
 
     /**
      * Challenge description

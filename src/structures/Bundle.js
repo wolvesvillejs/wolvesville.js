@@ -1,7 +1,7 @@
 'use strict';
 
-const Base = require('./Base');
 const Background = require('./Background');
+const Base = require('./Base');
 const BodyPaint = require('./BodyPaint');
 const Emoji = require('./Emoji');
 const ItemSet = require('./ItemSet');

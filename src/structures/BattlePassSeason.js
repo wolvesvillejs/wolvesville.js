@@ -84,7 +84,6 @@ class BattlePassSeason extends Base {
       value: { iconURL: data.iconUrl },
     });
   }
-
 }
 
 module.exports = BattlePassSeason;
