@@ -47,7 +47,7 @@ class ClanManager extends CacheManager {
   /**
    * Options for {@link ClanManager#search}.
    * @typedef {Object} ClanSearchOptions
-   * @property {string} searchType What to query
+   * @property {boolean} exactName Whether to match the name exactly
    * @property {number} levelMin Minimum required level of clans
    * @property {number} levelMax Maximum required level of clans
    * @property {string} language Clans language
@@ -69,10 +69,9 @@ class ClanManager extends CacheManager {
       name,
     };
 
-    if (options.searchType) {
-      if (typeof options.searchType !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
-      if (!['exactName', 'tag'].includes(options.searchType)) throw new Error('INVALID_OPTION_VALUE');
-      params.searchType = options.searchType;
+    if (options.exactName !== undefined) {
+      if (typeof options.exactName !== 'boolean') throw new Error('OPTION_VALUE_MUST_BE_A_BOOLEAN');
+      params.exactName = options.exactName;
     }
 
     if (options.levelMin) {

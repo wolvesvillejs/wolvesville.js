@@ -37,18 +37,18 @@ class AvatarManager extends BaseManager {
 
   /**
    * Create a shared avatar by specifying item IDs.
-   * Required fields: shirtId and bodyPaintId
-   * Optional fields: hairId, glassesId, hatId, gravestoneId, frontId, backId, eyesId, badgeId, maskId, mouthId
+   * Required fields: shirtId, bodyPaintId, eyesId, gravestoneId
+   * Optional fields: hairId, glassesId, hatId, frontId, backId, badgeId, maskId, mouthId
    * @param {Object} items Object containing avatar item IDs
    * @param {string} items.shirtId Required shirt item ID
    * @param {string} items.bodyPaintId Required body paint item ID
+   * @param {string} items.eyesId Required eyes item ID
+   * @param {string} items.gravestoneId Required gravestone item ID
    * @param {?string} [items.hairId] Optional hair item ID
    * @param {?string} [items.glassesId] Optional glasses item ID
    * @param {?string} [items.hatId] Optional hat item ID
-   * @param {?string} [items.gravestoneId] Optional gravestone item ID
    * @param {?string} [items.frontId] Optional front item ID
    * @param {?string} [items.backId] Optional back item ID
-   * @param {?string} [items.eyesId] Optional eyes item ID
    * @param {?string} [items.badgeId] Optional badge item ID
    * @param {?string} [items.maskId] Optional mask item ID
    * @param {?string} [items.mouthId] Optional mouth item ID
@@ -58,6 +58,8 @@ class AvatarManager extends BaseManager {
     if (!items || typeof items !== 'object') throw new Error('ITEMS_MUST_BE_AN_OBJECT');
     if (!items.shirtId) throw new Error('SHIRT_ID_REQUIRED');
     if (!items.bodyPaintId) throw new Error('BODY_PAINT_ID_REQUIRED');
+    if (!items.eyesId) throw new Error('EYES_ID_REQUIRED');
+    if (!items.gravestoneId) throw new Error('GRAVESTONE_ID_REQUIRED');
 
     const response = await this.client.rest.post(Routes.AVATARS_SHARED_CREATE(), {
       data: items,

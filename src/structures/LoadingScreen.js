@@ -56,7 +56,7 @@ class LoadingScreen extends Base {
        * Loading screen image URL
        * @type {?string}
        */
-      this.imageURL = data.image;
+      this.imageURL = data.image.url;
     } else {
       this.imageURL ??= null;
     }
@@ -66,9 +66,19 @@ class LoadingScreen extends Base {
        * Loading screen wide image URL
        * @type {?string}
        */
-      this.wideImageURL = data.imageWide;
+      this.wideImageURL = data.imageWide.url;
     } else {
       this.wideImageURL ??= null;
+    }
+
+    if ('event' in data) {
+      /**
+       * Loading screen event tag
+       * @type {?string}
+       */
+      this.event = data.event ?? null;
+    } else {
+      this.event ??= null;
     }
   }
 }

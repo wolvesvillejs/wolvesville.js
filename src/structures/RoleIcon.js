@@ -41,11 +41,22 @@ class RoleIcon extends Base {
       this.rarity ??= null;
     }
 
+    if ('event' in data) {
+      /**
+       * Role icon event tag
+       * @type {?string}
+       */
+      this.event = data.event ?? null;
+    } else {
+      this.event ??= null;
+    }
+
     if ('image' in data) {
       Object.defineProperty(this, '_cdn', {
         value: {
-          image: data.image,
+          imageURL: data.image.url,
         },
+        configurable: true,
       });
     }
   }

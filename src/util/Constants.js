@@ -71,11 +71,16 @@ exports.AvatarItemTypes = {
   GLASSES: 'GLASSES',
   MOUTH: 'MOUTH',
   MASK: 'MASK',
-  CLOTHES: 'CLOTHES',
-  FOREGROUND: 'FOREGROUND',
-  BACKGROUND: 'BACKGROUND',
   BADGE: 'BADGE',
   GRAVESTONE: 'GRAVESTONE',
+  // API enum values (preferred names)
+  SHIRT: 'SHIRT',
+  FRONT: 'FRONT',
+  BACK: 'BACK',
+  LEGS: 'LEGS',
+  // Legacy aliases kept for backwards compatibility
+  CLOTHES: 'SHIRT',
+  FOREGROUND: 'FRONT',
 };
 
 /**

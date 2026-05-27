@@ -43,12 +43,46 @@ class ItemCollection extends Base {
 
     if ('bonusLoadingScreenId' in data) {
       /**
-       * Bonus item
-       * @type {LoadingScreen}
+       * Bonus loading screen
+       * @type {?LoadingScreen}
        */
-      this.bonus = this.client.items.resolve(data.bonusLoadingScreenId, ItemTypes.LOADING_SCREEN);
+      this.bonusLoadingScreen = this.client.items.resolve(data.bonusLoadingScreenId, ItemTypes.LOADING_SCREEN);
     } else {
-      this.bonus ??= null;
+      this.bonusLoadingScreen ??= null;
+    }
+
+    if ('bonusAvatarItemIds' in data) {
+      /**
+       * Bonus avatar items
+       * @type {?Item[]}
+       */
+      this.bonusAvatarItems = data.bonusAvatarItemIds?.map(id =>
+        this.client.items.resolve(id, ItemTypes.AVATAR_ITEM),
+      );
+    } else {
+      this.bonusAvatarItems ??= null;
+    }
+
+    if ('bonusEmojiIds' in data) {
+      /**
+       * Bonus emojis
+       * @type {?Emoji[]}
+       */
+      this.bonusEmojis = data.bonusEmojiIds?.map(id => this.client.items.resolve(id, ItemTypes.EMOJI));
+    } else {
+      this.bonusEmojis ??= null;
+    }
+
+    if ('bonusBackgroundIds' in data) {
+      /**
+       * Bonus backgrounds
+       * @type {?Background[]}
+       */
+      this.bonusBackgrounds = data.bonusBackgroundIds?.map(id =>
+        this.client.items.resolve(id, ItemTypes.BACKGROUND),
+      );
+    } else {
+      this.bonusBackgrounds ??= null;
     }
 
     if ('bonusMinItemCount' in data) {
