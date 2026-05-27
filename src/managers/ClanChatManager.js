@@ -1,6 +1,7 @@
 'use strict';
 
 const BaseManager = require('./BaseManager');
+const ClanAnnouncement = require('../structures/ClanAnnouncement');
 const ClanChatMessage = require('../structures/ClanChatMessage');
 const Routes = require('../util/Routes');
 
@@ -46,11 +47,11 @@ class ClanChatManager extends BaseManager {
 
   /**
    * Fetch announcements.
-   * @returns {Promise<ClanChatMessage[]>}
+   * @returns {Promise<ClanAnnouncement[]>}
    */
   async fetchAnnouncements() {
     const response = await this.client.rest.get(Routes.CLANS_ANNOUNCEMENTS(this.clan.id));
-    return response.map(announcement => new ClanChatMessage(this.client, announcement));
+    return response.map(announcement => new ClanAnnouncement(this.client, announcement));
   }
 
   /**

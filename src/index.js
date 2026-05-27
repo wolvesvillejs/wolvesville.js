@@ -43,6 +43,7 @@ exports.BattlePassChallenge = require('./structures/BattlePassChallenge');
 exports.BattlePassReward = require('./structures/BattlePassReward');
 exports.BattlePassSeason = require('./structures/BattlePassSeason');
 exports.Clan = require('./structures/Clan');
+exports.ClanAnnouncement = require('./structures/ClanAnnouncement');
 exports.ClanBlocklistEntry = require('./structures/ClanBlocklistEntry');
 exports.ClanChatMessage = require('./structures/ClanChatMessage');
 exports.ClanLedgerField = require('./structures/ClanLedgerField');

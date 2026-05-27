@@ -185,11 +185,13 @@ class Client extends BaseClient {
   }
 
   /**
-   * Fetch game modes.
+   * Fetch game modes (role rotations grouped by game mode category).
+   * @param {?string} [locale] Optional locale for localized names and descriptions
    * @returns {Promise<GameMode[]>}
    */
-  async fetchGameModes() {
-    const response = await this.rest.get(Routes.ROLE_ROTATIONS());
+  async fetchGameModes(locale) {
+    const options = locale ? { query: { locale } } : {};
+    const response = await this.rest.get(Routes.ROLE_ROTATIONS(), options);
     const data = response.map(item => new GameMode(this, item));
     return data;
   }
@@ -217,10 +219,12 @@ class Client extends BaseClient {
 
   /**
    * Fetch battle pass challenges.
+   * @param {?string} [locale] Optional locale for localized descriptions
    * @returns {Promise<BattlePassChallenge[]>}
    */
-  async fetchBattlePassChallenges() {
-    const response = await this.rest.get(Routes.BATTLE_PASS_CHALLENGES());
+  async fetchBattlePassChallenges(locale) {
+    const options = locale ? { query: { locale } } : {};
+    const response = await this.rest.get(Routes.BATTLE_PASS_CHALLENGES(), options);
 
     const data = response.map(item => new BattlePassChallenge(this, item));
     return data;
@@ -310,6 +314,14 @@ class Client extends BaseClient {
   async fetchPlayerHighscores() {
     const response = await this.rest.get(Routes.PLAYER_HIGHSCORES());
     return response;
+  }
+
+  /**
+   * Redeem the API hat avatar item for the bot owner (idempotent).
+   * @returns {Promise<void>}
+   */
+  async redeemApiHat() {
+    await this.rest.post(Routes.REDEEM_API_HAT());
   }
 }
 

@@ -35,12 +35,12 @@ class Player extends BasePlayer {
       this.username ??= null;
     }
 
-    if (data.personalMsg) {
+    if ('personalMessage' in data) {
       /**
        * Player personal message
        * @type {?string}
        */
-      this.personalMessage = data.personalMsg;
+      this.personalMessage = data.personalMessage;
     } else {
       this.personalMessage ??= null;
     }
@@ -158,6 +158,16 @@ class Player extends BasePlayer {
       this.seasonPlayedCount ??= null;
     }
 
+    if ('creationTime' in data) {
+      /**
+       * Player account creation timestamp
+       * @type {?number}
+       */
+      this.createdTimestamp = new Date(data.creationTime).getTime();
+    } else {
+      this.createdTimestamp ??= null;
+    }
+
     if ('lastOnline' in data) {
       /**
        * Player last online timestamp
@@ -166,6 +176,16 @@ class Player extends BasePlayer {
       this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
     } else {
       this.lastOnlineTimestamp ??= null;
+    }
+
+    if ('equippedAvatar' in data) {
+      /**
+       * Player's currently equipped avatar image
+       * @type {?Avatar}
+       */
+      this.equippedAvatar = new Avatar(this.client, data.equippedAvatar);
+    } else {
+      this.equippedAvatar ??= null;
     }
 
     if ('avatars' in data) {

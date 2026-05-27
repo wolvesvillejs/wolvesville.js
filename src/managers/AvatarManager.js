@@ -10,7 +10,7 @@ const Routes = require('../util/Routes');
  */
 class AvatarManager extends BaseManager {
   /**
-   * Fetch shared avatar ID for a player.
+   * Fetch shared avatar ID for a player's avatar slot.
    * @param {string} playerId Player ID
    * @param {number} slotNumber Avatar slot number
    * @returns {Promise<string>}
@@ -20,7 +20,7 @@ class AvatarManager extends BaseManager {
     if (typeof slotNumber !== 'number') throw new Error('SLOT_NUMBER_MUST_BE_A_NUMBER');
 
     const response = await this.client.rest.get(Routes.AVATARS_SHARED_ID(playerId, slotNumber));
-    return response;
+    return response.sharedAvatarId;
   }
 
   /**
