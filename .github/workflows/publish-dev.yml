@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
+          cache: npm
 
       - name: Check previous released version
         id: pre-release
@@ -40,9 +41,7 @@ jobs:
       - name: Publish
         if: steps.pre-release.outputs.release == 'true'
         run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          npm version $(jq --raw-output '.version' package.json).$(date +%s)-$(git rev-parse --short HEAD)
+          npm version --no-git-tag-version $(jq --raw-output '.version' package.json).$(date +%s)-$(git rev-parse --short HEAD)
           npm publish --tag dev
         env:
           NODE_AUTH_TOKEN: ${{ secrets.WJS_PUBLISH }}
