@@ -3,6 +3,7 @@
 const BaseClient = require('./BaseClient');
 const AvatarManager = require('../managers/AvatarManager');
 const BackgroundManager = require('../managers/BackgroundManager');
+const BadgeManager = require('../managers/BadgeManager');
 const BaseRoleCardOfferManager = require('../managers/BaseRoleCardOfferManager');
 const BodyPaintManager = require('../managers/BodyPaintManager');
 const BundleManager = require('../managers/BundleManager');
@@ -30,12 +31,15 @@ const BattlePassChallenge = require('../structures/BattlePassChallenge');
 const BattlePassCoinShop = require('../structures/BattlePassCoinShop');
 const BattlePassSeason = require('../structures/BattlePassSeason');
 const ClanQuest = require('../structures/ClanQuest');
+const Event = require('../structures/Event');
 const GameMode = require('../structures/GameMode');
 const HighScore = require('../structures/HighScore');
 const Leaderboard = require('../structures/Leaderboard');
 const LimitedCollectionOffer = require('../structures/LimitedCollectionOffer');
 const LimitedItemCollectionOffer = require('../structures/LimitedItemCollectionOffer');
 const LimitedOffer = require('../structures/LimitedOffer');
+const Moonlight = require('../structures/Moonlight');
+const Offer = require('../structures/Offer');
 const RankedSeasonInfo = require('../structures/RankedSeasonInfo');
 const SeasonWinners = require('../structures/SeasonWinners');
 const Routes = require('../util/Routes');
@@ -188,6 +192,12 @@ class Client extends BaseClient {
      * @type {BaseRoleCardOfferManager}
      */
     this.baseRoleCardOffers = new BaseRoleCardOfferManager(this);
+
+    /**
+     * The badge manager of the client
+     * @type {BadgeManager}
+     */
+    this.badges = new BadgeManager(this);
   }
 
   /**
@@ -238,26 +248,25 @@ class Client extends BaseClient {
 
   /**
    * Fetch shop.
-   * @returns {Promise<Array<LimitedCollectionOffer|LimitedItemCollectionOffer|AdvancedRoleCardOffer|LimitedOffer>>}
+   * @returns {Promise<Array<LimitedCollectionOffer|LimitedItemCollectionOffer|
+   * AdvancedRoleCardOffer|LimitedOffer|Offer>>}
    */
   async fetchShop() {
     const response = await this.rest.get(Routes.ACTIVE_OFFERS());
-    const data = response.map(item =>
-      item.type.endsWith('OUTFITS')
-        ? new LimitedCollectionOffer(this, item)
-        : item.type === 'AVATAR_ITEMS'
-          ? new LimitedItemCollectionOffer(this, item)
-          : item.type === 'ADVANCED_ROLE_CARD'
-            ? new AdvancedRoleCardOffer(this, item)
-            : new LimitedOffer(this, item),
-    );
+    const data = response.map(item => {
+      if (item.type.endsWith('OUTFITS')) return new LimitedCollectionOffer(this, item);
+      if (item.type === 'AVATAR_ITEMS') return new LimitedItemCollectionOffer(this, item);
+      if (item.type === 'ADVANCED_ROLE_CARD') return new AdvancedRoleCardOffer(this, item);
+      if (item.avatarItemSetIds?.length) return new LimitedOffer(this, item);
+      return new Offer(this, item);
+    });
 
     return data;
   }
 
   /**
    * Fetch all quests.
-   * @returns {ClanQuest[]}
+   * @returns {Promise<ClanQuest[]>}
    */
   async fetchQuests() {
     const response = await this.rest.get(Routes.CLANS_QUESTS_ALL());
@@ -320,6 +329,24 @@ class Client extends BaseClient {
   async fetchPlayerHighscores() {
     const response = await this.rest.get(Routes.PLAYER_HIGHSCORES());
     return new HighScore(this, response);
+  }
+
+  /**
+   * Fetch current and upcoming in-game events.
+   * @returns {Promise<Event[]>}
+   */
+  async fetchEvents() {
+    const response = await this.rest.get(Routes.EVENTS());
+    return response.map(event => new Event(this, event));
+  }
+
+  /**
+   * Fetch moonlight offers.
+   * @returns {Promise<Moonlight[]>}
+   */
+  async fetchMoonlight() {
+    const response = await this.rest.get(Routes.MOONLIGHT());
+    return response.map(moonlight => new Moonlight(this, moonlight));
   }
 
   /**

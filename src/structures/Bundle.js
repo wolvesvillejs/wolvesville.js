@@ -27,6 +27,26 @@ class Bundle extends Base {
   }
 
   _patch(data) {
+    if ('name' in data) {
+      /**
+       * Bundle name
+       * @type {?string}
+       */
+      this.name = data.name;
+    } else {
+      this.name ??= null;
+    }
+
+    if ('description' in data) {
+      /**
+       * Bundle description
+       * @type {?string}
+       */
+      this.description = data.description;
+    } else {
+      this.description ??= null;
+    }
+
     if ('costInGems' in data) {
       /**
        * Bundle cost in gems

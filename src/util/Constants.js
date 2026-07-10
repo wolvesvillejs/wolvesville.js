@@ -84,6 +84,32 @@ exports.AvatarItemTypes = {
 };
 
 /**
+ * The events an item can originate from.
+ * @typedef {string} AvatarItemEvent
+ */
+exports.AvatarItemEvents = {
+  XMAS: 'XMAS',
+  EASTER: 'EASTER',
+  HALLOWEEN: 'HALLOWEEN',
+  EARLY_BIRD: 'EARLY_BIRD',
+  ST_PATRICK: 'ST_PATRICK',
+  BATTLE_PASS: 'BATTLE_PASS',
+  WHEEL: 'WHEEL',
+  ITEMS_COLLECTION: 'ITEMS_COLLECTION',
+  SOCCER: 'SOCCER',
+  CALENDAR: 'CALENDAR',
+  ROLE_CARDS: 'ROLE_CARDS',
+  LEVEL_UP_CARD: 'LEVEL_UP_CARD',
+  EMOJIS_COLLECTION: 'EMOJIS_COLLECTION',
+  BUNDLE_OFFER: 'BUNDLE_OFFER',
+  HONOR_REWARD: 'HONOR_REWARD',
+  SUBSCRIPTION: 'SUBSCRIPTION',
+  TWITCH: 'TWITCH',
+  BLACK_FRIDAY: 'BLACK_FRIDAY',
+  FOOTBALL26: 'FOOTBALL26',
+};
+
+/**
  * The item rarities.
  * @typedef {string} Rarity
  */

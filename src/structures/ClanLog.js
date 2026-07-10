@@ -20,16 +20,18 @@ class ClanLog extends Base {
 
     /**
      * Log executor
-     * @type {Player}
+     * @type {?Player}
      */
-    this.executor = new Player(client, {
-      id: data.playerId,
-      username: data.playerUsername,
-    });
+    this.executor = data.playerId
+      ? new Player(client, {
+          id: data.playerId,
+          username: data.playerUsername,
+        })
+      : null;
 
     /**
      * Log target player
-     * @type {Player}
+     * @type {?Player}
      */
     this.target = data.targetPlayerId
       ? new Player(client, {

@@ -12,9 +12,9 @@ class RoleAchievement extends Base {
 
     /**
      * Role id
-     * @type {?string}
+     * @type {string}
      */
-    this.roleId = data.roleId ?? null;
+    this.roleId = data.roleId;
 
     /**
      * Role icon id
@@ -24,27 +24,27 @@ class RoleAchievement extends Base {
 
     /**
      * Achievement level
-     * @type {?number}
+     * @type {number}
      */
-    this.level = data.level ?? null;
+    this.level = data.level;
 
     /**
      * Current points
-     * @type {?number}
+     * @type {number}
      */
-    this.points = data.points ?? null;
+    this.points = data.points;
 
     /**
      * Points required for next level
-     * @type {?number}
+     * @type {number}
      */
-    this.pointsNextLevel = data.pointsNextLevel ?? null;
+    this.pointsNextLevel = data.pointsNextLevel;
 
     /**
      * Achievement category
-     * @type {?string}
+     * @type {string}
      */
-    this.category = data.category ?? null;
+    this.category = data.category;
   }
 }
 

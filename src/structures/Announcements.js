@@ -13,21 +13,21 @@ class Announcements extends Base {
 
     /**
      * General announcements (DiscordMessage[])
-     * @type {Object[]}
+     * @type {?Object[]}
      */
-    this.announcements = data.announcements;
+    this.announcements = data.announcements ?? null;
 
     /**
      * Changelog messages (DiscordMessage[])
-     * @type {Object[]}
+     * @type {?Object[]}
      */
-    this.changelogs = data.changelogs;
+    this.changelogs = data.changelogs ?? null;
 
     /**
      * Discord event messages (DiscordMessage[])
-     * @type {Object[]}
+     * @type {?Object[]}
      */
-    this.discordEvents = data.discordEvents;
+    this.discordEvents = data.discordEvents ?? null;
   }
 }
 

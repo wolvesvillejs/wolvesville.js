@@ -2,8 +2,10 @@
 
 const Avatar = require('./Avatar');
 const BasePlayer = require('./BasePlayer');
+const BattlePassBadge = require('./BattlePassBadge');
 const Clan = require('./Clan');
 const OwnedProfileIcon = require('./OwnedProfileIcon');
+const PlayerEventSummary = require('./PlayerEventSummary');
 const PlayerGameStats = require('./PlayerGameStats');
 const RoleCard = require('./RoleCard');
 const { ItemTypes } = require('../util/Constants');
@@ -44,6 +46,36 @@ class Player extends BasePlayer {
       this.personalMessage = data.personalMessage;
     } else {
       this.personalMessage ??= null;
+    }
+
+    if ('profileImageUrl' in data) {
+      /**
+       * Player profile image URL
+       * @type {?string}
+       */
+      this.profileImageURL = data.profileImageUrl;
+    } else {
+      this.profileImageURL ??= null;
+    }
+
+    if ('profileBackgroundPrimaryColor' in data) {
+      /**
+       * Player profile background primary color
+       * @type {?string}
+       */
+      this.profileBackgroundPrimaryColor = data.profileBackgroundPrimaryColor;
+    } else {
+      this.profileBackgroundPrimaryColor ??= null;
+    }
+
+    if ('profileBackgroundAccentColor' in data) {
+      /**
+       * Player profile background accent color
+       * @type {?string}
+       */
+      this.profileBackgroundAccentColor = data.profileBackgroundAccentColor;
+    } else {
+      this.profileBackgroundAccentColor ??= null;
     }
 
     if ('level' in data) {
@@ -107,6 +139,16 @@ class Player extends BasePlayer {
       this.profileIconBorderId = data.profileIconBorderId ?? null;
     } else {
       this.profileIconBorderId ??= null;
+    }
+
+    if ('profileIconForegroundColor' in data) {
+      /**
+       * Profile icon foreground color
+       * @type {?string}
+       */
+      this.profileIconForegroundColor = data.profileIconForegroundColor ?? null;
+    } else {
+      this.profileIconForegroundColor ??= null;
     }
 
     if ('profileIconColorMode' in data) {
@@ -267,6 +309,39 @@ class Player extends BasePlayer {
       this.roleCards = data.roleCards.map(roleCard => new RoleCard(this.client, roleCard));
     } else {
       this.roleCards ??= null;
+    }
+
+    if ('favorites' in data) {
+      /**
+       * Player favorites (favorite emoji and role ids)
+       * @type {?Array<{emojiId: ?string, roleId: ?string}>}
+       */
+      this.favorites = data.favorites.map(favorite => ({
+        emojiId: favorite.emojiId ?? null,
+        roleId: favorite.roleId ?? null,
+      }));
+    } else {
+      this.favorites ??= null;
+    }
+
+    if ('battlePassBadges' in data) {
+      /**
+       * Player battle pass badges
+       * @type {?BattlePassBadge[]}
+       */
+      this.battlePassBadges = data.battlePassBadges.map(badge => new BattlePassBadge(this.client, badge));
+    } else {
+      this.battlePassBadges ??= null;
+    }
+
+    if ('events' in data) {
+      /**
+       * Player event participation summaries
+       * @type {?PlayerEventSummary[]}
+       */
+      this.events = data.events.map(event => new PlayerEventSummary(this.client, event));
+    } else {
+      this.events ??= null;
     }
   }
 

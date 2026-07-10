@@ -16,11 +16,12 @@ class ClanChatMessage extends Base {
      * Message author
      * @type {?Player}
      */
-    this.author = !data.playerBotOwnerUsername
-      ? new Player(client, {
-          id: data.playerId,
-        })
-      : null;
+    this.author =
+      !data.playerBotOwnerUsername && data.playerId
+        ? new Player(client, {
+            id: data.playerId,
+          })
+        : null;
 
     /**
      * Message author username
@@ -42,15 +43,15 @@ class ClanChatMessage extends Base {
 
     /**
      * Whether message is a system message
-     * @type {boolean}
+     * @type {?boolean}
      */
-    this.system = data.isSystem;
+    this.system = data.isSystem ?? null;
 
     /**
      * Message created timestamp
-     * @type {number}
+     * @type {?number}
      */
-    this.createdTimestamp = new Date(data.date).getTime();
+    this.createdTimestamp = data.date ? new Date(data.date).getTime() : null;
 
     /**
      * Whether the author is a bot

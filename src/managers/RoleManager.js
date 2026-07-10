@@ -17,7 +17,7 @@ class RoleManager extends CacheManager {
   async fetch(locale) {
     const options = locale ? { query: { locale } } : {};
     const response = await this.client.rest.get(Routes.ROLES(), options);
-    response.roles.forEach(role => this._add(new Role(this.client, role)));
+    (response.roles ?? []).forEach(role => this._add(new Role(this.client, role)));
 
     /**
      * Mapping of base role IDs to arrays of advanced role variant IDs

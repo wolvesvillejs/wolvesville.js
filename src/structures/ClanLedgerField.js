@@ -37,10 +37,22 @@ class ClanLedgerField extends Base {
     this.action = ClanLedgerActions[data.type];
 
     /**
-     * Field creation timestamp
-     * @type {Player}
+     * Player at the origin of the transaction
+     * @type {?Player}
      */
-    this.player = new Player(client, Object.defineProperty(data, 'username', { value: data.playerUsername }));
+    this.player = data.playerId ? new Player(client, { id: data.playerId, username: data.playerUsername }) : null;
+
+    /**
+     * Bot id at the origin of the transaction
+     * @type {?string}
+     */
+    this.playerBotId = data.playerBotId ?? null;
+
+    /**
+     * Username of the bot owner
+     * @type {?string}
+     */
+    this.playerBotOwnerUsername = data.playerBotOwnerUsername ?? null;
 
     /**
      * Field created timestamp
@@ -53,6 +65,12 @@ class ClanLedgerField extends Base {
      * @type {?string}
      */
     this.clanQuestId = data.clanQuestId ?? null;
+
+    /**
+     * Field comment
+     * @type {?string}
+     */
+    this.comment = data.comment ?? null;
   }
 }
 

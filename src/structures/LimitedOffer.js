@@ -13,9 +13,11 @@ class LimitedOffer extends Offer {
 
     /**
      * Offer item set
-     * @type {ItemSet}
+     * @type {?ItemSet}
      */
-    this.itemSet = client.items.resolve(data.avatarItemSetIds[0], ItemTypes.ITEM_SET);
+    this.itemSet = data.avatarItemSetIds?.length
+      ? client.items.resolve(data.avatarItemSetIds[0], ItemTypes.ITEM_SET)
+      : null;
 
     /**
      * Offer image URL

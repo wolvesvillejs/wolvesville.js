@@ -4,11 +4,16 @@ module.exports = {
   // Announcements
   ANNOUNCEMENTS: () => '/announcements',
 
+  // Events
+  EVENTS: () => '/events',
+
   // Roles
   ROLES: () => '/roles',
 
   // Items
   AVATAR_ITEMS: () => '/items/avatarItems',
+  BADGES: () => '/items/badges',
+  MOONLIGHT: () => '/items/moonlight',
   AVATAR_ITEM_SETS: () => '/items/avatarItemSets',
   AVATAR_ITEM_COLLECTIONS: () => '/items/avatarItemCollections',
   BODY_PAINTS: () => '/items/bodyPaints',

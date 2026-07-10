@@ -26,7 +26,7 @@ class ProfileIcon extends Base {
        * Profile icon name
        * @type {?string}
        */
-      this.name = data.name.split(':')[1];
+      this.name = data.name.includes(':') ? data.name.split(':')[1] : data.name;
     } else {
       this.name ??= null;
     }
@@ -39,6 +39,16 @@ class ProfileIcon extends Base {
       this.rarity = Rarities[data.rarity];
     } else {
       this.rarity ??= null;
+    }
+
+    if ('imageUrl' in data) {
+      /**
+       * Profile icon image URL
+       * @type {?string}
+       */
+      this.imageURL = data.imageUrl;
+    } else {
+      this.imageURL ??= null;
     }
 
     if ('costInGold' in data) {

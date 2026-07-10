@@ -38,6 +38,30 @@ class ClanQuestReward extends Base {
     this.lootBoxId = data.lootBoxId ?? null;
 
     /**
+     * Reward rose package id
+     * @type {?string}
+     */
+    this.rosePackageId = data.rosePackageId ?? null;
+
+    /**
+     * Reward talisman id
+     * @type {?string}
+     */
+    this.talismanId = data.talismanId ?? null;
+
+    /**
+     * Reward emoji id
+     * @type {?string}
+     */
+    this.emojiId = data.emojiId ?? null;
+
+    /**
+     * Reward profile icon id
+     * @type {?string}
+     */
+    this.profileIconId = data.profileIconId ?? null;
+
+    /**
      * Reward display type
      * @type {?string}
      */

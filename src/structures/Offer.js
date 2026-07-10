@@ -37,9 +37,11 @@ class Offer extends Base {
     if ('expireDate' in data) {
       /**
        * Offer expiration timestamp
-       * @type {number}
+       * @type {?number}
        */
       this.expirationTimestamp = new Date(data.expireDate).getTime();
+    } else {
+      this.expirationTimestamp ??= null;
     }
 
     if ('promoImageUrl' in data) {

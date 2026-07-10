@@ -12,21 +12,21 @@ class PublicSeasonAward extends Base {
 
     /**
      * Minimum rank to receive this award
-     * @type {?number}
+     * @type {number}
      */
-    this.firstRank = data.firstRank ?? null;
+    this.firstRank = data.firstRank;
 
     /**
      * Maximum rank to receive this award
-     * @type {?number}
+     * @type {number}
      */
-    this.lastRank = data.lastRank ?? null;
+    this.lastRank = data.lastRank;
 
     /**
      * Gold amount awarded
-     * @type {?number}
+     * @type {number}
      */
-    this.gold = data.gold ?? null;
+    this.gold = data.gold;
 
     /**
      * Item type awarded
