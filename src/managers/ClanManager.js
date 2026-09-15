@@ -13,8 +13,8 @@ const { isUUID } = require('../util/Util');
  */
 class ClanManager extends CacheManager {
   /**
-   * Fetch clan by id.
-   * @returns {Promise<Clan>}
+   * Fetch authorized clans.
+   * @returns {Promise<ClientClan>}
    */
   async fetchAuthorized() {
     const response = await this.client.rest.get(Routes.CLANS_AUTHORIZED());
@@ -24,18 +24,20 @@ class ClanManager extends CacheManager {
 
   /**
    * Fetch clan by id.
-   * @param {string} id Clan id
+   * @param {string} clan Clan id
    * @param {Object} [options={}] Options
-   * @returns {Promise<Clan>}
+   * @returns {Promise<Clan|ClientClan>}
    */
-  async fetchById(id, options = {}) {
+  async fetch(clan, options = {}) {
+    clan = this.resolve(clan) || {};
+    if (!clan.id) throw new Error('INVALID_CLAN_FORMAT');
+
     if (!options.force) {
-      const existing = this.cache.get(id);
+      const existing = this.cache.get(clan.id);
       if (existing) return existing;
     }
 
-    if (!id || typeof id !== 'string' || !isUUID(id)) throw new Error('INVALID_CLAN_ID_FORMAT');
-    const response = await this.client.rest.get(Routes.CLANS_INFO(id));
+    const response = await this.client.rest.get(Routes.CLANS_INFO(clan.id));
     if (response.code === 404) throw new Error('CLAN_NOT_FOUND');
 
     const data = new ('gold' in response ? ClientClan : Clan)(this.client, response);
@@ -45,7 +47,7 @@ class ClanManager extends CacheManager {
   /**
    * Options for {@link ClanManager#search}.
    * @typedef {Object} ClanSearchOptions
-   * @property {string} searchType What to query
+   * @property {boolean} exactName Whether to match the name exactly
    * @property {number} levelMin Minimum required level of clans
    * @property {number} levelMax Maximum required level of clans
    * @property {string} language Clans language
@@ -63,26 +65,27 @@ class ClanManager extends CacheManager {
   async search(name, options = {}, sorting) {
     if (name && typeof name !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
 
-    var params = '';
+    const params = {
+      name,
+    };
 
-    if (options.searchType) {
-      if (typeof options.searchType !== 'string') throw new Error('OPTION_VALUE_MUST_BE_A_STRING');
-      if (!['exactName', 'tag'].includes(options.searchType)) throw new Error('INVALID_OPTION_VALUE');
-      params += `&searchType=${options.searchType}`;
+    if (options.exactName !== undefined) {
+      if (typeof options.exactName !== 'boolean') throw new Error('OPTION_VALUE_MUST_BE_A_BOOLEAN');
+      params.exactName = options.exactName;
     }
 
     if (options.levelMin) {
       if (typeof options.levelMin !== 'number') throw new Error('OPTION_VALUE_MUST_BE_A_NUMBER');
       if (options.levelMin < 1 || options.levelMin > 100) throw new Error('OPTION_VALUE_OUT_OF_RANGE');
       if (options.levelMax && options.levelMin > options.levelMax) throw new Error('INVALID_OPTION_VALUES');
-      params += `&minLevelMin=${options.levelMin}`;
+      params.minLevelMin = options.levelMin;
     }
 
     if (options.levelMax) {
       if (typeof options.levelMax !== 'number') throw new Error('OPTION_VALUE_MUST_BE_A_NUMBER');
       if (options.levelMax < 1 || options.levelMax > 100) throw new Error('OPTION_VALUE_OUT_OF_RANGE');
       if (options.levelMin && options.levelMin > options.levelMax) throw new Error('INVALID_OPTION_VALUES');
-      params += `&minLevelMax=${options.levelMax}`;
+      params.minLevelMax = options.levelMax;
     }
 
     if (options.language) {
@@ -194,29 +197,52 @@ class ClanManager extends CacheManager {
       ) {
         throw new Error('INVALID_OPTION_VALUE');
       }
-      params += `&language=${options.language.toUpperCase()}`;
+      params.language = options.language.toUpperCase();
     }
 
     if (options.joinType) {
       if (!['PUBLIC', 'JOIN_BY_REQUEST', 'PRIVATE'].includes(options.joinType)) throw new Error('INVALID_OPTION_VALUE');
-      params += `&joinType=${options.joinType}`;
+      params.joinType = options.joinType;
     }
 
     if (options.notFull) {
       if (typeof options.notFull !== 'boolean') throw new Error('OPTION_VALUE_MUST_BE_A_BOOLEAN');
-      params += `&notFull=${options.notFull}`;
+      params.notFull = options.notFull;
     }
 
     if (sorting) {
       if (!['XP', 'CREATION_TIME', 'QUEST_HISTORY_COUNT', 'NAME', 'MIN_LEVEL'].includes(sorting)) {
         throw new Error('INVALID_OPTION_VALUE');
       }
-      params += `&sortBy=${sorting}`;
+      params.sortBy = sorting;
     }
-    const response = await this.client.rest.get(Routes.CLANS_SEARCH_BY_NAME(name), { query: params });
+    const response = await this.client.rest.get(Routes.CLANS_SEARCH_BY_NAME(), { query: params });
 
     const data = response.map(clan => new Clan(this.client, clan));
     return data.reduce((col, clan) => col.set(clan.id, this._add(clan)), new Collection());
+  }
+
+  /**
+   * Data that resolves to give a Clan object.
+   * @typedef {string|Object|Clan|ClientClan} ClanResolvable
+   */
+
+  /**
+   * Resolves a {@link ClanResolvable} to an object that contains a clans id or name.
+   * @param {ClanResolvable} clan The ClanResolvable to identify
+   * @returns {?Object}
+   */
+  resolve(clan) {
+    if (typeof clan === 'object') {
+      if ('id' in clan) {
+        if (typeof clan.id !== 'string' || !isUUID(clan.id)) clan = null;
+      } else if ('name' in clan) {
+        if (typeof clan.name !== 'string') clan = null;
+      }
+    } else if (typeof clan === 'string') {
+      clan = isUUID(clan) ? { id: clan } : { name: clan };
+    }
+    return clan;
   }
 }
 

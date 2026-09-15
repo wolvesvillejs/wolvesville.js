@@ -12,21 +12,21 @@ class ClanQuestParticipant extends BasePlayer {
 
     /**
      * Participant id
-     * @type {string}
+     * @type {?string}
      */
-    this.id = data.playerId;
+    this.id = data.playerId ?? null;
 
     /**
      * Participant username
-     * @type {string}
+     * @type {?string}
      */
-    this.username = data.username;
+    this.username = data.username ?? null;
 
     /**
      * Xp the participant brought for the quest
-     * @type {number}
+     * @type {?number}
      */
-    this.xp = data.xp;
+    this.xp = data.xp ?? null;
   }
 }
 

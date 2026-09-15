@@ -61,14 +61,75 @@ class Background extends Base {
       this.nightColor ??= null;
     }
 
-    Object.defineProperty(this, '_cdn', {
-      imageDay: data.imageDay,
-      imageDayWide: data.imageDayWide,
-      imageNight: data.imageNight,
-      imageNightWide: data.imageNightWide,
-      imageDaySmall: data.imageDaySmall,
-      imageNightSmall: data.imageNightSmall,
-    });
+    if ('imageDay' in data) {
+      /**
+       * Background day image URL
+       * @type {?string}
+       */
+      this.dayImageURL = data.imageDay.url;
+    } else {
+      this.dayImageURL ??= null;
+    }
+
+    if ('imageDayWide' in data) {
+      /**
+       * Background wide day image URL
+       * @type {?string}
+       */
+      this.wideDayImageURL = data.imageDayWide.url;
+    } else {
+      this.wideDayImageURL ??= null;
+    }
+
+    if ('imageNight' in data) {
+      /**
+       * Background night image URL
+       * @type {?string}
+       */
+      this.nightImageURL = data.imageNight.url;
+    } else {
+      this.nightImageURL ??= null;
+    }
+
+    if ('imageNightWide' in data) {
+      /**
+       * Background wide night image URL
+       * @type {?string}
+       */
+      this.wideNightImageURL = data.imageNightWide.url;
+    } else {
+      this.wideNightImageURL ??= null;
+    }
+
+    if ('imageDaySmall' in data) {
+      /**
+       * Background small day image URL
+       * @type {?string}
+       */
+      this.smallDayImageURL = data.imageDaySmall.url;
+    } else {
+      this.smallDayImageURL ??= null;
+    }
+
+    if ('imageNightSmall' in data) {
+      /**
+       * Background small night image URL
+       * @type {?string}
+       */
+      this.smallNightImageURL = data.imageNightSmall.url;
+    } else {
+      this.smallNightImageURL ??= null;
+    }
+
+    if ('event' in data) {
+      /**
+       * Background event tag
+       * @type {?string}
+       */
+      this.event = data.event ?? null;
+    } else {
+      this.event ??= null;
+    }
   }
 }
 

@@ -1,7 +1,12 @@
 'use strict';
 
+const Avatar = require('./Avatar');
 const BasePlayer = require('./BasePlayer');
+const BattlePassBadge = require('./BattlePassBadge');
+const Clan = require('./Clan');
 const OwnedProfileIcon = require('./OwnedProfileIcon');
+const PlayerEventSummary = require('./PlayerEventSummary');
+const PlayerGameStats = require('./PlayerGameStats');
 const RoleCard = require('./RoleCard');
 const { ItemTypes } = require('../util/Constants');
 
@@ -19,138 +24,390 @@ class Player extends BasePlayer {
      */
     this.id = data.id;
 
-    /**
-     * Player username
-     * @type {string}
-     */
-    this.username = data.username;
+    this._patch(data);
+  }
 
-    /**
-     * Player clan tag
-     * @type {?string}
-     */
-    this.clanTag = data.clanTag ?? null;
+  _patch(data) {
+    if ('username' in data) {
+      /**
+       * Player username
+       * @type {?string}
+       */
+      this.username = data.username;
+    } else {
+      this.username ??= null;
+    }
 
-    /**
-     * Player personal message
-     * @type {?string}
-     */
-    this.personalMessage = data.personalMsg || null;
+    if ('personalMessage' in data) {
+      /**
+       * Player personal message
+       * @type {?string}
+       */
+      this.personalMessage = data.personalMessage;
+    } else {
+      this.personalMessage ??= null;
+    }
 
-    /**
-     * Player level
-     * @type {number}
-     */
-    this.level = data.level;
+    if ('profileImageUrl' in data) {
+      /**
+       * Player profile image URL
+       * @type {?string}
+       */
+      this.profileImageURL = data.profileImageUrl;
+    } else {
+      this.profileImageURL ??= null;
+    }
 
-    /**
-     * Player status
-     * @type {string}
-     */
-    this.status = data.status;
+    if ('profileBackgroundPrimaryColor' in data) {
+      /**
+       * Player profile background primary color
+       * @type {?string}
+       */
+      this.profileBackgroundPrimaryColor = data.profileBackgroundPrimaryColor;
+    } else {
+      this.profileBackgroundPrimaryColor ??= null;
+    }
 
-    /**
-     * Number of roses the player received
-     * @type {number}
-     */
-    this.receivedRoses = data.receivedRoses ?? 0;
+    if ('profileBackgroundAccentColor' in data) {
+      /**
+       * Player profile background accent color
+       * @type {?string}
+       */
+      this.profileBackgroundAccentColor = data.profileBackgroundAccentColor;
+    } else {
+      this.profileBackgroundAccentColor ??= null;
+    }
 
-    /**
-     * Number of roses the player sent
-     * @type {number}
-     */
-    this.sentRoses = data.sentRoses ?? 0;
+    if ('level' in data) {
+      /**
+       * Player level
+       * @type {?number}
+       */
+      this.level = data.level;
+    } else {
+      this.level ??= null;
+    }
 
-    /**
-     * Player profile icon
-     * @type {OwnedProfileIcon}
-     */
-    this.profileIcon = !data.profileIconId
-      ? null
-      : this.client.items.profileIcons.cache.size
-      ? new OwnedProfileIcon(
-          this.client,
-          Object.assign(this.client.items.profileIcons.cache.get(data.profileIconId), {
-            color: data.profileIconColor,
-          }),
-        )
-      : new OwnedProfileIcon(this.client, {
-          id: data.profileIconId,
-          color: data.profileIconColor,
-        });
+    if ('status' in data) {
+      /**
+       * Player status
+       * @type {?number}
+       */
+      this.status = data.status;
+    } else {
+      this.status ??= null;
+    }
 
-    this.gameStats = data.gameStats;
+    if ('receivedRosesCount' in data) {
+      /**
+       * Number of roses the player received
+       * @type {?number}
+       */
+      this.receivedRosesCount = data.receivedRosesCount ?? 0;
+    } else {
+      this.receivedRosesCount ??= null;
+    }
 
-    /**
-     * Ranked season skill points
-     * @type {?number}
-     */
-    this.seasonSkill = data.rankedSeasonSkill !== -1 ? data.rankedSeasonSkill : null;
+    if ('sentRosesCount' in data) {
+      /**
+       * Number of roses the player sent
+       * @type {?number}
+       */
+      this.sentRosesCount = data.sentRosesCount ?? 0;
+    } else {
+      this.sentRosesCount ??= null;
+    }
 
-    /**
-     * Ranked season skill points record
-     * @type {?number}
-     */
-    this.skillRecord = data.rankedSeasonMaxSkill !== -1 ? data.rankedSeasonMaxSkill : null;
+    if ('profileIconId' in data && 'profileIconColor' in data) {
+      /**
+       * Player profile icon
+       * @type {?OwnedProfileIcon}
+       */
+      this.profileIcon = new OwnedProfileIcon(this.client, {
+        id: data.profileIconId,
+        color: data.profileIconColor,
+      });
+    } else {
+      this.profileIcon ??= null;
+    }
 
-    /**
-     * Ranked final rank record
-     * @type {?number}
-     */
-    this.rankRecord = data.rankedSeasonBestRank !== -1 ? data.rankedSeasonBestRank : null;
+    if ('profileIconBorderId' in data) {
+      /**
+       * Player profile icon border id
+       * @type {?string}
+       */
+      this.profileIconBorderId = data.profileIconBorderId ?? null;
+    } else {
+      this.profileIconBorderId ??= null;
+    }
 
-    /**
-     * Ranked season played count
-     * @type {number}
-     */
-    this.seasonPlayedCount = data.rankedSeasonPlayedCount;
+    if ('profileIconForegroundColor' in data) {
+      /**
+       * Profile icon foreground color
+       * @type {?string}
+       */
+      this.profileIconForegroundColor = data.profileIconForegroundColor ?? null;
+    } else {
+      this.profileIconForegroundColor ??= null;
+    }
 
-    /**
-     * Player last online timestamp
-     * @type {number}
-     */
-    this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
+    if ('profileIconColorMode' in data) {
+      /**
+       * Profile icon color mode
+       * @type {?string}
+       */
+      this.profileIconColorMode = data.profileIconColorMode ?? null;
+    } else {
+      this.profileIconColorMode ??= null;
+    }
 
-    this.avatars = data.avatars;
+    if ('profileIconGradientPrimary' in data) {
+      /**
+       * Profile icon gradient primary color
+       * @type {?string}
+       */
+      this.profileIconGradientPrimary = data.profileIconGradientPrimary ?? null;
+    } else {
+      this.profileIconGradientPrimary ??= null;
+    }
 
-    this.badges = data.badgeIds.map(badgeId => this.client.items.resolve(badgeId, ItemTypes.AVATAR_ITEM));
+    if ('profileIconGradientAccent' in data) {
+      /**
+       * Profile icon gradient accent color
+       * @type {?string}
+       */
+      this.profileIconGradientAccent = data.profileIconGradientAccent ?? null;
+    } else {
+      this.profileIconGradientAccent ??= null;
+    }
 
-    this.roleCards = data.roleCards.map(roleCard => new RoleCard(this.client, roleCard));
+    if ('profileIconGradientDirection' in data) {
+      /**
+       * Profile icon gradient direction
+       * @type {?string}
+       */
+      this.profileIconGradientDirection = data.profileIconGradientDirection ?? null;
+    } else {
+      this.profileIconGradientDirection ??= null;
+    }
+
+    if (data.clanId) {
+      /**
+       * Player's clan id
+       * @type {?string}
+       */
+      this.clanId = data.clanId;
+    } else {
+      this.clanId ??= null;
+    }
+
+    if ('gameStats' in data) {
+      /**
+       * Player game stats
+       * @type {?PlayerGameStats}
+       */
+      this.gameStats = new PlayerGameStats(this.client, data.gameStats);
+    } else {
+      this.gameStats ??= null;
+    }
+
+    if ('rankedSeasonSkill' in data && data.rankedSeasonSkill !== -1) {
+      /**
+       * Ranked season skill points
+       * @type {?number}
+       */
+      this.seasonSkill = data.rankedSeasonSkill;
+    } else {
+      this.seasonSkill ??= null;
+    }
+
+    if ('rankedSeasonMaxSkill' in data && data.rankedSeasonMaxSkill !== -1) {
+      /**
+       * Ranked season skill points record
+       * @type {?number}
+       */
+      this.skillRecord = data.rankedSeasonMaxSkill;
+    } else {
+      this.skillRecord ??= null;
+    }
+
+    if ('rankedSeasonBestRank' in data && data.rankedSeasonBestRank !== -1) {
+      /**
+       * Ranked final rank record
+       * @type {?number}
+       */
+      this.rankRecord = data.rankedSeasonBestRank;
+    } else {
+      this.rankRecord ??= null;
+    }
+
+    if ('rankedSeasonPlayedCount' in data) {
+      /**
+       * Ranked season played count
+       * @type {?number}
+       */
+      this.seasonPlayedCount = data.rankedSeasonPlayedCount;
+    } else {
+      this.seasonPlayedCount ??= null;
+    }
+
+    if ('creationTime' in data) {
+      /**
+       * Player account creation timestamp
+       * @type {?number}
+       */
+      this.createdTimestamp = new Date(data.creationTime).getTime();
+    } else {
+      this.createdTimestamp ??= null;
+    }
+
+    if ('lastOnline' in data) {
+      /**
+       * Player last online timestamp
+       * @type {?number}
+       */
+      this.lastOnlineTimestamp = new Date(data.lastOnline).getTime();
+    } else {
+      this.lastOnlineTimestamp ??= null;
+    }
+
+    if ('equippedAvatar' in data) {
+      /**
+       * Player's currently equipped avatar image
+       * @type {?Avatar}
+       */
+      this.equippedAvatar = new Avatar(this.client, data.equippedAvatar);
+    } else {
+      this.equippedAvatar ??= null;
+    }
+
+    if ('avatars' in data) {
+      /**
+       * Player avatars
+       * @type {?Avatar[]}
+       */
+      this.avatars = data.avatars.map(avatar => new Avatar(this.client, avatar));
+    } else {
+      this.avatars ??= null;
+    }
+
+    if ('badgeIds' in data) {
+      /**
+       * Player badge ids
+       * @type {?string[]}
+       */
+      this.badgeIds = data.badgeIds;
+    } else {
+      this.badgeIds ??= null;
+    }
+
+    if ('roleCards' in data) {
+      /**
+       * Player role cards
+       * @type {?RoleCard[]}
+       */
+      this.roleCards = data.roleCards.map(roleCard => new RoleCard(this.client, roleCard));
+    } else {
+      this.roleCards ??= null;
+    }
+
+    if ('favorites' in data) {
+      /**
+       * Player favorites (favorite emoji and role ids)
+       * @type {?Array<{emojiId: ?string, roleId: ?string}>}
+       */
+      this.favorites = data.favorites.map(favorite => ({
+        emojiId: favorite.emojiId ?? null,
+        roleId: favorite.roleId ?? null,
+      }));
+    } else {
+      this.favorites ??= null;
+    }
+
+    if ('battlePassBadges' in data) {
+      /**
+       * Player battle pass badges
+       * @type {?BattlePassBadge[]}
+       */
+      this.battlePassBadges = data.battlePassBadges.map(badge => new BattlePassBadge(this.client, badge));
+    } else {
+      this.battlePassBadges ??= null;
+    }
+
+    if ('events' in data) {
+      /**
+       * Player event participation summaries
+       * @type {?PlayerEventSummary[]}
+       */
+      this.events = data.events.map(event => new PlayerEventSummary(this.client, event));
+    } else {
+      this.events ??= null;
+    }
   }
 
   /**
    * Fetch player clan.
+   * @param {boolean} force Whether force fetching
    * @returns {Promise<Clan>}
    */
-  fetchClan() {
-    return this.client.clans.fetchById(this.clanId);
+  fetchClan(force = true) {
+    return this.client.clans.fetch(this.clanId, { force });
+  }
+
+  /**
+   * Clan tag
+   * @type {?string}
+   * @readonly
+   */
+  get clanTag() {
+    return this.clan.tag || null;
   }
 
   /**
    * Clan tag and username
-   * @type {string}
+   * @type {?string}
    * @readonly
    */
   get clanTagAndUsername() {
-    return this.clanTag ? `${this.clanTag} | ${this.username}` : this.username;
+    return this.username ? (this.clanTag ? `${this.clanTag} | ${this.username}` : this.username) : null;
+  }
+
+  /**
+   * Player badges
+   * @type {?(Item[])}
+   * @readonly
+   */
+  get badges() {
+    return this.badgeIds ? this.badgeIds.map(item => this.client.items.resolve(item, ItemTypes.AVATAR_ITEM)) : null;
+  }
+
+  /**
+   * Player's clan
+   * @type {?Clan}
+   * @readonly
+   */
+  get clan() {
+    return this.clanId
+      ? this.client.clans.cache.get(this.clanId) || new Clan(this.client, { id: this.clanId, tag: this.clanTag })
+      : null;
   }
 
   /**
    * Whether the player is online
-   * @type {boolean}
+   * @type {?boolean}
    * @readonly
    */
   get online() {
-    return this.lastOnlineTimestamp + 10 * 60 * 1000 > Date.now();
+    return this.lastOnlineTimestamp ? this.lastOnlineTimestamp + 10 * 60 * 1000 > Date.now() : null;
   }
 
   /**
    * Games played count
-   * @type {number}
+   * @type {?number}
    * @readonly
    */
   get gamesPlayedCount() {
-    return this.stats.wonGameCount + this.stats.lostGameCount + this.stats.fledGameCount;
+    return this.gameStats ? this.gameStats.gamesPlayedCount : null;
   }
 }
 

@@ -44,8 +44,10 @@ class EmojiCollection extends Base {
     this.accentColor = data.promoImagePrimaryColor;
 
     Object.defineProperty(this, '_cdn', {
-      imageURL: data.promoImageUrl,
-      iconURL: data.iconUrl,
+      value: {
+        imageURL: data.promoImageUrl,
+        iconURL: data.iconUrl,
+      },
     });
   }
 }

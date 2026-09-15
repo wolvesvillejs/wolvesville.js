@@ -1,13 +1,14 @@
 {
   "name": "wolvesville.js",
-  "version": "2.0.0",
-  "description": "The JavaScript read-only library for interacting with the Wolvesville public API.",
+  "version": "2.1.0",
+  "description": "The JavaScript library for interacting with the Wolvesville API.",
   "author": "mainleau",
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
     "lint": "eslint src --fix",
-    "docs": "docgen --source ./src --custom ./docs/index.yml --output ./docs/docs.json"
+    "docs": "docgen -i ./src/*/*.js -c ./docs/index.json -o ./docs/docs.json",
+    "bundle": "webpack-cli"
   },
   "keywords": [
     "wolvesville",
@@ -17,31 +18,30 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mainleau/wolvesville.js.git"
+    "url": "https://github.com/wolvesvillejs/wolvesville.js.git"
   },
   "bugs": {
-    "url": "https://github.com/mainleau/wolvesville.js/issues"
+    "url": "https://github.com/wolvesvillejs/wolvesville.js/issues"
   },
-  "homepage": "https://wolvesvillejs.github.io/website",
+  "homepage": "https://wolvesville.js.org",
   "dependencies": {
-    "@discordjs/collection": "^0.5.0",
+    "@discordjs/collection": "^1.2.0",
     "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.0.1",
     "@commitlint/config-angular": "^16.0.0",
-    "@discordjs/docgen": "^0.11.1",
+    "@discordjs/docgen": "^0.12.1",
     "dotenv": "^16.0.0",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-prettier": "^5.5.5",
     "husky": "^8.0.0",
     "jsdoc": "^3.6.10",
-    "path": "^0.12.7",
-    "process": "^0.11.10",
-    "terser-webpack-plugin": "^5.3.1",
-    "webpack-cli": "^4.9.2"
+    "terser-webpack-plugin": "^5.3.6",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
   },
   "engines": {
     "node": ">=16.9.0"

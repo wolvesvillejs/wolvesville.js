@@ -4,8 +4,8 @@ const Base = require('./Base');
 const { ItemTypes } = require('../util/Constants');
 
 /**
- * Represents a limited collection.
- * @extends {Offer}
+ * Represents an item set.
+ * @extends {Base}
  */
 class ItemSet extends Base {
   constructor(client, data) {
@@ -39,6 +39,32 @@ class ItemSet extends Base {
       this.accentColor = data.promoImagePrimaryColor;
     } else {
       this.accentColor ??= null;
+    }
+
+    if ('promoImageUrl' in data) {
+      this.imageURL = data.promoImageUrl;
+    } else {
+      this.imageURL ??= null;
+    }
+
+    if ('loadingScreenId' in data) {
+      /**
+       * Item set loading screen id
+       * @type {?string}
+       */
+      this.loadingScreenId = data.loadingScreenId ?? null;
+    } else {
+      this.loadingScreenId ??= null;
+    }
+
+    if ('backgroundId' in data) {
+      /**
+       * Item set background id
+       * @type {?string}
+       */
+      this.backgroundId = data.backgroundId ?? null;
+    } else {
+      this.backgroundId ??= null;
     }
   }
 }

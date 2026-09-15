@@ -1,17 +1,29 @@
 'use strict';
 
+/**
+ * The player genders.
+ * @typedef {string} Gender
+ */
 exports.Genders = {
   MALE: 'MALE',
   FEMALE: 'FEMALE',
   OTHER: 'OTHER',
 };
 
+/**
+ * The clan member ranks.
+ * @typedef {string} ClanRank
+ */
 exports.ClanRanks = {
   MEMBER: 'MEMBER',
   COLEADER: 'COLEADER',
   LEADER: 'LEADER',
 };
 
+/**
+ * Item types.
+ * @typedef {string} ItemType
+ */
 exports.ItemTypes = {
   GOLD: 'GOLD',
   ROSE_PACKAGE: 'ROSE',
@@ -20,6 +32,7 @@ exports.ItemTypes = {
   ROLE_CARD: 'ROLE_CARD',
   AVATAR_ITEM: 'AVATAR_ITEM',
   LOOT_BOX: 'LOOT_BOX',
+  CARD_LOOT_BOX: 'CARD_LOOT_BOX',
   PROFILE_ICON: 'PROFILE_ICON',
   EMOJI: 'EMOJI',
   BACKGROUND: 'BACKGROUND',
@@ -29,8 +42,17 @@ exports.ItemTypes = {
   ITEM_SET: 'ITEM_SET',
   ROLE_ICON: 'ROLE_ICON',
   ITEM_COLLECTION: 'ITEM_COLLECTION',
+  ROLE_CARD_PACK: 'ROLE_CARD_PACK',
+  BATTLE_PASS_COIN: 'BATTLE_PASS_COIN',
+  HONOR_BORDER: 'HONOR_BORDER',
+  DAILY_CHALLENGE_SHUFFLE_VOUCHER: 'DAILY_CHALLENGE_SHUFFLE_VOUCHER',
+  BODY_PAINT: 'BODY_PAINT',
 };
 
+/**
+ * The player status.
+ * @typedef {string} Status
+ */
 exports.Status = {
   DEFAULT: 'DEFAULT',
   PLAY: 'PLAY',
@@ -38,6 +60,10 @@ exports.Status = {
   OFFLINE: 'OFFLINE',
 };
 
+/**
+ * The avatr item types.
+ * @typedef {string} AvatarItemType
+ */
 exports.AvatarItemTypes = {
   HAT: 'HAT',
   HAIR: 'HAIR',
@@ -45,23 +71,64 @@ exports.AvatarItemTypes = {
   GLASSES: 'GLASSES',
   MOUTH: 'MOUTH',
   MASK: 'MASK',
-  CLOTHES: 'CLOTHES',
-  FOREGROUND: 'FOREGROUND',
-  BACKGROUND: 'BACKGROUND',
   BADGE: 'BADGE',
   GRAVESTONE: 'GRAVESTONE',
+  // API enum values (preferred names)
+  SHIRT: 'SHIRT',
+  FRONT: 'FRONT',
+  BACK: 'BACK',
+  LEGS: 'LEGS',
+  // Legacy aliases kept for backwards compatibility
+  CLOTHES: 'SHIRT',
+  FOREGROUND: 'FRONT',
 };
 
+/**
+ * The events an item can originate from.
+ * @typedef {string} AvatarItemEvent
+ */
+exports.AvatarItemEvents = {
+  XMAS: 'XMAS',
+  EASTER: 'EASTER',
+  HALLOWEEN: 'HALLOWEEN',
+  EARLY_BIRD: 'EARLY_BIRD',
+  ST_PATRICK: 'ST_PATRICK',
+  BATTLE_PASS: 'BATTLE_PASS',
+  WHEEL: 'WHEEL',
+  ITEMS_COLLECTION: 'ITEMS_COLLECTION',
+  SOCCER: 'SOCCER',
+  CALENDAR: 'CALENDAR',
+  ROLE_CARDS: 'ROLE_CARDS',
+  LEVEL_UP_CARD: 'LEVEL_UP_CARD',
+  EMOJIS_COLLECTION: 'EMOJIS_COLLECTION',
+  BUNDLE_OFFER: 'BUNDLE_OFFER',
+  HONOR_REWARD: 'HONOR_REWARD',
+  SUBSCRIPTION: 'SUBSCRIPTION',
+  TWITCH: 'TWITCH',
+  BLACK_FRIDAY: 'BLACK_FRIDAY',
+  FOOTBALL26: 'FOOTBALL26',
+};
+
+/**
+ * The item rarities.
+ * @typedef {string} Rarity
+ */
 exports.Rarities = {
   COMMON: 'COMMON',
   RARE: 'RARE',
   EPIC: 'EPIC',
   LEGENDARY: 'LEGENDARY',
+  MYTHICAL: 'MYTHICAL',
 };
 
+/**
+ * The clan ledger actions.
+ * @typedef {string} ClanLedgerAction
+ */
 exports.ClanLedgerActions = {
   CREATE_CLAN: 'CREATE_CLAN',
   DONATE: 'DONATE',
+  REVERT_DONATE: 'REVERT_DONATE',
   CLAN_ICON: 'CLAN_ICON',
   CLAN_QUEST: 'CLAN_QUEST',
   CLAN_QUEST_SHUFFLE: 'CLAN_QUEST_SHUFFLE',
@@ -69,6 +136,10 @@ exports.ClanLedgerActions = {
   CLAN_QUEST_CLAIM_TIME: 'CLAN_QUEST_CLAIM_TIME',
 };
 
+/**
+ * The clan actions.
+ * @typedef {string} ClanAction
+ */
 exports.ClanActions = {
   BLACKLIST_ADDED: 'BLACKLIST_ADDED',
   BLACKLIST_REMOVED: 'BLACKLIST_REMOVED',
@@ -87,4 +158,7 @@ exports.ClanActions = {
   PLAYER_JOINED: 'PLAYER_JOINED',
   PLAYER_QUEST_PARTICIPATION_ENABLED: 'PLAYER_QUEST_PARTICIPATION_ENABLED',
   PLAYER_QUEST_PARTICIPATION_DISABLED: 'PLAYER_QUEST_PARTICIPATION_DISABLED',
+  ALL_QUEST_PARTICIPATION_ENABLED: 'ALL_QUEST_PARTICIPATION_ENABLED',
+  ALL_QUEST_PARTICIPATION_DISABLED: 'ALL_QUEST_PARTICIPATION_DISABLED',
+  FLAIR_EDITED: 'FLAIR_EDITED',
 };

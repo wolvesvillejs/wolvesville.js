@@ -14,7 +14,7 @@ class OwnedClanIcon extends Base {
      * Icon name
      * @type {string}
      */
-    this.name = data.name.split(':')[1];
+    this.name = data.name.includes(':') ? data.name.split(':')[1] : data.name;
 
     /**
      * Icon color

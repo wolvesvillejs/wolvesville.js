@@ -33,7 +33,7 @@ class AchievedClanQuest extends ClanQuest {
      * Quest end timestamp
      * @type {number}
      */
-    this.endTimestamp = new Date(data.endTime).getTime();
+    this.endTimestamp = new Date(data.tierEndTime).getTime();
   }
 }
 

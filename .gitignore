@@ -1,8 +1,12 @@
 # Packages
 node_modules/
-package-lock.json
+yarn.lock
 
 # Miscellaneous
 webpack/
 test/.env
 docs/docs.json
+
+# IDE
+.idea/
+.vscode/

@@ -13,16 +13,16 @@ class RoleCard extends Base {
     super(client);
 
     /**
-     * Card role id
+     * Card base role id
      * @type {string}
      */
-    this.role = data.roleId1;
+    this.role = data.roleIdBase ?? data.roleId1;
 
     /**
-     * Card advanced role id
-     * @type {?string}
+     * Card advanced role ids
+     * @type {string[]}
      */
-    this.advancedRole = data.roleId2 || null;
+    this.advancedRoles = data.roleIdsAdvanced ?? (data.roleId2 ? [data.roleId2] : []);
 
     /**
      * Card rarity
@@ -34,9 +34,9 @@ class RoleCard extends Base {
      * Card perks
      * @type {RoleCardPerk[]}
      */
-    this.perks = [data.abilityId1, data.abilityId2, data.abilityId3, data.abilityId4].map(
-      ability => new RoleCardPerk(client, { id: ability }),
-    );
+    this.perks = [data.abilityId1, data.abilityId2, data.abilityId3, data.abilityId4, data.abilityId5]
+      .filter(Boolean)
+      .map(ability => new RoleCardPerk(client, { id: ability }));
   }
 }
 

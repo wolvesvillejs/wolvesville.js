@@ -1,40 +1,61 @@
 name: Publish dev
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Base version to publish (e.g. 2.1.0, defaults to package.json version)'
+        required: false
+        type: string
   schedule:
     - cron: '0 */12 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-dev
+  cancel-in-progress: false
+
 jobs:
   npm:
     name: npm
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'mainleau'
+    if: github.repository_owner == 'wolvesvillejs'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Install node.js v16
-        uses: actions/setup-node@v2
+      - name: Install node.js v24
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           registry-url: https://registry.npmjs.org/
+          cache: npm
 
       - name: Check previous released version
         id: pre-release
         run: |
-          if [[ $(npm view wolvesville.js@dev version | grep -e "$(jq --raw-output '.version' package.json)\..*-$(git rev-parse --short HEAD)") ]]; \
-          then echo '::set-output name=release::false'; \
-          else echo '::set-output name=release::true'; fi
+          DEV_VERSION=$(npm view wolvesville.js@dev version 2>/dev/null || true)
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          if echo "$DEV_VERSION" | grep -q "${SHORT_SHA}"; then
+            echo "release=false" >> $GITHUB_OUTPUT
+          else
+            echo "release=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Install dependencies
         if: steps.pre-release.outputs.release == 'true'
-        run: npm install
+        run: npm ci
 
       - name: Publish
         if: steps.pre-release.outputs.release == 'true'
         run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          npm version $(jq --raw-output '.version' package.json).$(date +%s)-$(git rev-parse --short HEAD)
-          npm publish --tag dev || true
+          if [ -n "${{ inputs.version }}" ]; then
+            BASE_VERSION="${{ inputs.version }}"
+          else
+            BASE_VERSION=$(jq --raw-output '.version' package.json)
+          fi
+          npm version --no-git-tag-version "${BASE_VERSION}-dev.$(date +%s).$(git rev-parse --short HEAD)"
+          npm publish --tag dev
         env:
           NODE_AUTH_TOKEN: ${{ secrets.WJS_PUBLISH }}

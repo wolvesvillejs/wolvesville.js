@@ -2,13 +2,14 @@
 
 const ClanQuest = require('./ClanQuest');
 const ClanQuestParticipant = require('./ClanQuestParticipant');
+const Routes = require('../util/Routes');
 
 /**
  * Represents an active clan quest.
  * @extends {ClanQuest}
  */
 class ActiveClanQuest extends ClanQuest {
-  constructor(client, data) {
+  constructor(client, data, clan) {
     super(client, data.quest);
 
     /**
@@ -58,6 +59,39 @@ class ActiveClanQuest extends ClanQuest {
      * @type {boolean}
      */
     this.durationExtensionClaimed = data.claimedTime;
+
+    Object.defineProperty(this, 'clan', { value: clan });
+  }
+
+  /**
+   * Skip waiting time.
+   * <warn>Using this method will spend clan gems!</warn>
+   * @returns {Promise<ActiveClanQuest>}
+   */
+  async skipWaitingTime() {
+    const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_SKIP_WAITING_TIME(this.clan.id));
+    if (response.code === 404) throw new Error('QUEST_TIME_CANNOT_BE_SKIPPED');
+    return new ActiveClanQuest(this.client, response, this.clan);
+  }
+
+  /**
+   * Claim additional time.
+   * <warn>Using this method will spend clan gold!</warn>
+   * @returns {Promise<ActiveClanQuest>}
+   */
+  async claimExtraTime() {
+    const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_CLAIM_TIME(this.clan.id));
+    if (response.code === 404) throw new Error('QUEST_EXTRA_TIME_CANNOT_BE_CLAIMED');
+    return new ActiveClanQuest(this.client, response, this.clan);
+  }
+
+  /**
+   * Cancel the quest.
+   * @returns {Promise<void>}
+   */
+  async cancel() {
+    const response = await this.client.rest.post(Routes.CLANS_QUESTS_ACTIVE_CANCEL(this.clan.id));
+    if (response.code === 404) throw new Error('ACTIVE_QUEST_CANNOT_BE_CANCELED');
   }
 
   /**
@@ -66,7 +100,7 @@ class ActiveClanQuest extends ClanQuest {
    * @readonly
    */
   get totalXp() {
-    return Object.values(this.participants).reduce((a, v) => a.xp + v.xp);
+    return this.participants.reduce((sum, p) => sum + p.xp, 0);
   }
 
   /**

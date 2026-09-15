@@ -35,8 +35,14 @@ class ClanQuest extends Base {
      */
     this.rewards = data.rewards.map(reward => new ClanQuestReward(client, reward));
 
+    /**
+     * Quest accent color
+     * @type {string}
+     */
+    this.accentColor = data.promoImagePrimaryColor;
+
     Object.defineProperty(this, '_cdn', {
-      imageURL: data.promoImageUrl,
+      value: { imageURL: data.promoImageUrl },
     });
   }
 

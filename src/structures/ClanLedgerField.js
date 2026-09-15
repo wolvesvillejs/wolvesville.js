@@ -1,7 +1,7 @@
 'use strict';
 
 const Base = require('./Base');
-const ClanLedgerFieldPlayer = require('./ClanLedgerFieldPlayer');
+const Player = require('./Player');
 const { ItemTypes, ClanLedgerActions } = require('../util/Constants');
 
 /**
@@ -37,16 +37,40 @@ class ClanLedgerField extends Base {
     this.action = ClanLedgerActions[data.type];
 
     /**
-     * Field creation timestamp
-     * @type {ClanLedgerFieldPlayer}
+     * Player at the origin of the transaction
+     * @type {?Player}
      */
-    this.player = new ClanLedgerFieldPlayer(client, data);
+    this.player = data.playerId ? new Player(client, { id: data.playerId, username: data.playerUsername }) : null;
+
+    /**
+     * Bot id at the origin of the transaction
+     * @type {?string}
+     */
+    this.playerBotId = data.playerBotId ?? null;
+
+    /**
+     * Username of the bot owner
+     * @type {?string}
+     */
+    this.playerBotOwnerUsername = data.playerBotOwnerUsername ?? null;
 
     /**
      * Field created timestamp
      * @type {number}
      */
     this.createdTimestamp = new Date(data.creationTime).getTime();
+
+    /**
+     * Associated clan quest id (if action is CLAN_QUEST)
+     * @type {?string}
+     */
+    this.clanQuestId = data.clanQuestId ?? null;
+
+    /**
+     * Field comment
+     * @type {?string}
+     */
+    this.comment = data.comment ?? null;
   }
 }
 

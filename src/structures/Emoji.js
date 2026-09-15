@@ -51,10 +51,44 @@ class Emoji extends Base {
       this.event ??= null;
     }
 
-    Object.defineProperty(this, '_cdn', {
-      animationURL: data.urlAnimation,
-      previewURL: data.urlPreview,
-    });
+    if ('costInGold' in data) {
+      /**
+       * Emoji cost in gold
+       * @type {?number}
+       */
+      this.costInGold = data.costInGold ?? null;
+    } else {
+      this.costInGold ??= null;
+    }
+
+    if ('costInRoses' in data) {
+      /**
+       * Emoji cost in roses
+       * @type {?number}
+       */
+      this.costInRoses = data.costInRoses ?? null;
+    } else {
+      this.costInRoses ??= null;
+    }
+
+    if ('costInGems' in data) {
+      /**
+       * Emoji cost in gems
+       * @type {?number}
+       */
+      this.costInGems = data.costInGems ?? null;
+    } else {
+      this.costInGems ??= null;
+    }
+
+    if ('urlAnimation' in data && 'urlPreview' in data) {
+      Object.defineProperty(this, '_cdn', {
+        value: {
+          animationURL: data.urlAnimation,
+          previewURL: data.urlPreview,
+        },
+      });
+    }
   }
 }
 

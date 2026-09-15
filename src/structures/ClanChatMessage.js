@@ -1,7 +1,7 @@
 'use strict';
 
 const Base = require('./Base');
-const ClanChatMessageAuthor = require('./ClanChatMessageAuthor');
+const Player = require('./Player');
 const { ItemTypes } = require('../util/Constants');
 
 /**
@@ -14,13 +14,14 @@ class ClanChatMessage extends Base {
 
     /**
      * Message author
-     * @type {?ClanChatMessageAuthor}
+     * @type {?Player}
      */
-    this.author = !data.playerBotOwnerUsername
-      ? new ClanChatMessageAuthor(client, {
-          id: data.playerId,
-        })
-      : null;
+    this.author =
+      !data.playerBotOwnerUsername && data.playerId
+        ? new Player(client, {
+            id: data.playerId,
+          })
+        : null;
 
     /**
      * Message author username
@@ -42,21 +43,33 @@ class ClanChatMessage extends Base {
 
     /**
      * Whether message is a system message
-     * @type {boolean}
+     * @type {?boolean}
      */
-    this.system = data.isSystem;
+    this.system = data.isSystem ?? null;
 
     /**
      * Message created timestamp
-     * @type {number}
+     * @type {?number}
      */
-    this.createdTimestamp = new Date(data.date).getTime();
+    this.createdTimestamp = data.date ? new Date(data.date).getTime() : null;
 
     /**
      * Whether the author is a bot
      * @type {boolean}
      */
     this.bot = !!data.playerBotOwnerUsername;
+
+    /**
+     * Bot player ID of the author (if sent by a bot)
+     * @type {?string}
+     */
+    this.botAuthorId = data.playerBotId ?? null;
+
+    /**
+     * Whether the message is pinned
+     * @type {?boolean}
+     */
+    this.pinned = data.isPinned ?? null;
   }
 }
 

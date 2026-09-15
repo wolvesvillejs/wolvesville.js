@@ -9,16 +9,11 @@ const Base = require('./Base');
 class BasePlayer extends Base {
   /**
    * Fetch the player.
-   * @returns {Player|ClientPlayer}
+   * @param {boolean} force Whether force fetching
+   * @returns {Player}
    */
-  fetch() {
-    if (this.id) {
-      return this.client.players.fetchById(this.id);
-    } else if (this.username) {
-      return this.client.players.fetchByUsername(this.username);
-    } else {
-      throw new Error('PLAYER_NOT_FOUND');
-    }
+  fetch(force = true) {
+    return this.client.players.fetch(this, { force });
   }
 }
 

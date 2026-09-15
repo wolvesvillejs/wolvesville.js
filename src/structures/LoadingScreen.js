@@ -51,10 +51,35 @@ class LoadingScreen extends Base {
       this.accentColor ??= null;
     }
 
-    Object.defineProperty({}, '_cdn', {
-      image: data.image,
-      imageWide: data.imageWide,
-    });
+    if ('image' in data) {
+      /**
+       * Loading screen image URL
+       * @type {?string}
+       */
+      this.imageURL = data.image.url;
+    } else {
+      this.imageURL ??= null;
+    }
+
+    if ('imageWide' in data) {
+      /**
+       * Loading screen wide image URL
+       * @type {?string}
+       */
+      this.wideImageURL = data.imageWide.url;
+    } else {
+      this.wideImageURL ??= null;
+    }
+
+    if ('event' in data) {
+      /**
+       * Loading screen event tag
+       * @type {?string}
+       */
+      this.event = data.event ?? null;
+    } else {
+      this.event ??= null;
+    }
   }
 }
 
