@@ -81,6 +81,8 @@ jobs:
       - name: Publish
         if: steps.version.outputs.release == 'true'
         run: npm publish --provenance --tag dev
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Summary
         if: steps.version.outputs.release == 'true'
