@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 concurrency:
   group: publish-stable
@@ -18,14 +19,14 @@ jobs:
     if: github.repository_owner == 'wolvesvillejs'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Install node.js v20
-        uses: actions/setup-node@v4
+      - name: Install node.js v24
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org/
-          cache: npm
+          package-manager-cache: false
 
       - name: Resolve and verify version
         id: version
@@ -54,8 +55,6 @@ jobs:
 
       - name: Publish
         run: npm publish --tag latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.WJS_PUBLISH }}
 
       - name: Summary
         run: echo "Published wolvesville.js@${{ steps.version.outputs.value }} to the latest tag." >> $GITHUB_STEP_SUMMARY
