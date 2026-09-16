@@ -80,7 +80,7 @@ jobs:
 
       - name: Publish
         if: steps.version.outputs.release == 'true'
-        run: npm publish --tag dev
+        run: npm publish --provenance --tag dev
 
       - name: Summary
         if: steps.version.outputs.release == 'true'
