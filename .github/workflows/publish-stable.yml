@@ -60,7 +60,7 @@ jobs:
         run: npx eslint src
 
       - name: Publish
-        run: npm publish --tag latest
+        run: npm publish --provenance --tag latest
 
       - name: Summary
         run: |
