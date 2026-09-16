@@ -1,4 +1,5 @@
 name: Publish stable
+
 on:
   push:
     tags:
@@ -17,11 +18,12 @@ jobs:
     name: npm
     runs-on: ubuntu-latest
     if: github.repository_owner == 'wolvesvillejs'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Install node.js v24
+      - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -30,13 +32,16 @@ jobs:
 
       - name: Resolve and verify version
         id: version
+        shell: bash
         run: |
+          set -euo pipefail
+
           TAG_VERSION="${GITHUB_REF_NAME#v}"
-          PKG_VERSION=$(jq --raw-output '.version' package.json)
+          PKG_VERSION="$(jq --raw-output '.version' package.json)"
 
           if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
-            echo "::error::Tag ${GITHUB_REF_NAME} does not match package.json version ${PKG_VERSION}." \
-                 "Bump package.json to ${TAG_VERSION} (or retag) before releasing."
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match package.json version ${PKG_VERSION}."
+            echo "::error::Bump package.json to ${TAG_VERSION} or retag before releasing."
             exit 1
           fi
 
@@ -45,7 +50,7 @@ jobs:
             exit 1
           fi
 
-          echo "value=${PKG_VERSION}" >> $GITHUB_OUTPUT
+          echo "value=${PKG_VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Install dependencies
         run: npm ci
@@ -57,4 +62,6 @@ jobs:
         run: npm publish --tag latest
 
       - name: Summary
-        run: echo "Published wolvesville.js@${{ steps.version.outputs.value }} to the latest tag." >> $GITHUB_STEP_SUMMARY
+        run: |
+          echo "Published wolvesville.js@${{ steps.version.outputs.value }} to the latest tag." \
+            >> "$GITHUB_STEP_SUMMARY"
