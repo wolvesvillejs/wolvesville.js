@@ -1,16 +1,13 @@
 name: Publish dev
+
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Base version to publish (e.g. 2.1.0, defaults to package.json version)'
-        required: false
-        type: string
   schedule:
     - cron: '0 */12 * * *'
 
 permissions:
   contents: read
+  id-token: write
 
 concurrency:
   group: publish-dev
@@ -21,41 +18,78 @@ jobs:
     name: npm
     runs-on: ubuntu-latest
     if: github.repository_owner == 'wolvesvillejs'
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Install node.js v24
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org/
-          cache: npm
+          package-manager-cache: false
 
-      - name: Check previous released version
-        id: pre-release
+      - name: Resolve dev version
+        id: version
+        shell: bash
         run: |
-          DEV_VERSION=$(npm view wolvesville.js@dev version 2>/dev/null || true)
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          if echo "$DEV_VERSION" | grep -q "${SHORT_SHA}"; then
-            echo "release=false" >> $GITHUB_OUTPUT
-          else
-            echo "release=true" >> $GITHUB_OUTPUT
+          set -euo pipefail
+
+          BASE_VERSION="$(jq --raw-output '.version' package.json)"
+
+          if ! echo "$BASE_VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::package.json version '${BASE_VERSION}' must be a plain X.Y.Z version."
+            exit 1
           fi
+
+          if [ -n "$(npm view "wolvesville.js@${BASE_VERSION}" version 2>/dev/null || true)" ]; then
+            echo "::error::wolvesville.js@${BASE_VERSION} is already published as stable."
+            echo "::error::Bump package.json to the next unreleased version."
+            exit 1
+          fi
+
+          SHORT_SHA="$(git rev-parse --short HEAD)"
+          PUBLISHED="$(npm view wolvesville.js@dev version 2>/dev/null || true)"
+
+          case "$PUBLISHED" in
+            "${BASE_VERSION}-dev."*"."${SHORT_SHA}")
+              echo "Commit ${SHORT_SHA} is already the current dev release (${PUBLISHED})."
+              echo "release=false" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              DEV_VERSION="${BASE_VERSION}-dev.${GITHUB_RUN_ID}.${SHORT_SHA}"
+
+              echo "Publishing ${DEV_VERSION}"
+              echo "release=true" >> "$GITHUB_OUTPUT"
+              echo "value=${DEV_VERSION}" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
 
       - name: Install dependencies
-        if: steps.pre-release.outputs.release == 'true'
+        if: steps.version.outputs.release == 'true'
         run: npm ci
 
+      - name: Run linter
+        if: steps.version.outputs.release == 'true'
+        run: npx eslint src
+
+      - name: Set package version
+        if: steps.version.outputs.release == 'true'
+        run: npm pkg set version="${{ steps.version.outputs.value }}"
+
       - name: Publish
-        if: steps.pre-release.outputs.release == 'true'
+        if: steps.version.outputs.release == 'true'
+        run: npm publish --provenance --tag dev
+
+      - name: Summary
+        if: steps.version.outputs.release == 'true'
         run: |
-          if [ -n "${{ inputs.version }}" ]; then
-            BASE_VERSION="${{ inputs.version }}"
-          else
-            BASE_VERSION=$(jq --raw-output '.version' package.json)
-          fi
-          npm version --no-git-tag-version "${BASE_VERSION}-dev.$(date +%s).$(git rev-parse --short HEAD)"
-          npm publish --tag dev
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.WJS_PUBLISH }}
+          echo "Published wolvesville.js@${{ steps.version.outputs.value }} to the dev tag." \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Summary
+        if: steps.version.outputs.release != 'true'
+        run: |
+          echo "Current dev tag already points to this commit; nothing to publish." \
+            >> "$GITHUB_STEP_SUMMARY"

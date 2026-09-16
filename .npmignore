@@ -8,3 +8,7 @@
 test/
 docs/
 webpack/
+
+# Editor / project files
+.idea/
+RELEASING.md
