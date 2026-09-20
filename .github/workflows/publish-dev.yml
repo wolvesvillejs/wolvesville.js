@@ -54,7 +54,7 @@ jobs:
           PUBLISHED="$(npm view wolvesville.js@dev version 2>/dev/null || true)"
 
           case "$PUBLISHED" in
-            "${BASE_VERSION}-dev."*"."${SHORT_SHA}")
+            ${BASE_VERSION}-dev.*.${SHORT_SHA})
               echo "Commit ${SHORT_SHA} is already the current dev release (${PUBLISHED})."
               echo "release=false" >> "$GITHUB_OUTPUT"
               ;;
