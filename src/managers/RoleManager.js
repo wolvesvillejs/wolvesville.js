@@ -11,7 +11,7 @@ const Routes = require('../util/Routes');
 class RoleManager extends CacheManager {
   /**
    * Fetch roles.
-   * @param {?string} [locale] Optional locale for localized role names and descriptions
+   * @param {?LOCALES} [locale] Optional locale for localized role names and descriptions
    * @returns {Promise<Collection<string, Role>>}
    */
   async fetch(locale) {
