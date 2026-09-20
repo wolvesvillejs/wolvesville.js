@@ -117,6 +117,7 @@ exports.AvatarItemEvents = require('./util/Constants').AvatarItemEvents;
 exports.Rarities = require('./util/Constants').Rarities;
 exports.ClanLedgerActions = require('./util/Constants').ClanLedgerActions;
 exports.ClanActions = require('./util/Constants').ClanActions;
+exports.Locales = require('./util/Constants').Locales;
 
 exports.Routes = require('./util/Routes');
 exports.Util = require('./util/Util');

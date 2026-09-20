@@ -167,7 +167,7 @@ exports.ClanActions = {
  * The supported locales.
  * @typedef {string} Locale
  */
-exports.LOCALES = {
+exports.Locales = {
   EN: 'en',
   AR: 'ar',
   AZ: 'az',
